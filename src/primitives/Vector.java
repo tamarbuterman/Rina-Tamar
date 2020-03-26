@@ -126,6 +126,7 @@ public class Vector
 	
 	public Vector normalize()
 	{
+		_head._x = _head._y;
 		return this;
 	}
 	
