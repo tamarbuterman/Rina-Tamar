@@ -9,8 +9,7 @@ import static primitives.Util.*;
  */
 public final class Main {
 	
-	int x;
-	x=3;
+	
     /**
      * Main program to tests initial functionality of the 1st stage
      * 
