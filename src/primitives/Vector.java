@@ -38,6 +38,7 @@ public class Vector
 		_head._x._coord = x;
 		_head._y._coord = y;
 		_head._z._coord = z;
+		
 	}
 	
 	/**
