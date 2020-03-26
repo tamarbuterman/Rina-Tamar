@@ -10,7 +10,7 @@ public class Point3D
 	/**
 	 * 
 	 */
-	static Point3D ZERO = new Point3D(0,0,0);
+	public static Point3D ZERO = new Point3D(0,0,0);
 	
 	/**
 	 * 

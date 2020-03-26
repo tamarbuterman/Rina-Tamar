@@ -1,7 +1,7 @@
 package geometries;
 
-import java.util.List;
 import primitives.*;
+import java.util.List;
 import static primitives.Util.*;
 
 /**
@@ -46,7 +46,7 @@ public class Polygon implements Geometry {
         _plane = new Plane(vertices[0], vertices[1], vertices[2]);
         if (vertices.length == 3) return; // no need for more tests for a Triangle
 
-        Vector n = _plane.getNormal();
+        Vector n = _plane.getNormal(Point3D.ZERO);
 
         // Subtracting any subsequent points will throw an IllegalArgumentException
         // because of Zero Vector if they are in the same point
@@ -77,7 +77,7 @@ public class Polygon implements Geometry {
 
     @Override
     public Vector getNormal(Point3D point) {
-        return _plane.getNormal();
+        return _plane.getNormal(Point3D.ZERO);
     }
 }
 
