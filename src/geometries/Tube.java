@@ -3,7 +3,7 @@ package geometries;
 import  primitives.*;
 
 /**
- * 
+ * Tube class represent 
  * @author DELL
  *
  */
