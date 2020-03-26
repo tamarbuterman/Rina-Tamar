@@ -8,8 +8,9 @@ import static primitives.Util.*;
  * @author Dan Zilberstein
  */
 public final class Main {
-	int e;
-	e = 4;
+	
+	int x;
+	x = 4;
 	
     /**
      * Main program to tests initial functionality of the 1st stage
