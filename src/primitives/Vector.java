@@ -35,9 +35,12 @@ public class Vector
 	 */
 	public Vector(double x, double y, double z)
 	{
-		_head._x._coord = x;
-		_head._y._coord = y;
-		_head._z._coord = z;
+		Coordinate X = new Coordinate(x);
+		Coordinate Y = new Coordinate(y);
+		Coordinate Z = new Coordinate(z);
+		_head._x = X;
+		_head._y = Y;
+		_head._z = Z;
 	}
 	
 	/**
@@ -64,29 +67,32 @@ public class Vector
 	 */
 	public Point3D get()
 	{
-		return _head;
+		return _head.get();
 	}
 	
 	public Vector subtract(Vector other)
 	{
-		Vector newV = this;
-		newV._head = _head.subtract(other._head);
+		Vector newV = new Vector(_head);
+		newV = newV._head.subtract(other._head);
 		return newV;
 	}
 	
 	public Vector add(Vector other)
 	{
-		Vector newV = this;
-		newV._head.add(other._head);
+		Vector newV =new Vector(_head);
+		newV._head = newV._head.add(other);
 		return newV;
 	}
 	
 	public Vector scale(double num)
 	{
-		Vector newV = this;
-		newV._head._x._coord = _head._x._coord * num;
-		newV._head._y._coord *= num;
-		newV._head._z._coord *= num;
+		Vector newV = new Vector(_head);
+		Coordinate x = new Coordinate(_head._x._coord * num);
+		Coordinate y = new Coordinate(_head._y._coord * num);
+		Coordinate z = new Coordinate(_head._z._coord * num);
+		newV._head._x = x;
+		newV._head._y = y;
+		newV._head._z = z;
 		return newV;
 	}
 	
@@ -98,11 +104,29 @@ public class Vector
 	
 	public Vector crossProduct(Vector other)
 	{
-		Vector newV = this;
-		newV._head._x._coord = _head._y._coord * other._head._z._coord - _head._z._coord * other._head._y._coord;
-		newV._head._y._coord = _head._z._coord * other._head._x._coord - _head._x._coord * other._head._z._coord;
-		newV._head._z._coord = _head._x._coord * other._head._y._coord - _head._y._coord * other._head._x._coord;
+		Vector newV = new Vector(_head);
+		Coordinate x = new Coordinate(_head._y._coord * other._head._z._coord - _head._z._coord * other._head._y._coord);
+		Coordinate y = new Coordinate(_head._z._coord * other._head._x._coord - _head._x._coord * other._head._z._coord);
+		Coordinate z = new Coordinate(_head._x._coord * other._head._y._coord - _head._y._coord * other._head._x._coord);
+		newV._head._x = x;
+		newV._head._y = y;
+		newV._head._z = z;
 		return newV;
+	}
+	
+	public double lengthSquared()
+	{
+		return _head._x._coord * _head._x._coord + _head._y._coord * _head._y._coord + _head._z._coord * _head._z._coord;
+	}
+	
+	public double length()
+	{
+		return Math.sqrt(lengthSquared());
+	}
+	
+	public Vector normalize()
+	{
+		return this;
 	}
 	
 	/*************** Admin *****************/

@@ -1,7 +1,5 @@
 package primitives;
 
-import com.sun.tools.javac.util.List;
-
 /**
  * class Point3D...
  * @author Rina and Tamar
@@ -9,6 +7,11 @@ import com.sun.tools.javac.util.List;
  */
 public class Point3D
 {
+	/**
+	 * 
+	 */
+	static Point3D ZERO = new Point3D(0,0,0);
+	
 	/**
 	 * 
 	 */
@@ -37,9 +40,12 @@ public class Point3D
 	 */
 	public Point3D(double x, double y, double z)
 	{
-		_x._coord = x;
-		_y._coord = y;
-		_z._coord = z;
+		Coordinate X = new Coordinate(x);
+		Coordinate Y = new Coordinate(y);
+		Coordinate Z = new Coordinate(z);
+		_x = X;
+		_y = Y;
+		_z = Z;
 	}
 	
 	/**
@@ -57,25 +63,8 @@ public class Point3D
 	 * 
 	 * @return
 	 */
-	public List<Point3D> get()
+	public Point3D get()//!!!!!!!!!!!
 	{
-		List<Point3D> l = new List();
-		l[0] = _x;
-		l[1] = _y;
-		l[2] = _z;
-		return l;
-	}
-	
-	/**
-	 * 
-	 * @param other
-	 * @return
-	 */
-	public Point3D subtract(Point3D other) 
-	{
-		_x._coord = _x._coord - other._x._coord;
-		_y._coord = _y._coord - other._y._coord;
-		_z._coord = _z._coord - other._z._coord;
 		return this;
 	}
 	
@@ -84,11 +73,21 @@ public class Point3D
 	 * @param other
 	 * @return
 	 */
-	public Point3D add(Point3D other)
+	public Vector subtract(Point3D other) 
 	{
-		_x._coord = _x._coord + other._x._coord;
-		_y._coord = _y._coord + other._y._coord;
-		_z._coord = _z._coord + other._z._coord;
+		Vector newV = new Vector(_x._coord - other._x._coord,  _y._coord - other._y._coord, _z._coord - other._z._coord);
+		return newV;
+	}
+	
+	/**
+	 * 
+	 * @param other
+	 * @return
+	 */
+	public Point3D add(Vector other)
+	{
+		Point3D newP = new Point3D(_x._coord + other._head._x._coord, _y._coord + other._head._y._coord, _z._coord + other._head._z._coord);
+		return newP;
 	}
 	
 	/**
@@ -132,4 +131,5 @@ public class Point3D
     }
 
 }
+
 
