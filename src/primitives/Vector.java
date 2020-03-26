@@ -1,7 +1,5 @@
 package primitives;
 
-import static primitives.Util.isZero;
-
 /**
  * 
  * @author Rina and Tamar
@@ -25,6 +23,10 @@ public class Vector
 		_head._x = x;
 		_head._y = y;
 		_head._z = z;
+		if(_head.equals(Point3D.ZERO))
+		{
+			throw new IllegalArgumentException("Illegal vector zero");
+		}
 	}
 	
 	/**
@@ -41,6 +43,10 @@ public class Vector
 		_head._x = X;
 		_head._y = Y;
 		_head._z = Z;
+		if(_head.equals(Point3D.ZERO))
+		{
+			throw new IllegalArgumentException("Illegal vector zero");
+		}
 	}
 	
 	/**
@@ -49,6 +55,10 @@ public class Vector
 	 */
 	public Vector(Point3D head)
 	{
+		if(head.equals(Point3D.ZERO))
+		{
+			throw new IllegalArgumentException("Illegal vector zero");
+		}
 		_head = head;
 	}
 	
@@ -126,8 +136,14 @@ public class Vector
 	
 	public Vector normalize()
 	{
-		_head._x = _head._y;
+		_head = scale(1/length())._head;
 		return this;
+	}
+	
+	public Vector normalized()
+	{
+		Vector newV = new Vector(_head);
+		return newV.normalize();
 	}
 	
 	/*************** Admin *****************/
