@@ -3,21 +3,21 @@ package geometries;
 import  primitives.*;
 
 /**
- * 
- * @author DELL
+ * Tube class represent pipe in 3D Cartesian coordinate system
+ * @author Tamar Rina
  *
  */
 public class Tube extends RadialGeometry
 {
 	/**
-	 * 
+	 * Ray 
 	 */
 	Ray _axisRay;
 	
 	/**
 	 * 
-	 * @param axisRay
-	 * @param r
+	 * Tube constructor based on Ray and Point. the point is sent to the father constractor
+	 * @param Ray and Point
 	 */
 	public Tube(Ray axisRay, double r)
 	{
@@ -25,9 +25,7 @@ public class Tube extends RadialGeometry
 		_axisRay = axisRay;
 	}
 	
-	/**
-	 * 
-	 */
+	
 	@Override
 	public Vector getNormal(Point3D p) {
 		// TODO Auto-generated method stub

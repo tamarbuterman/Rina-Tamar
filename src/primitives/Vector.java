@@ -1,5 +1,111 @@
 package primitives;
 
+<<<<<<< HEAD
+import static primitives.Util.isZero;
+
+/**
+ * 
+ * @author Rina and Tamar
+ *
+ */
+public class Vector
+{
+	/**
+	 * 
+	 */
+	Point3D _head;
+	
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
+	public Vector(Coordinate x, Coordinate y, Coordinate z)
+	{
+		_head._x = x;
+		_head._y = y;
+		_head._z = z;
+	}
+	
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
+	public Vector(double x, double y, double z)
+	{
+		_head._x._coord = x;
+		_head._y._coord = y;
+		_head._z._coord = z;
+		
+	}
+	
+	/**
+	 * 
+	 * @param head
+	 */
+	public Vector(Point3D head)
+	{
+		_head = head;
+	}
+	
+	/**
+	 * Copy constructor for vector
+	 * @param other
+	 */
+	public Vector(Vector other)
+	{
+		_head = other._head;
+	}
+	
+	/**
+	 * Vector value getter
+	 * @return Vector value
+	 */
+	public Point3D get()
+	{
+		return _head;
+	}
+	
+	public Vector subtract(Vector other)
+	{
+		Vector newV = this;
+		newV._head = _head.subtract(other._head);
+		return newV;
+	}
+	
+	public Vector add(Vector other)
+	{
+		Vector newV = this;
+		newV._head.add(other._head);
+		return newV;
+	}
+	
+	public Vector scale(double num)
+	{
+		Vector newV = this;
+		newV._head._x._coord = _head._x._coord * num;
+		newV._head._y._coord *= num;
+		newV._head._z._coord *= num;
+		return newV;
+	}
+	
+	public double dotProduct(Vector other)
+	{
+		double result = _head._x._coord*other._head._x._coord + _head._y._coord*other._head._y._coord + _head._z._coord*other._head._z._coord;
+		return result;
+	}
+	
+	public Vector crossProduct(Vector other)
+	{
+		Vector newV = this;
+		newV._head._x._coord = _head._y._coord * other._head._z._coord - _head._z._coord * other._head._y._coord;
+		newV._head._y._coord = _head._z._coord * other._head._x._coord - _head._x._coord * other._head._z._coord;
+		newV._head._z._coord = _head._x._coord * other._head._y._coord - _head._y._coord * other._head._x._coord;
+		return newV;
+=======
 /**
  * class Vactor is the basic class representing a vector that start from the beginning.
  * 
@@ -195,6 +301,7 @@ public class Vector
 	{
 		Vector newV = new Vector(_head);
 		return newV.normalize();
+>>>>>>> branch 'master' of https://github.com/tamarbuterman/Rina-Tamar.git
 	}
 	
 	/*************** Admin *****************/

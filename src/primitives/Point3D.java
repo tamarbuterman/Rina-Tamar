@@ -1,5 +1,139 @@
 package primitives;
 
+<<<<<<< HEAD
+import com.sun.tools.javac.util.List;
+
+/**
+ * class Point3D...
+ * @author Rina and Tamar
+ *
+ */
+public class Point3D
+{
+	/**
+	 * 
+	 */
+	Coordinate _x;
+	Coordinate _y;
+	Coordinate _z;
+	
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
+	public Point3D(Coordinate x, Coordinate y, Coordinate z)
+	{
+		_x = x;
+		_y = y;
+		_z = z;
+	}
+	
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
+	public Point3D(double x, double y, double z)
+	{
+		_x._coord = x;
+		_y._coord = y;
+		_z._coord = z;
+	}
+	
+	/**
+	 * Copy constructor for Point3D
+	 * @param other
+	 */
+	public Point3D(Point3D other)
+	{
+		_x = other._x;
+		_y = other._y;
+		_z = other._z;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public List<Point3D> get()
+	{
+		List<Point3D> l = new List();
+		l[0] = _x;
+		l[1] = _y;
+		l[2] = _z;
+		return l;
+	}
+	
+	/**
+	 * 
+	 * @param other
+	 * @return
+	 */
+	public Point3D subtract(Point3D other) 
+	{
+		_x._coord = _x._coord - other._x._coord;
+		_y._coord = _y._coord - other._y._coord;
+		_z._coord = _z._coord - other._z._coord;
+		return this;
+	}
+	
+	/**
+	 * 
+	 * @param other
+	 * @return
+	 */
+	public Point3D add(Point3D other)
+	{
+		_x._coord = _x._coord + other._x._coord;
+		_y._coord = _y._coord + other._y._coord;
+		_z._coord = _z._coord + other._z._coord;
+	}
+	
+	/**
+	 * 
+	 * @param other
+	 * @return
+	 */
+	public double distanceSquared(Point3D other)
+	{
+		double temp = (_x._coord - other._x._coord)*(_x._coord - other._x._coord) + (_y._coord - other._y._coord)*(_y._coord - other._y._coord) +(_z._coord - other._z._coord)*(_z._coord - other._z._coord);
+		return temp;
+	}
+	
+	/**
+	 * 
+	 * @param other
+	 * @return
+	 */
+	public double distance(Point3D other)
+	{
+		return Math.sqrt(distanceSquared(other)); 
+	}
+	
+	/*************** Admin *****************/
+    @Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj) return true;
+        if (obj == null) return false;
+        if (!(obj instanceof Point3D)) return false;
+        Point3D temp = (Point3D)obj;
+        if(_x.equals(temp._x) && _y.equals(temp._y) && _z.equals(temp._z) )
+        	return true;
+        return false;
+	}
+    
+    @Override
+    public String toString() 
+    {
+        return "(" +_x.toString()+","+_y.toString()+","+_z.toString()+")";
+    }
+
+}
+=======
 /**
  * class Point3D is the basic class representing a point in space.
  * 
@@ -140,4 +274,5 @@ public class Point3D
 
 }
 
+>>>>>>> branch 'master' of https://github.com/tamarbuterman/Rina-Tamar.git
 
