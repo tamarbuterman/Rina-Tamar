@@ -4,8 +4,8 @@ import primitives.Point3D;
 import primitives.Vector;
 
 /**
- * 
- * @author DELL
+ * Abstract class which have radius
+ * @author Tamar and Rina
  *
  */
 public abstract class RadialGeometry implements Geometry
@@ -16,8 +16,8 @@ public abstract class RadialGeometry implements Geometry
 	double _radius;
 	
 	/**
-	 * 
-	 * @param r
+	 * RadialGeometry constractor, sets the radius for the shape
+	 * @param r radius
 	 */
 	public RadialGeometry(double r)
 	{
@@ -25,8 +25,8 @@ public abstract class RadialGeometry implements Geometry
 	}
 	
 	/**
-	 * 
-	 * @param other
+	 * Copy constractor gets other shape and copy the radius
+	 * @param other RadialGeometry 
 	 */
 	public RadialGeometry(RadialGeometry other)
 	{
@@ -34,7 +34,7 @@ public abstract class RadialGeometry implements Geometry
 	}
 	
 	/**
-	 * 
+	 * Return the radius
 	 * @return
 	 */
 	public double get()
