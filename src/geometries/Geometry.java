@@ -3,7 +3,7 @@ package geometries;
 import primitives.*;
 
 /**
- * 
+ * Geometries interface, represent all the geometries
  * @author Rina and Tamar
  *
  */
