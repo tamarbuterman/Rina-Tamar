@@ -1,6 +1,7 @@
 package primitives;
 
 /**
+ * class Vactor is the basic class representing a vector that start from the beginning.
  * 
  * @author Rina and Tamar
  *
@@ -8,15 +9,16 @@ package primitives;
 public class Vector
 {
 	/**
-	 * 
+	 * Vector values
 	 */
 	Point3D _head;
 	
 	/**
+	 * Vector constructor receiving a Vector values by Coordinate
 	 * 
-	 * @param x
-	 * @param y
-	 * @param z
+	 * @param x Coordinate value
+	 * @param y Coordinate value
+	 * @param z Coordinate value
 	 */
 	public Vector(Coordinate x, Coordinate y, Coordinate z)
 	{
@@ -30,10 +32,11 @@ public class Vector
 	}
 	
 	/**
+	 * Vector constructor receiving a Vector values by double
 	 * 
-	 * @param x
-	 * @param y
-	 * @param z
+	 * @param x double value
+	 * @param y double value
+	 * @param z double value
 	 */
 	public Vector(double x, double y, double z)
 	{
@@ -50,8 +53,9 @@ public class Vector
 	}
 	
 	/**
+	 * Vector constructor receiving a Vector value by Point3D
 	 * 
-	 * @param head
+	 * @param Point3D value
 	 */
 	public Vector(Point3D head)
 	{
@@ -63,8 +67,9 @@ public class Vector
 	}
 	
 	/**
-	 * Copy constructor for vector
-	 * @param other
+	 * Copy constructor for Vector
+	 * 
+	 * @param Vector value
 	 */
 	public Vector(Vector other)
 	{
@@ -73,6 +78,7 @@ public class Vector
 	
 	/**
 	 * Vector value getter
+	 * 
 	 * @return Vector value
 	 */
 	public Point3D get()
@@ -80,6 +86,12 @@ public class Vector
 		return _head.get();
 	}
 	
+	/**
+	 * Calculate vector subtraction
+	 * 
+	 * @param Vector
+	 * @return Vector - result
+	 */
 	public Vector subtract(Vector other)
 	{
 		Vector newV = new Vector(_head);
@@ -87,6 +99,12 @@ public class Vector
 		return newV;
 	}
 	
+	/**
+	 * Calculate a vector connection
+	 * 
+	 * @param Vector
+	 * @return Vector - result
+	 */
 	public Vector add(Vector other)
 	{
 		Vector newV =new Vector(_head);
@@ -94,6 +112,12 @@ public class Vector
 		return newV;
 	}
 	
+	/**
+	 * Calculate vector multiplier in scalar
+	 * 
+	 * @param number
+	 * @return Vector result
+	 */
 	public Vector scale(double num)
 	{
 		Vector newV = new Vector(_head);
@@ -106,12 +130,24 @@ public class Vector
 		return newV;
 	}
 	
+	/**
+	 * Calculate scalar multiplication
+	 * 
+	 * @param Vector
+	 * @return number - result
+	 */
 	public double dotProduct(Vector other)
 	{
 		double result = _head._x._coord*other._head._x._coord + _head._y._coord*other._head._y._coord + _head._z._coord*other._head._z._coord;
 		return result;
 	}
 	
+	/**
+	 * Calculate a vector multiplication
+	 * 
+	 * @param Vector
+	 * @return Vector - result
+	 */
 	public Vector crossProduct(Vector other)
 	{
 		Vector newV = new Vector(_head);
@@ -124,16 +160,31 @@ public class Vector
 		return newV;
 	}
 	
+	/**
+	 * Calculate the vector length per second
+	 * 
+	 * @return number - result
+	 */
 	public double lengthSquared()
 	{
 		return _head._x._coord * _head._x._coord + _head._y._coord * _head._y._coord + _head._z._coord * _head._z._coord;
 	}
 	
+	/**
+	 * Calculate the vector length
+	 * 
+	 * @return number - result
+	 */
 	public double length()
 	{
 		return Math.sqrt(lengthSquared());
 	}
 	
+	/**
+	 * Calculate Normalization Vector
+	 * 
+	 * @return Vector - result
+	 */
 	public Vector normalize()
 	{
 		_head = scale(1/length())._head;

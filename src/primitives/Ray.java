@@ -1,6 +1,7 @@
 package primitives;
 
 /**
+ * class Ray is the basic class representing a vector that doesn't start from the beginning.
  * 
  * @author Rina and Tamar
  *
@@ -8,15 +9,16 @@ package primitives;
 public class Ray 
 {
 	/**
-	 * 
+	 * Ray values
 	 */
 	Point3D _POO;
 	Vector _direction;
 	
 	/**
+	 * Ray constructor receiving a ray value
 	 * 
-	 * @param poo
-	 * @param direction
+	 * @param Point3D - starting point
+	 * @param Vector - direction
 	 */
 	public Ray(Point3D poo, Vector direction)
 	{
@@ -26,7 +28,8 @@ public class Ray
 	
 	/**
 	 * Copy constructor for Ray
-	 * @param other
+	 * 
+	 * @param Ray
 	 */
 	public Ray(Ray other)
 	{
@@ -34,10 +37,15 @@ public class Ray
 		_direction = other._direction;
 	}
 	
+	/**
+	 * Ray value getter
+	 * 
+	 * @return Ray value
+	 */
 	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	public get()
+	public Ray get()
 	{
-		
+		return null;
 	}
 	
 	/*************** Admin *****************/

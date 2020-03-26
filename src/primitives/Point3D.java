@@ -1,9 +1,9 @@
 package primitives;
 
 /**
- * class Point3D...
+ * class Point3D is the basic class representing a point in space.
+ * 
  * @author Rina and Tamar
- *
  */
 public class Point3D
 {
@@ -13,17 +13,18 @@ public class Point3D
 	public static Point3D ZERO = new Point3D(0,0,0);
 	
 	/**
-	 * 
+	 * Point3D values
 	 */
 	Coordinate _x;
 	Coordinate _y;
 	Coordinate _z;
 	
 	/**
+	 * Point3D constructor receiving a Point3D values by Coordinate
 	 * 
-	 * @param x
-	 * @param y
-	 * @param z
+	 * @param x Coordinate value
+	 * @param y Coordinate value
+	 * @param z Coordinate value
 	 */
 	public Point3D(Coordinate x, Coordinate y, Coordinate z)
 	{
@@ -33,10 +34,11 @@ public class Point3D
 	}
 	
 	/**
+	 * Point3D constructor receiving a Point3D values by double
 	 * 
-	 * @param x
-	 * @param y
-	 * @param z
+	 * @param x double value
+	 * @param y double value
+	 * @param z double value
 	 */
 	public Point3D(double x, double y, double z)
 	{
@@ -50,7 +52,8 @@ public class Point3D
 	
 	/**
 	 * Copy constructor for Point3D
-	 * @param other
+	 * 
+	 * @param Point3D value
 	 */
 	public Point3D(Point3D other)
 	{
@@ -60,8 +63,9 @@ public class Point3D
 	}
 	
 	/**
+	 * Point3D values getter
 	 * 
-	 * @return
+	 * @return ???
 	 */
 	public Point3D get()//!!!!!!!!!!!
 	{
@@ -69,9 +73,10 @@ public class Point3D
 	}
 	
 	/**
+	 * Calculate vector subtraction
 	 * 
-	 * @param other
-	 * @return
+	 * @param Point3D value
+	 * @return Vector - result
 	 */
 	public Vector subtract(Point3D other) 
 	{
@@ -80,9 +85,10 @@ public class Point3D
 	}
 	
 	/**
+	 * Calculate vector addition to a point
 	 * 
-	 * @param other
-	 * @return
+	 * @param Vector value
+	 * @return Point3D - result
 	 */
 	public Point3D add(Vector other)
 	{
@@ -91,9 +97,10 @@ public class Point3D
 	}
 	
 	/**
+	 * Calculate distance between 2 points per second
 	 * 
-	 * @param other
-	 * @return
+	 * @param Point3D
+	 * @return double - distance per second
 	 */
 	public double distanceSquared(Point3D other)
 	{
@@ -102,9 +109,10 @@ public class Point3D
 	}
 	
 	/**
+	 * Calculate distance between 2 points
 	 * 
-	 * @param other
-	 * @return
+	 * @param Point3D 
+	 * @return double - distance
 	 */
 	public double distance(Point3D other)
 	{
