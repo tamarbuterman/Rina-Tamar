@@ -4,20 +4,22 @@ import primitives.Point3D;
 import primitives.Vector;
 
 /**
+ * Plane class represent plan in 3D Cartesian coordinate
+ * system
  * 
- * @author DELL
+ * @author Tamat and Rina
  *
  */
 public class Plane implements Geometry
 {
 	/**
-	 * 
+	 * Point and vector 
 	 */
 	Point3D _p;
 	Vector _normal;
 	
 	/**
-	 * 
+	 * Plane constractor, gets 3 points
 	 * @param p1
 	 * @param p2
 	 * @param p3
@@ -29,9 +31,9 @@ public class Plane implements Geometry
 	}
 	
 	/**
-	 * 
-	 * @param p
-	 * @param n
+	 *  Seconed constractor, gets vector and point
+	 * @param p point
+	 * @param n vector
 	 */
 	public Plane(Point3D p, Vector n)
 	{
