@@ -4,8 +4,9 @@ import primitives.Point3D;
 import primitives.Vector;
 
 /**
- * 
- * @author DELL
+ * Cylinder class represents cylinder in 3D Cartesian coordinate
+ * system 
+ * @author Tamar and Rina
  *
  */
 public class Cylinder extends RadialGeometry
@@ -17,8 +18,8 @@ public class Cylinder extends RadialGeometry
 	
 	/**
 	 * 
-	 * @param h
-	 * @param r
+	 * @param h hight
+	 * @param r radius
 	 */
 	public Cylinder(double h, double r)
 	{
