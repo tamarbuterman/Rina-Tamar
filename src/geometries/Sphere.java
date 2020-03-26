@@ -3,21 +3,22 @@ package geometries;
 import  primitives.*;
 
 /**
- * 
- * @author DELL
+ * Sphere class represents sphere in 3D Cartesian coordinate
+ * system
+ * @author Tamar and Rina
  *
  */
 public class Sphere extends RadialGeometry
 {
 	/**
-	 * 
+	 * The center point of the sphere
 	 */
 	Point3D _center;
 	
 	/**
-	 * 
-	 * @param c
-	 * @param r
+	 * Sphere constractor
+	 * @param c point
+	 * @param r radius
 	 */
 	public Sphere(Point3D c, double r)
 	{
