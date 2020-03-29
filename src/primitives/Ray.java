@@ -40,12 +40,61 @@ public class Ray
 	/**
 	 * Ray value getter
 	 * 
-	 * @return Ray value
+	 * @return x of point Ray value
 	 */
-	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	public Ray get()
+	public double getPointX()
 	{
-		return null;
+		return _POO.getX();
+	}
+	
+	/**
+	 * Ray value getter
+	 * 
+	 * @return y of point Ray value
+	 */
+	public double getPointY()
+	{
+		return _POO.getY();
+	}
+	
+	/**
+	 * Ray value getter
+	 * 
+	 * @return z of point Ray value
+	 */
+	public double getPointZ()
+	{
+		return _POO.getZ();
+	}
+	
+	/**
+	 * Ray value getter
+	 * 
+	 * @return x of vector Ray value
+	 */
+	public double getVectorX()
+	{
+		return _direction.getX();
+	}
+	
+	/**
+	 * Ray value getter
+	 * 
+	 * @return y of vector Ray value
+	 */
+	public double getVectorY()
+	{
+		return _direction.getY();
+	}
+	
+	/**
+	 * Ray value getter
+	 * 
+	 * @return z of vector Ray value
+	 */
+	public double getVectorZ()
+	{
+		return _direction.getZ();
 	}
 	
 	/*************** Admin *****************/

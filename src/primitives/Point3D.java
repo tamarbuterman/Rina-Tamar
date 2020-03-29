@@ -65,11 +65,31 @@ public class Point3D
 	/**
 	 * Point3D values getter
 	 * 
-	 * @return ???
+	 * @return x value
 	 */
-	public Point3D get()//!!!!!!!!!!!
+	public double getX()
 	{
-		return this;
+		return _x.get();
+	}
+	
+	/**
+	 * Point3D values getter
+	 * 
+	 * @return y value
+	 */
+	public double getY()
+	{
+		return _y.get();
+	}
+	
+	/**
+	 * Point3D values getter
+	 * 
+	 * @return z value
+	 */
+	public double getZ()
+	{
+		return _z.get();
 	}
 	
 	/**

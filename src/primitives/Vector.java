@@ -79,11 +79,31 @@ public class Vector
 	/**
 	 * Vector value getter
 	 * 
-	 * @return Vector value
+	 * @return x Vector value
 	 */
-	public Point3D get()
+	public double getX()
 	{
-		return _head.get();
+		return _head.getX();
+	}
+	
+	/**
+	 * Vector value getter
+	 * 
+	 * @return y Vector value
+	 */
+	public double getY()
+	{
+		return _head.getY();
+	}
+	
+	/**
+	 * Vector value getter
+	 * 
+	 * @return z Vector value
+	 */
+	public double getZ()
+	{
+		return _head.getZ();
 	}
 	
 	/**
