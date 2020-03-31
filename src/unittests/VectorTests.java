@@ -7,6 +7,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import primitives.Vector;
+
 /**
  * Unit tests for primitives.Vector class
  * @author Rina and Tamar
@@ -24,10 +26,12 @@ public class VectorTests {
 
 	/**
 	 * Test method for {@link primitives.Vector#Vector(double, double, double)}.
+	 * 
+	 *-------------------------------------------------------------------
 	 */
 	@Test
 	public void testVectorDoubleDoubleDouble() {
-		fail("Not yet implemented");
+		
 	}
 
 	/**
@@ -60,6 +64,11 @@ public class VectorTests {
 	@Test
 	public void testSubtract() {
 		fail("Not yet implemented");
+		Vector v1 = new Vector(1, 2, 3);
+	    Vector v2 = new Vector(-2, -4, -6);
+	    Vector v3 = new Vector(3, 6, 9);
+		Vector temp = v1.subtract(v2);
+		assertEquals("", temp, v3);
 	}
 
 	/**
@@ -68,6 +77,11 @@ public class VectorTests {
 	@Test
 	public void testAdd() {
 		fail("Not yet implemented");
+		Vector v1 = new Vector(1, 2, 3);
+	    Vector v2 = new Vector(-2, -4, -6);
+	    Vector v3 = new Vector(-1, -2, -3);
+		Vector temp = v1.add(v2);
+		assertEquals("", temp, v3);
 	}
 
 	/**
@@ -76,6 +90,10 @@ public class VectorTests {
 	@Test
 	public void testScale() {
 		fail("Not yet implemented");
+		Vector v1 = new Vector(1, 2, 3);
+	    Vector v2 = new Vector(-2, -4, -6);
+		Vector temp = v1.scale(-2);
+		assertEquals("", temp, v2);
 	}
 
 	/**
@@ -115,7 +133,11 @@ public class VectorTests {
 	 */
 	@Test
 	public void testNormalize() {
-		fail("Not yet implemented");
+		Vector v1 = new Vector(1, 2, 3);
+		Vector v2 = new Vector(v1);
+		Vector v2Normalize = v2.normalize();
+		assertEquals ("ERROR: normalize() function creates a new vector", v1, v2Normalize);
+		assertTrue("ERROR: normalize() result is not a unit vector", v2Normalize.length() - 1 == 0);
 	}
 
 	/**
@@ -123,7 +145,9 @@ public class VectorTests {
 	 */
 	@Test
 	public void testNormalized() {
-		fail("Not yet implemented");
+		Vector v = new Vector(1, 2, 3);
+        Vector u = v.normalized();
+        assertFalse("ERROR: normalizated() function does not create a new vector", u == v);
 	}
 
 	/**
