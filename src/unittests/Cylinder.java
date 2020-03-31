@@ -18,15 +18,7 @@ public class Cylinder {
 	 */
 	@Test
 	public void testGetNormal() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link geometries.Cylinder#Cylinder(double, double)}.
-	 */
-	@Test
-	public void testCylinder() {
-		fail("Not yet implemented");
+		
 	}
 
 }

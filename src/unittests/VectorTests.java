@@ -74,7 +74,7 @@ public class VectorTests {
 		// =============== Boundary Values Tests ==================
 		try {
 		        temp.subtract(v3);
-		        fail("add() for parallel vectors does not throw an exception");
+		        fail("subtruct() for parallel vectors does not throw an exception");
 		    } catch (Exception e) {}
 	}
 
