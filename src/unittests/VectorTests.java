@@ -7,6 +7,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import primitives.Coordinate;
+import primitives.Point3D;
 import primitives.Vector;
 
 /**
@@ -21,17 +23,26 @@ public class VectorTests {
 	 */
 	@Test
 	public void testVectorCoordinateCoordinateCoordinate() {
-		fail("Not yet implemented");
+		// ============ Boundary Value Analysis ==============
+        // test zero vector c-tor with coordinates
+        try {
+            new Vector(new Coordinate(0), new Coordinate(0), new Coordinate(0));
+            fail("ERROR: zero vector does not throw an exception");
+        } catch (Exception e) {}
 	}
 
 	/**
 	 * Test method for {@link primitives.Vector#Vector(double, double, double)}.
 	 * 
-	 *-------------------------------------------------------------------
 	 */
 	@Test
 	public void testVectorDoubleDoubleDouble() {
-		
+		// ============ Boundary Value Analysis ==============
+        // test zero vector c-tor with double
+        try {
+            new Vector(0, 0, 0);
+            fail("ERROR: zero vector does not throw an exception");
+        } catch (Exception e) {}
 	}
 
 	/**
@@ -39,24 +50,13 @@ public class VectorTests {
 	 */
 	@Test
 	public void testVectorPoint3D() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link primitives.Vector#Vector(primitives.Vector)}.
-	 */
-	@Test
-	public void testVectorVector() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link primitives.Vector#get()}.
-	 */
-	@Test
-	public void testGet() {
-		fail("Not yet implemented");
-	}
+		// ============ Boundary Value Analysis ==============
+        // test zero vector c-tor with Point3D
+        try {
+            new Vector(new Point3D(0, 0, 0));
+            fail("ERROR: zero vector does not throw an exception");
+        } catch (Exception e) {}
+	}	
 
 	/**
 	 * Test method for {@link primitives.Vector#subtract(primitives.Vector)}.
@@ -232,14 +232,6 @@ public class VectorTests {
 		// ============ Equivalence Partitions Tests ==============
 		assertTrue("ERROR: equals() result is not a unit vector", v1.equals(v2));
 		assertFalse("ERROR: equals() result is not a unit vector", v1.equals(v3));
-	}
-
-	/**
-	 * Test method for {@link primitives.Vector#toString()}.
-	 */
-	@Test
-	public void testToString() {
-		fail("Not yet implemented");
 	}
 
 }
