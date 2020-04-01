@@ -1,6 +1,7 @@
 package geometries;
 
 import primitives.Point3D;
+import primitives.Ray;
 import primitives.Vector;
 
 /**
@@ -9,7 +10,7 @@ import primitives.Vector;
  * @author Tamar and Rina
  *
  */
-public class Cylinder extends RadialGeometry
+public class Cylinder extends Tube
 {
 	/**
 	 * 
@@ -21,9 +22,9 @@ public class Cylinder extends RadialGeometry
 	 * @param h hight
 	 * @param r radius
 	 */
-	public Cylinder(double h, double r)
+	public Cylinder(double h, double r, Ray axisRay)
 	{
-		super(r);
+		super(axisRay, r);
 		_hight = h;
 	}
 	
@@ -32,7 +33,13 @@ public class Cylinder extends RadialGeometry
 	 */
 	@Override
 	public Vector getNormal(Point3D p) {
-		// TODO Auto-generated method stub
-		return null;
+		Vector v1 = _axisRay._direction;
+		Vector v2 = p.subtract(_axisRay._POO);
+		double t = v1.dotProduct(v2);
+		if(t<0.0001 && t>-0.0001)
+			return v1;
+		Point3D nb = _axisRay._POO.add(_axisRay._direction.scale(t));
+		Vector n = nb.subtract(Point3D.ZERO);
+		return n;
 	}
 }
