@@ -27,14 +27,9 @@ public class Plane implements Geometry
 	public Plane(Point3D p1, Point3D p2, Point3D p3)
 	{
 		_p = p1;
-		double x  = p2.getX() - p1.getX();
-		double y = p2.getY() - p1.getY();
-		double z = p2.getZ() - p1.getZ();
-		Vector v1 = new Vector(x,y,z);
-		double x1  = p3.getX() - p1.getX();
-		double y1 = p3.getY() - p1.getY();
-		double z1 = p3.getZ() - p1.getZ();
-		Vector v2 = new Vector(x1, y1, z1);
+		
+		Vector v1 = new Vector(p2.subtract(p1));
+		Vector v2 = new Vector(p3.subtract(p1));
 		_normal = (v1.crossProduct(v2)).normalize();
 		
         
