@@ -9,8 +9,17 @@ import geometries.Sphere;
 import primitives.Point3D;
 import primitives.Vector;
 
+/**
+ * Testing Sphere
+ * @author Tamar and Rina
+ */
+
 class SphereTests {
 
+
+    /**
+     * Test method for {@link geometries.Sphere#getNormal(Point3D)}.
+     */
 	@Test
 	void testGetNormal() {
 		Sphere s1 = new Sphere(new Point3D(0, 0, 0), 5);

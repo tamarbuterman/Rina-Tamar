@@ -10,14 +10,24 @@ import geometries.Triangle;
 import primitives.Point3D;
 import primitives.Vector;
 
+/**
+ * Testing Triangle
+ * @author Tamar and Rina
+ *
+ */
+
 class TriangleTests
 {
 
+    /**
+     * Test method for {@link geometries.Triangle#getNormal(primitives.Point3D)}.
+     */
 	@Test
 	void testGetNormal() {
 		Triangle p1 = new Triangle(new Point3D(1,2,3), new Point3D(3, 4, 5), new Point3D(3,7,9));
 		
 		// ============ Equivalence Partitions Tests ==============
+		//Test for triangle Plane
 		Vector temp = new Vector(2/Math.sqrt(104), -8/Math.sqrt(104), 6/Math.sqrt(104));
 		assertEquals("getNormal() result is not expected", temp, p1.getNormal(new Point3D(0, 0, 0)));
 		
