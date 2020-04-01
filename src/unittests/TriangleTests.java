@@ -20,12 +20,6 @@ class TriangleTests {
 		Vector temp = new Vector(2/Math.sqrt(104), -8/Math.sqrt(104), 6/Math.sqrt(104));
 		assertEquals("getNormal() result is not expected", temp, p1.getNormal(new Point3D(0, 0, 0)));
 		
-		// =============== Boundary Values Tests ==================
-		Triangle p3 = new Triangle(new Point3D(1,2,3), new Point3D(1, 2, 3), new Point3D(3,7,9));
-		try {
-		        p3.getNormal(new Point3D(1,1,1));
-		        fail("getNormal() for parallel vectors does not throw an exception");
-		    } catch (Exception e) {}
 	}
 
 }

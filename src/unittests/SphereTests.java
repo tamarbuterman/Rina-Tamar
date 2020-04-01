@@ -18,12 +18,6 @@ class SphereTests {
 		// ============ Equivalence Partitions Tests ==============
 		Vector temp = new Vector(0, 4, 0);
 		assertEquals(temp, s1.getNormal(new Point3D(0, 4, 0)), "getNormal() result is not expected");
-		
-		// =============== Boundary Values Tests ==================
-		try {
-				s1.getNormal(new Point3D(0,0,6));
-		        fail("getNormal() for parallel vectors does not throw an exception");
-		    } catch (Exception e) {}
 	}
 
 }
