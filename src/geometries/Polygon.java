@@ -1,7 +1,9 @@
-package geometries;
+package src.geometries;
 
 import primitives.*;
 import java.util.List;
+import geometries.*;
+
 import static primitives.Util.*;
 
 /**
@@ -77,7 +79,7 @@ public class Polygon implements Geometry {
 
     @Override
     public Vector getNormal(Point3D point) {
-        return _plane.getNormal(Point3D.ZERO);
+        return Plane.getNormal(Point3D.ZERO);
     }
 }
 

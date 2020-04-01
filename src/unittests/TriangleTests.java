@@ -10,7 +10,8 @@ import geometries.Triangle;
 import primitives.Point3D;
 import primitives.Vector;
 
-class TriangleTests {
+class TriangleTests
+{
 
 	@Test
 	void testGetNormal() {

@@ -2,36 +2,54 @@ package unittests;
 
 import static org.junit.Assert.*;
 
-import primitives.Vector;
-
 import org.junit.Test;
 
 import geometries.Plane;
+import geometries.Polygon;
 import primitives.Point3D;
+import primitives.Vector;
 
 public class PlaneTests {
 
+/*
+ * 
+ */
 	@Test
-	public void testPlanePoint3DPoint3DPoint3D() {
-		fail("Not yet implemented");
+	public void testConstructor()
+	{
+		
+        // ============ Equivalence Partitions Tests ==============
+
+        // TC01: Correct vertex
+
+		try {
+            new Plane(new Point3D(0, 0, 1), new Point3D(1, 0, 0),
+                    new Point3D(0, 1, 0));
+        } catch (IllegalArgumentException e) {
+            fail("Failed constructing a correct plane");
+        }
+		
+        // =============== Boundary Values Tests ==================
+
+		//TC02: Last point = seconed point
+		
+		try {
+            new Plane(new Point3D(0, 0, 1), new Point3D(0,1, 0),
+                    new Point3D(0, 1, 0));
+        	  fail("Constructed a plane with vertice on a side");
+        } catch (IllegalArgumentException e) {}
+        
+
 	}
+
+	
 
 	@Test
 	public void testGetNormal() {
-		Plane p1 = new Plane(new Point3D(1,2,3), new Point3D(3, 4, 5), new Point3D(3,7,9));
-		Plane p2 = new Plane(new Point3D(1, 2, 3), new Vector(1, 2, 3));		
-		
-		// ============ Equivalence Partitions Tests ==============
-		Vector temp = new Vector(2/Math.sqrt(104), -8/Math.sqrt(104), 6/Math.sqrt(104));
-		assertEquals("getNormal() result is not expected", temp, p1.getNormal(new Point3D(0, 0, 0)));
-		assertEquals("getNormal() result is not expected", new Vector(1, 2, 3), p2.getNormal(new Point3D(0, 0, 0)));
-		
-		// =============== Boundary Values Tests ==================
-		Plane p3 = new Plane(new Point3D(1,2,3), new Point3D(1, 2, 3), new Point3D(3,7,9));
-		try {
-		        p3.getNormal(new Point3D(1,1,1));
-		        fail("getNormal() for parallel vectors does not throw an exception");
-		    } catch (Exception e) {}
+		 Polygon pl = new Polygon(new Point3D(0, 0, 1), new Point3D(1, 0, 0), new Point3D(0, 1, 0),
+	                new Point3D(-1, 1, 1));
+	        double sqrt3 = Math.sqrt(1d / 3);
+	        assertEquals("Bad normal to trinagle", new Vector(sqrt3, sqrt3, sqrt3), pl.getNormal(new Point3D(0, 0, 1)));
 	}
 
 }
