@@ -27,11 +27,13 @@ public class Sphere extends RadialGeometry
 	}
 	
 	/**
-	 * 
+	 * get sphere normal
+	 * @param p point on the sphere
+	 * @return normal
 	 */
 	@Override
 	public Vector getNormal(Point3D p) {
-		// TODO Auto-generated method stub
-		return null;
+		Vector v = p.subtract(_center);
+		return v.normalize();
 	}
 }

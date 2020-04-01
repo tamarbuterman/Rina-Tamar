@@ -16,16 +16,10 @@ class TubeTests {
 	@Test
 	void testGetNormal() {
 		Tube t1 = new Tube(new Ray(new Point3D(0,0,0), new Vector(1,2,3)), 3);
-		Tube t2 = new Tube(new Ray(new Point3D(7,5,6), new Vector(1,2,3)), 3);
 		
 		// ============ Equivalence Partitions Tests ==============
 		assertEquals("", new Point3D(34, 68, 102), t1.getNormal(new Point3D(2,4,8)));
 		
-		// =============== Boundary Values Tests ==================
-		try {
-		         t2.getNormal(new Point3D(7, 5, 6));
-		        fail("subtruct() for parallel vectors does not throw an exception");
-		    } catch (Exception e) {}
 	}
 
 }

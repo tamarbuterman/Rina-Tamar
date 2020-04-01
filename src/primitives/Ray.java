@@ -11,8 +11,8 @@ public class Ray
 	/**
 	 * Ray values
 	 */
-	Point3D _POO;
-	Vector _direction;
+	public Point3D _POO;
+	public Vector _direction;
 	
 	/**
 	 * Ray constructor receiving a ray value
