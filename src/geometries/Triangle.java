@@ -1,5 +1,7 @@
 package geometries;
 
+import java.util.List;
+
 import  primitives.*;
 
 /**
@@ -11,13 +13,18 @@ import  primitives.*;
 public class Triangle extends Plane
 {
 	/**
-	 * Triangle constractor based on 3 point, the points are sent to the father constractor 
+	 * Triangle constructor based on 3 point, the points are sent to the father constractor 
 	 * @param p1 first point
-	 * @param p2 seconed point
+	 * @param p2 second point
 	 * @param p3 third point
 	 */
 	public Triangle(Point3D p1, Point3D p2, Point3D p3)
 	{
 		super(p1, p2, p3);
+	}
+	
+	public List<Point3D> findIntsersections(Ray ray)
+	{
+		return null;
 	}
 }
