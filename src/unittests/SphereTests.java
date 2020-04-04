@@ -1,5 +1,6 @@
 package unittests;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,10 +8,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import geometries.Sphere;
-import primitives.Point3D;
+import geometries.*;
 import primitives.*;
-import primitives.Vector;
 
 /**
  * Testing Sphere
