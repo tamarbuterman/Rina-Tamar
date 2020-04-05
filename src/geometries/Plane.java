@@ -55,6 +55,7 @@ public class Plane implements Geometry
 		return _normal;
 	}
 
+	@Override
 	public List<Point3D> findIntsersections(Ray ray)
 	{
 		return null;

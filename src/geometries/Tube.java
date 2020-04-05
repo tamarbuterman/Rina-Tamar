@@ -1,5 +1,7 @@
 package geometries;
 
+import java.util.List;
+
 import  primitives.*;
 
 /**
@@ -34,5 +36,11 @@ public class Tube extends RadialGeometry
 		Point3D nb = _axisRay._POO.add(_axisRay._direction.scale(t));
 		Vector n = nb.subtract(Point3D.ZERO);
 		return n;
+	}
+	
+	@Override
+	public List<Point3D> findIntsersections(Ray ray)
+	{
+		return null;
 	}
 }

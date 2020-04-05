@@ -23,6 +23,7 @@ public class Triangle extends Plane
 		super(p1, p2, p3);
 	}
 	
+	@Override
 	public List<Point3D> findIntsersections(Ray ray)
 	{
 		return null;
