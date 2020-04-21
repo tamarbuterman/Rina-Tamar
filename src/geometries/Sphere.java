@@ -1,5 +1,6 @@
 package geometries;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import  primitives.*;
@@ -41,7 +42,25 @@ public class Sphere extends RadialGeometry
 
 	@Override
 	public List<Point3D> findIntersections(Ray ray) {
-		// TODO Auto-generated method stub
-		return null;
+		Vector L = _center.subtract(ray._POO);
+		double tm = L.dotProduct(ray._direction);
+		double d = Math.sqrt(L.length() - tm*tm);
+		if (d > _radius)
+			return null;
+		double th = Math.sqrt(_radius*_radius - d*d);
+		LinkedList<Point3D> ans = new LinkedList<Point3D>();
+		double t1 = tm - th;
+		if(t1 > 0)
+		{
+			Point3D p1 = _center.add(ray._direction.scale(t1));
+			ans.add(p1);
+		}
+		double t2 = tm + th;
+		if(t2 > 0)
+		{
+			Point3D p2 = _center.add(ray._direction.scale(t2));
+			ans.add(p2);
+		}
+		return ans;
 	}
 }

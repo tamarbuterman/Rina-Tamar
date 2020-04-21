@@ -1,5 +1,7 @@
 package geometries;
 
+import static primitives.Util.isZero;
+import java.util.LinkedList;
 import java.util.List;
 
 import primitives.Point3D;
@@ -58,8 +60,18 @@ public class Plane implements Geometry
 
 	@Override
 	public List<Point3D> findIntersections(Ray ray) {
-		// TODO Auto-generated method stub
-		return null;
+		double nv = _normal.dotProduct(ray._direction);
+		if(isZero(nv))
+		{
+			//??????????????????????????
+		}
+		double t = _normal.dotProduct(ray._POO.subtract(_p))/nv;
+		if(t < 0)
+			return null;
+		Point3D p = ray._POO.add(ray._direction.scale(t));
+		LinkedList<Point3D> ans = new LinkedList<Point3D>();
+		ans.add(p);
+		return ans;
 	}
 
 }

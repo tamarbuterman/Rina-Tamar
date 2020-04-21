@@ -1,5 +1,6 @@
 package geometries;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import  primitives.*;
@@ -26,6 +27,7 @@ public class Triangle extends Plane
 	@Override
 	public List<Point3D> findIntersections(Ray ray)
 	{
+		LinkedList<Point3D> list1 = Plane.findIntersections(ray);
 		return null;
 	}
 }
