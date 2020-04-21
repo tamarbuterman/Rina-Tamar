@@ -1,4 +1,4 @@
-package src.geometries;
+package geometries;
 
 import primitives.*;
 import java.util.List;
@@ -79,12 +79,13 @@ public class Polygon implements Geometry {
 
     @Override
     public Vector getNormal(Point3D point) {
-        return Plane.getNormal(Point3D.ZERO);
+        return Plane.getNormal(point);
     }
     
-    @Override
-	public List<Point3D> findIntsersections(Ray ray)
-	{
+
+	@Override
+	public List<Point3D> findIntersections(Ray ray) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

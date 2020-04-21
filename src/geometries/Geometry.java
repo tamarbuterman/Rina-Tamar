@@ -1,5 +1,7 @@
 package geometries;
 
+import java.util.List;
+
 import primitives.*;
 
 /**
@@ -10,4 +12,5 @@ import primitives.*;
 public interface Geometry extends Intersectable  
 {
 	public Vector getNormal(Point3D p);
+
 }
