@@ -62,7 +62,6 @@ class SphereTests {
         // TC04: Ray starts after the sphere (0 points)
         assertEquals("Ray's line out of sphere", null,
                 sphere.findIntersections(new Ray(new Point3D(3, 0, 0), new Vector(1, 1, 0))));
-        //---------------------------------------
 
         // =============== Boundary Values Tests ==================
 
@@ -74,7 +73,6 @@ class SphereTests {
         
         // TC12: Ray starts at sphere and goes outside (0 points)
         assertEquals("Ray's line out of sphere", null, sphere.findIntersections(new Ray(new Point3D(2, 0, 0), new Vector(1, 1, 0))));
-        //-----------------------------------------
         
         // **** Group: Ray's line goes through the center
         // TC13: Ray starts before the sphere (2 points)
@@ -107,19 +105,17 @@ class SphereTests {
         
         // **** Group: Ray's line is tangent to the sphere (all tests 0 points)
         // TC19: Ray starts before the tangent point
-        assertEquals("Ray start before tanget point", null, sphere.findIntersections(new Ray(new Point3D(1.53484692283495, -0.1550510257, -1), new Vector(0, 1, 1))));
-        //-----------------------------------------------------------
+        assertEquals("Ray start before tanget point", null, sphere.findIntersections(new Ray(new Point3D(2, 0, -1), new Vector(0, 0, 1))));
         
         // TC20: Ray starts at the tangent point
-        assertEquals("Ray start at tanget point", null, sphere.findIntersections(new Ray(new Point3D(0.0651530771650466, 0.355051025721682, 0), new Vector(0, 1, 1))));
-        //------------------------------------
+        assertEquals("Ray start at tanget point", null, sphere.findIntersections(new Ray(new Point3D(2, 0, 0), new Vector(0, 0, 1))));
         
         // TC21: Ray starts after the tangent point
-
+        assertEquals("Ray start after tanget point", null, sphere.findIntersections(new Ray(new Point3D(2, 0, 1), new Vector(0, 0, 1))));
+        
         // **** Group: Special cases
         // TC19: Ray's line is outside, ray is orthogonal to ray start to sphere's center line
         assertEquals("Ray's line is outside, ray is orthogonal to ray start to sphere's center line", null, sphere.findIntersections(new Ray(new Point3D(-2, 0, 0), new Vector(0, 0, 1))));
-        //------------------------------------
 
     }
 

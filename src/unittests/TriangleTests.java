@@ -48,34 +48,28 @@ class TriangleTests
 		List<Point3D> result = triangle.findIntersections(new Ray(new Point3D(-1, 8, -5), new Vector(1, -7, 5)));
         assertEquals("Wrong number of points", 1, result.size());
         assertEquals("Ray intersects the triangle",List.of(new Point3D(0, 1, 0)), result);
-        //---------------------------------------------
         
         //TC02:Ray outside against edge (0 options)
         assertEquals("Ray not included in the triangle", null,
                 triangle.findIntersections(new Ray(new Point3D(-3, -3, -1), new Vector(1, 5, 1))));
-        //----------------------------------------
         
         //TC03:Ray outside against vertex (0 options)
         assertEquals("Ray not included in the triangle", null,
                 triangle.findIntersections(new Ray(new Point3D(-3, -3, -1), new Vector(1, 2, 1))));
-        //---------------------------------------------------
         
      // =============== Boundary Values Tests ==================
         
      //TC11:Ray on edge (0 options)
         assertEquals("Ray not included in the triangle", null,
                 triangle.findIntersections(new Ray(new Point3D(-2, -3, -1), new Vector(1, 4, 1))));
-        //--------------------------
         
     //TC12:Ray in vertex (0 options)
         assertEquals("Ray not included in the triangle", null,
                 triangle.findIntersections(new Ray(new Point3D(-2, -3, -1), new Vector(1, 6, 1))));
-        //------------------------
         
     //TC13: Ray on edge's continuation (0 options)
         assertEquals("Ray not included in the triangle", null,
                 triangle.findIntersections(new Ray(new Point3D(-2, -3, -1), new Vector(-1, 8, 1))));
-        //----------------------------
 		
 	}
 
