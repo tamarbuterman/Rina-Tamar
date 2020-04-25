@@ -97,6 +97,11 @@ public class Ray
 		return _direction.getZ();
 	}
 	
+	public Point3D getPoint(double t)
+	{
+		return _POO.add(_direction.scale(t));
+	}
+	
 	/*************** Admin *****************/
     @Override
 	public boolean equals(Object obj)
@@ -115,4 +120,6 @@ public class Ray
     {
         return "" + _POO.toString()+":"+_direction.toString();
     }
+    
+    
 }

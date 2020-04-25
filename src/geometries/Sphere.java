@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import  primitives.*;
+import static primitives.Util.isZero;
 
 /**
  * Sphere class represents sphere in 3D Cartesian coordinate
@@ -52,13 +53,13 @@ public class Sphere extends RadialGeometry
 		double t1 = tm - th;
 		if(t1 > 0)
 		{
-			Point3D p1 = _center.add(ray._direction.scale(t1));
+			Point3D p1 = ray.getPoint(t1);
 			ans.add(p1);
 		}
 		double t2 = tm + th;
 		if(t2 > 0)
 		{
-			Point3D p2 = _center.add(ray._direction.scale(t2));
+			Point3D p2 = ray.getPoint(t2);
 			ans.add(p2);
 		}
 		return ans;

@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import  primitives.*;
+import static primitives.Util.isZero;
+
 
 /**
  * Triangle class is heiress from Plan class, and represent a Triangle using plan and points
@@ -58,7 +60,19 @@ public class Triangle extends Plane
 		Vector N2 = v2.crossProduct(v3);
 		Vector N3 = v3.crossProduct(v1);
 		
-		//??????????????????????????????????
+		double t1 = ray._direction.dotProduct(N1);
+		if(isZero(t1))
+			return null;
+		double t2 = ray._direction.dotProduct(N2);
+		if(isZero(t2))
+			return null;
+		double t3 = ray._direction.dotProduct(N3);
+		if(isZero(t3))
+			return null;
+		
+		if(t1 >0 && t2 > 0 && t3 > 0 || t1<0 && t2 < 0 && t3 < 0)
+			return list1;
+		
 		return null;
 	}
 }

@@ -1,6 +1,7 @@
 package geometries;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,9 +26,10 @@ public class Geometries implements Intersectable {
 	 */
 	public Geometries(Intersectable... geometries)
 	{
-		_geometriesList = new LinkedList<Intersectable>();
-		add(geometries);
+		_geometriesList = new LinkedList<Intersectable>();// create empty list
+		add(geometries); //sends to the add function
 	}
+	
 	/*
 	 * add function
 	 */
@@ -41,10 +43,23 @@ public class Geometries implements Intersectable {
 
 	
 	@Override
+	/*
+	 * The function returns list of all the intersections points
+	 */
 	public List<Point3D> findIntersections(Ray ray)
 	{
 		// TODO Auto-generated method stub
-		return null;
+		Iterator<Intersectable> itr = _geometriesList.iterator(); // geometeriesList's list
+		List<Point3D> IntersectionsList = new LinkedList<Point3D>(); // create a empty list
+		while (itr.hasNext())
+		{
+			IntersectionsList.addAll(((Geometries) itr).findIntersections(ray));
+			
+		}
+		if (IntersectionsList.isEmpty())
+			return null;
+		
+		return IntersectionsList;
 	}
 
 }

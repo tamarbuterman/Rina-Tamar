@@ -60,19 +60,27 @@ public class Plane implements Geometry
 
 	@Override
 	public List<Point3D> findIntersections(Ray ray) {
+		try 
+		{
+			Vector p0 = ray._POO.subtract(_p);
+		}
+		catch(IllegalArgumentException e)
+		{
+			return null;
+		}
 		double nv = _normal.dotProduct(ray._direction);
 		if(isZero(nv))
 		{
 			return null;
-			//??????????????????????????
 		}
 		double t = _normal.dotProduct(ray._POO.subtract(_p))/nv;
 		if(t < 0)
 			return null;
-		Point3D p = ray._POO.add(ray._direction.scale(t));
+		Point3D p = ray.getPoint(t);
 		LinkedList<Point3D> ans = new LinkedList<Point3D>();
 		ans.add(p);
 		return ans;
+		
 	}
 
 }
