@@ -146,6 +146,8 @@ public class CameraTest {
 		}
 		assertEquals("Wrong number of points", 9, result6.size());
 		
+		
+		//TC07: (
     }
 
 }
