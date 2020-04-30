@@ -149,8 +149,28 @@ public class CameraTest {
 		
 		
 		//TC07: (9 pounts)
+		Plane plane2 =new Plane (new Point3D(0,0,3), new Vector(4,-1,-15));
+		List<Point3D> result7 = new LinkedList<Point3D>();
+		for(int i=0; i<Nx; i++)
+		{
+			for(int j=0; j<Ny; j++)
+			{
+				result7.addAll(plane2.findIntersections(camera1.constructRayThroughPixel(3, 3, i, j, 1, W, H)));		
+			}
+		}
+		assertEquals("Wrong number of points", 9, result7.size());
 		
 		//TC08: (6 points)
+		Plane plane3 =new Plane(new Point3D(0,2,3), new Vector(0,5,5));
+		List<Point3D> result8 = new LinkedList<Point3D>();
+		for(int i=0; i<Nx; i++)
+		{
+			for(int j=0; j<Ny; j++)
+			{
+				result8.addAll(plane3.findIntersections(camera1.constructRayThroughPixel(3, 3, i, j, 1, W, H)));		
+			}
+		}
+		assertEquals("Wrong number of points", 8, result8.size());
 		
 		//TC09: (1 points)
 		Triangle triangle1 = new Triangle(new Point3D(0, -1, 2), new Point3D(1, 1, 2), new Point3D(-1, 1, 2));
