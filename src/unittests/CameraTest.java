@@ -8,9 +8,10 @@ import java.util.List;
 import org.junit.Test;
 
 import elements.Camera;
-import elements.Ray;
+import elements.*;
 import geometries.Plane;
 import geometries.Sphere;
+import geometries.Triangle;
 import primitives.*;
 
 /**
@@ -70,8 +71,8 @@ public class CameraTest {
 		int Ny = 3;
 		int W = 3;
 		int H = 3;
-		Camera camera1 = new Camera(new Point3D(0, 0, 0), new Vector(new Point3D(0, 0, 1)), new Vector(new Point3D(0, 1, 0)));
-		Camera camera2 = new Camera(new Point3D(0, 0, -0.5), new Vector(new Point3D(0, 0, 1)), new Vector(new Point3D(0, 1, 0)));
+		Camera camera1 = new Camera(new Point3D(0, 0, 0), new Vector(new Point3D(0, 0, 1)), new Vector(new Point3D(0, -1, 0)));
+		Camera camera2 = new Camera(new Point3D(0, 0, -0.5), new Vector(new Point3D(0, 0, 1)), new Vector(new Point3D(0, -1, 0)));
 
 		//****Group test Sphere
 		//TC01: (2 points)
@@ -147,7 +148,34 @@ public class CameraTest {
 		assertEquals("Wrong number of points", 9, result6.size());
 		
 		
-		//TC07: (
+		//TC07: (9 pounts)
+		
+		//TC08: (6 points)
+		
+		//TC09: (1 points)
+		Triangle triangle1 = new Triangle(new Point3D(0, -1, 2), new Point3D(1, 1, 2), new Point3D(-1, 1, 2));
+		List<Point3D> result9 = new LinkedList<Point3D>();
+		for(int i=0; i<Nx; i++)
+		{
+			for(int j=0; j<Ny; j++)
+			{
+				result9.addAll(triangle1.findIntersections(camera1.constructRayThroughPixel(3, 3, i, j, 1, W, H)));		
+			}
+		}
+		assertEquals("Wrong number of points", 1, result9.size());
+		
+		//TC10: (2 points)
+				Triangle triangle2 = new Triangle(new Point3D(0, -20, 2), new Point3D(1, 1, 2), new Point3D(-1, 1, 2));
+				List<Point3D> result10 = new LinkedList<Point3D>();
+				for(int i=0; i<Nx; i++)
+				{
+					for(int j=0; j<Ny; j++)
+					{
+						result10.addAll(triangle2.findIntersections(camera1.constructRayThroughPixel(3, 3, i, j, 1, W, H)));		
+					}
+				}
+				assertEquals("Wrong number of points", 2, result10.size());
+		
     }
 
 }
