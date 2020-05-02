@@ -8,7 +8,7 @@ import java.util.List;
 import org.junit.Test;
 
 import elements.Camera;
-import elements.Ray;
+import primitives.Ray;
 import geometries.Plane;
 import geometries.Sphere;
 import primitives.*;
@@ -25,7 +25,7 @@ public class CameraTest {
      * {@link elements.Camera#constructRayThroughPixel(int, int, int, int, double, double, double)}.
      */
     @Test
-    public void testConstructRayThroughPixel() {
+    public void testConstructRayThroughPixel1() {
         Camera camera = new Camera(Point3D.ZERO, new Vector(0, 0, 1), new Vector(0, -1, 0));
         
         // ============ Equivalence Partitions Tests ==============

@@ -13,7 +13,7 @@ public class Geometries implements Intersectable {
 	/*
 	 * list of geometries
 	 */
-	LinkedList <Intersectable> _geometriesList;
+	public LinkedList <Intersectable> _geometriesList;
 	/*
 	 * Default constructor
 	 */
