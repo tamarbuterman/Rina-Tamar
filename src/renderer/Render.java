@@ -32,14 +32,49 @@ public class Render
 				List<Point3D> intersectionPoints = geometries.findIntersections(ray);
 				if (intersectionPoints.isEmpty())
 					_imageWriter.writePixel(j, i, background);
-
-
+				else
+				{
+					Point3D closestPoint = getClosestPoint(intersectionPoints);
+					_imageWriter.writePixel(j, i, calcColor(closestPoint).getColor());
+				}
 			}
 		}
 
 
 	}
-	public Color calcColor(Point3D p);
-	public Point3D getClosetPoint(List<Point3D> points): Point3D
+	public Color calcColor(Point3D p)
+	{
+		return _scene.getAmbientLight().GetIntensity();
+	}
+	public Point3D getClosestPoint(List<Point3D> points): Point3D
+	{
+		double distance = Double.MAX_VALUE;
+		Point3D p0 = _scene.getCamera()._p0;
+		Point3D minDistancePoint = null;
+		for(Point3D point:points)
+		{
+			if(p0.distance(point) < distance)
+			{
+				minDistancePoint = new Point3D(point);
+				distance = p0.distance(point);
+			}
+		}
+		return minDistancePoint;
+	}
 	public void printGrid(int interval, java.awt.Color color)
+	{
+		int nX = _imageWriter.getNx();
+		int nY = _imageWriter.getNy();
+		double w = _imageWriter.getWidth();
+		double h = _imageWriter.getHeight();
+		Color black = new Color(0,0,0);
+		for(int i = 0; i< nY; i++)
+		{	
+			for(int j= 0;j < nX; j++)
+			{
+				if(j % (nX/(h/100))==0 || i % (nY/(w/100)) == 0)
+					_imageWriter.writePixel(i, j, black);
+			}
+		}
+	}
 }
