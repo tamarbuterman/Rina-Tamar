@@ -66,5 +66,9 @@ public class Camera {
 	    
 		return ray;
 	}
+	public Point3D getP0()
+	{
+		return _p0;
+	}
 
 }

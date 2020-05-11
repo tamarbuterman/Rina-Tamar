@@ -41,6 +41,6 @@ public class RenderTest {
 
         render.renderImage();
         render.printGrid(50, java.awt.Color.YELLOW);
-        render.writeToImage();
+        render.getImageWriter().writeToImage();
     }
 }

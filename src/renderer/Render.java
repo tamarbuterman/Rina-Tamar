@@ -1,7 +1,5 @@
 package renderer;
 
-
-
 import java.util.List;
 
 import elements.Camera;
@@ -15,6 +13,17 @@ public class Render
 {
 	ImageWriter _imageWriter;
 	Scene _scene;
+	
+	public Render(ImageWriter imageWriter, Scene scene)
+	{
+		_imageWriter = imageWriter;
+		_scene = scene;
+	}
+	
+	public ImageWriter getImageWriter()
+	{
+		return _imageWriter;
+	}
 	
 	public void renderImage()
 	{
@@ -46,10 +55,10 @@ public class Render
 	{
 		return _scene.getAmbientLight().GetIntensity();
 	}
-	public Point3D getClosestPoint(List<Point3D> points): Point3D
+	public Point3D getClosestPoint(List<Point3D> points)//:Point3D
 	{
 		double distance = Double.MAX_VALUE;
-		Point3D p0 = _scene.getCamera()._p0;
+		Point3D p0 = _scene.getCamera().getP0();
 		Point3D minDistancePoint = null;
 		for(Point3D point:points)
 		{
@@ -67,13 +76,12 @@ public class Render
 		int nY = _imageWriter.getNy();
 		double w = _imageWriter.getWidth();
 		double h = _imageWriter.getHeight();
-		Color black = new Color(0,0,0);
 		for(int i = 0; i< nY; i++)
 		{	
 			for(int j= 0;j < nX; j++)
 			{
 				if(j % (nX/(h/100))==0 || i % (nY/(w/100)) == 0)
-					_imageWriter.writePixel(i, j, black);
+					_imageWriter.writePixel(i, j, java.awt.Color.black);
 			}
 		}
 	}
