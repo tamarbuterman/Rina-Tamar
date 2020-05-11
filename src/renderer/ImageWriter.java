@@ -63,7 +63,7 @@ public class ImageWriter {
 	public int getNy() { return _nY; }
     /**
      * View Plane X axis resolution
-     * @return the amount of horizontal pixels
+     * @return the amount of horizontal pixel
      */
 	public int getNx() { return _nX; }
 
