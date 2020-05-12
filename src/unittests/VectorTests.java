@@ -11,6 +11,8 @@ import primitives.Coordinate;
 import primitives.Point3D;
 import primitives.Vector;
 
+
+
 /**
  * Unit tests for primitives.Vector class
  * @author Rina and Tamar
@@ -18,6 +20,29 @@ import primitives.Vector;
  */
 public class VectorTests {
 
+
+	/**
+	 * Test method for {@link primitives.Vector#scale(double)}.
+	 */
+	@Test
+	public void testScale() {
+		Vector v1 = new Vector(1, 2, 3);
+	    Vector v2 = new Vector(-2, -4, -6);
+	    
+	    // ============ Equivalence Partitions Tests ==============
+	   
+		Vector temp = v1.scale(-2);
+		assertTrue("scale() result is not expected", temp.equals(v2));
+		
+		// =============== Boundary Values Tests ==================
+		try {
+            v1.scale(0);
+            fail("scale() for parallel vectors does not throw an exception");
+        } catch (Exception e) {assertTrue(true);}
+		
+	}
+
+	
 	/**
 	 * Test method for {@link primitives.Vector#add(primitives.Vector)}.
 	 */
@@ -103,26 +128,6 @@ public class VectorTests {
 
 	
 	/**
-	 * Test method for {@link primitives.Vector#scale(double)}.
-	 */
-	@Test
-	public void testScale() {
-		Vector v1 = new Vector(1, 2, 3);
-	    Vector v2 = new Vector(-2, -4, -6);
-	    
-	    // ============ Equivalence Partitions Tests ==============
-		Vector temp = v1.scale(-2);
-		assertTrue("scale() result is not expected", temp == v2);
-		
-		// =============== Boundary Values Tests ==================
-		try {
-            v1.scale(0);
-            fail("scale() for parallel vectors does not throw an exception");
-        } catch (Exception e) {assertTrue(true);}
-		
-	}
-
-	/**
 	 * Test method for {@link primitives.Vector#dotProduct(primitives.Vector)}.
 	 */
 	@Test
@@ -139,9 +144,9 @@ public class VectorTests {
         
         // ============ Equivalence Partitions Tests ==============
         double result = v1.dotProduct(v2);
-        assertTrue("dotProduct() result is not expected", result == -19);
+        assertTrue("dotProduct() result is not expected", result == -28);
         result = v3.dotProduct(v2);
-        assertTrue("dotProduct() result is not expected", result == -19);
+        assertTrue("dotProduct() result is not expected", result == 0);
         
 	}
 

@@ -1,6 +1,7 @@
 package unittests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,8 +28,8 @@ class SphereTests {
 		Sphere s1 = new Sphere(new Point3D(0, 0, 0), 5);
 		
 		// ============ Equivalence Partitions Tests ==============
-		Vector temp = new Vector(0, 4, 0);
-		assertEquals(temp, s1.getNormal(new Point3D(0, 4, 0)), "getNormal() result is not expected");
+		Vector temp = new Vector(0, 1, 0);
+		assertTrue( "getNormal() result is not expected", temp.equals(s1.getNormal(new Point3D(0, 4, 0))));
 	}
 	
 	/**

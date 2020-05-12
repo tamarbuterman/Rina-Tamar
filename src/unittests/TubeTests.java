@@ -1,6 +1,7 @@
 package unittests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,12 +25,13 @@ class TubeTests {
      */
 	@Test
 	void testGetNormal() {
-		Tube t1 = new Tube(new Ray(new Point3D(0,0,0), new Vector(1,2,3)), 3);
+		Tube t1 = new Tube(new Ray(new Point3D(0,0,0), new Vector(1,0,0)), 3);
 		
 		// ============ Equivalence Partitions Tests ==============
 				//Test for Tube Plane
-		assertEquals("", new Point3D(34, 68, 102), t1.getNormal(new Point3D(2,4,8)));
-		
+		Vector v = new Vector(2, 0, 0); 
+		assertTrue("",v.equals(t1.getNormal(new Point3D(2,4,8))));
+		 
 	}
 
 }

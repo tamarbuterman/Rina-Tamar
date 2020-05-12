@@ -29,7 +29,7 @@ public class RenderTest {
         scene.setAmbientLight(new AmbientLight(new Color(255, 191, 191), 1));
         Sphere sphere = new Sphere(new Point3D(0, 0, 100), 50);
         scene.addGeometries(sphere);
-
+ 
         scene.addGeometries(
                 new Triangle(new Point3D(100, 0, 100), new Point3D(0, 100, 100), new Point3D(100, 100, 100)),
                 new Triangle(new Point3D(100, 0, 100), new Point3D(0, -100, 100), new Point3D(100, -100, 100)),

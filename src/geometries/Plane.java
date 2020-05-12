@@ -31,7 +31,7 @@ public class Plane implements Geometry
 	 */
 	public Plane(Point3D p1, Point3D p2, Point3D p3)
 	{
-		_p = p1;
+		_p = new Point3D(p1);
 		
 		Vector v1 = new Vector(p2.subtract(p1));
 		Vector v2 = new Vector(p3.subtract(p1));
@@ -47,8 +47,8 @@ public class Plane implements Geometry
 	 */
 	public Plane(Point3D p, Vector n)
 	{
-		_p = p;
-		_normal = n;
+		_p = new Point3D(p);
+		_normal = new Vector(n);
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class Plane implements Geometry
 	public List<Point3D> findIntersections(Ray ray) {
 		try 
 		{
-			Vector p0 = ray._POO.subtract(_p);
+			Vector p0 = new Vector(ray._POO.subtract(_p));
 		}
 		catch(IllegalArgumentException e)
 		{

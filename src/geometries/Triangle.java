@@ -40,25 +40,25 @@ public class Triangle extends Plane
 	public Triangle(Point3D p1, Point3D p2, Point3D p3)
 	{
 		super(p1, p2, p3);
-		_p1 = p1;
-		_p2 = p2;
-		_p3 = p3;
+		_p1 = new Point3D(p1);
+		_p2 = new Point3D(p2);
+		_p3 = new Point3D(p3);
 		
 	}
 	
 	@Override
 	public List<Point3D> findIntersections(Ray ray)
-	{
-		List<Point3D> list1 = super.findIntersections(ray);
+	{ 
+		List<Point3D> list1 = new LinkedList(super.findIntersections(ray));
 		if(list1 == null)
 			return null;
-		Vector v1 = _p1.subtract(ray._POO);
-		Vector v2 = _p2.subtract(ray._POO);
-		Vector v3 = _p3.subtract(ray._POO);
+		Vector v1 = new Vector(_p1.subtract(ray._POO));
+		Vector v2 = new Vector(_p2.subtract(ray._POO));
+		Vector v3 = new Vector(_p3.subtract(ray._POO));
 		
-		Vector N1 = v1.crossProduct(v2);
-		Vector N2 = v2.crossProduct(v3);
-		Vector N3 = v3.crossProduct(v1);
+		Vector N1 = new Vector(v1.crossProduct(v2));
+		Vector N2 = new Vector(v2.crossProduct(v3));
+		Vector N3 = new Vector(v3.crossProduct(v1));
 		
 		double t1 = ray._direction.dotProduct(N1);
 		if(isZero(t1))

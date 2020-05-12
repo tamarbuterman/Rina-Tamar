@@ -159,13 +159,8 @@ public class Vector
 	 */
 	public Vector crossProduct(Vector other)
 	{
-		Vector newV = new Vector(_head);
-		Coordinate x = new Coordinate(_head._y._coord * other._head._z._coord - _head._z._coord * other._head._y._coord);
-		Coordinate y = new Coordinate(_head._z._coord * other._head._x._coord - _head._x._coord * other._head._z._coord);
-		Coordinate z = new Coordinate(_head._x._coord * other._head._y._coord - _head._y._coord * other._head._x._coord);
-		newV._head._x = x;
-		newV._head._y = y;
-		newV._head._z = z;
+		Vector newV = new Vector(new Point3D(_head._y._coord * other._head._z._coord - _head._z._coord * other._head._y._coord,_head._z._coord * other._head._x._coord - _head._x._coord * other._head._z._coord,_head._x._coord * other._head._y._coord - _head._y._coord * other._head._x._coord));
+	
 		return newV;
 	}
 	

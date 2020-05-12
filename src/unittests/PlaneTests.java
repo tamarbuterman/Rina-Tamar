@@ -42,7 +42,7 @@ public class PlaneTests {
             new Plane(new Point3D(0, 0, 1), new Point3D(0,1, 0),
                     new Point3D(0, 1, 0));
         	  fail("Constructed a plane with vertice on a side");
-        } catch (IllegalArgumentException e) {}
+        } catch (IllegalArgumentException e)  {assertTrue(true);}
         
 
 	}
@@ -72,7 +72,7 @@ public class PlaneTests {
 		 // ============ Equivalence Partitions Tests ==============
 		// TC01:Ray intersects the plane (1 point)
 	        List<Point3D> result = plane.findIntersections(new Ray(new Point3D(-2, 0.5, -1), new Vector(1, 1, 1)));
-	        assertEquals("Wrong number of points", 1, result.size());
+	        assertEquals("Wrong number of points", 1,result.size());
 	        assertEquals("Ray intersects the plane",List.of(new Point3D(2, 0, 0)), result);
 	        
 	  // TC02:Ray does not intersect the plane (0 points)
