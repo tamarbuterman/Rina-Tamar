@@ -81,7 +81,7 @@ public class Render
 			for(int j= 0;j < nX; j++)
 			{
 				if(j % (nX/(h/100))==0 || i % (nY/(w/100)) == 0)
-					_imageWriter.writePixel(i, j, java.awt.Color.black);
+					_imageWriter.writePixel(i, j, color);
 			}
 		}
 	}
