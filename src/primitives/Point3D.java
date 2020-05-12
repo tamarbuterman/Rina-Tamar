@@ -26,12 +26,12 @@ public class Point3D
 	 * @param y Coordinate value
 	 * @param z Coordinate value
 	 */
-	public Point3D(Coordinate x, Coordinate y, Coordinate z)
-	{
-		_x = x;
-		_y = y;
-		_z = z;
-	}
+//	public Point3D(Coordinate x, Coordinate y, Coordinate z)
+//	{
+//		_x = x;
+//		_y = y;
+//		_z = z;
+//	}
 	
 	/**
 	 * Point3D constructor receiving a Point3D values by double
@@ -42,12 +42,9 @@ public class Point3D
 	 */
 	public Point3D(double x, double y, double z)
 	{
-		Coordinate X = new Coordinate(x);
-		Coordinate Y = new Coordinate(y);
-		Coordinate Z = new Coordinate(z);
-		_x = X;
-		_y = Y;
-		_z = Z;
+		 _x = new Coordinate(x);
+		 _y = new Coordinate(y);
+		 _z = new Coordinate(z);
 	}
 	
 	/**
@@ -57,9 +54,9 @@ public class Point3D
 	 */
 	public Point3D(Point3D other)
 	{
-		_x = other._x;
-		_y = other._y;
-		_z = other._z;
+		_x = new Coordinate(other._x);
+		_y = new Coordinate(other._y);
+		_z = new Coordinate(other._z);
 	}
 	
 	/**

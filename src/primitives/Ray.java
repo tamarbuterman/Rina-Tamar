@@ -22,8 +22,8 @@ public class Ray
 	 */
 	public Ray(Point3D poo, Vector direction)
 	{
-		_POO = poo;
-		_direction = direction;
+		_POO = new Point3D(poo);
+		_direction = new Vector (direction.normalized());
 	}
 	
 	/**
@@ -33,8 +33,8 @@ public class Ray
 	 */
 	public Ray(Ray other)
 	{
-		_POO = other._POO;
-		_direction = other._direction;
+		_POO = new Point3D(other._POO);
+		_direction = new Vector(other._direction);
 	}
 	
 	/**

@@ -19,17 +19,40 @@ import primitives.Vector;
 public class VectorTests {
 
 	/**
-	 * Test method for {@link primitives.Vector#Vector(primitives.Coordinate, primitives.Coordinate, primitives.Coordinate)}.
+	 * Test method for {@link primitives.Vector#add(primitives.Vector)}.
 	 */
 	@Test
-	public void testVectorCoordinateCoordinateCoordinate() {
-		// ============ Boundary Value Analysis ==============
-        // test zero vector c-tor with coordinates
-        try {
-            new Vector(new Coordinate(0), new Coordinate(0), new Coordinate(0));
-            fail("ERROR: zero vector does not throw an exception");
-        } catch (Exception e) {}
+	public void testAdd() {
+		Vector v1 = new Vector(1, 2, 3);
+	    Vector v2 = new Vector(-2, -4, -6);
+	    Vector v3 = new Vector(-1, -2, -3);
+	    
+	    // ============ Equivalence Partitions Tests ==============
+		Vector temp = v1.add(v2);
+		assertEquals("add() result is not expected", temp, v3);
+		
+		// =============== Boundary Values Tests ==================
+		try {
+		        v1.add(v3);
+		        
+		        fail("add() for parallel vectors does not throw an exception");
+		    } catch (Exception e) 
+		{
+		    	assertTrue(true);}
 	}
+
+	/**
+	 * Test method for {@link primitives.Vector#Vector(primitives.Coordinate, primitives.Coordinate, primitives.Coordinate)}.
+	 */
+	//@Test
+	//public void testVectorCoordinateCoordinateCoordinate() {
+	//	// ============ Boundary Value Analysis ==============
+        // test zero vector c-tor with coordinates
+      ///  try {
+     //       new Vector(new Coordinate(0), new Coordinate(0), new Coordinate(0));
+    //        fail("ERROR: zero vector does not throw an exception");
+    //    } catch (Exception e) {}
+//	}
 
 	/**
 	 * Test method for {@link primitives.Vector#Vector(double, double, double)}.
@@ -78,26 +101,7 @@ public class VectorTests {
 		    } catch (Exception e) {}
 	}
 
-	/**
-	 * Test method for {@link primitives.Vector#add(primitives.Vector)}.
-	 */
-	@Test
-	public void testAdd() {
-		Vector v1 = new Vector(1, 2, 3);
-	    Vector v2 = new Vector(-2, -4, -6);
-	    Vector v3 = new Vector(-1, -2, -3);
-	    
-	    // ============ Equivalence Partitions Tests ==============
-		Vector temp = v1.add(v2);
-		assertEquals("add() result is not expected", temp, v3);
-		
-		// =============== Boundary Values Tests ==================
-		try {
-		        v1.add(v3);
-		        fail("add() for parallel vectors does not throw an exception");
-		    } catch (Exception e) {}
-	}
-
+	
 	/**
 	 * Test method for {@link primitives.Vector#scale(double)}.
 	 */
@@ -108,13 +112,13 @@ public class VectorTests {
 	    
 	    // ============ Equivalence Partitions Tests ==============
 		Vector temp = v1.scale(-2);
-		assertEquals("scale() result is not expected", temp, v2);
+		assertTrue("scale() result is not expected", temp == v2);
 		
 		// =============== Boundary Values Tests ==================
 		try {
             v1.scale(0);
             fail("scale() for parallel vectors does not throw an exception");
-        } catch (Exception e) {}
+        } catch (Exception e) {assertTrue(true);}
 		
 	}
 
@@ -177,7 +181,7 @@ public class VectorTests {
 		Vector v = new Vector(1, 2, 3);
 		
         // ============ Equivalence Partitions Tests ==============
-        assertTrue("ERROR: lengthSquared() wrong value", v.lengthSquared() == 14);
+        assertTrue("ERROR: lengthSquared() wrong value", v.lengthSquared()==14);
         
 	}
 
@@ -189,7 +193,7 @@ public class VectorTests {
 		Vector v = new Vector(0, 3, 4);
 		
 		// ============ Equivalence Partitions Tests ==============
-		assertTrue("ERROR: length() wrong value", v.lengthSquared() == 5);
+		assertTrue("ERROR: length() wrong value", v.length() == 5);
 	}
 
 	/**
