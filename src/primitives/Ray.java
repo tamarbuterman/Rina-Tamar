@@ -37,6 +37,14 @@ public class Ray
 		_direction = new Vector(other._direction);
 	}
 	
+	public Vector getDirectiion()
+	{
+		return _direction;
+	}
+	public Point3D getPoint()
+	{
+		return _POO;
+	}
 	/**
 	 * Ray value getter
 	 * 
