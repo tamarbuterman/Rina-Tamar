@@ -1,6 +1,7 @@
 package geometries;
 
 import static primitives.Util.isZero;
+import static primitives.Util.alignZero;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -62,7 +63,7 @@ public class Plane implements Geometry
 	public List<Point3D> findIntersections(Ray ray) {
 		try 
 		{
-			Vector p0 = new Vector(ray._POO.subtract(_p));
+			Vector p0 = new Vector(_p.subtract(ray._POO));
 		}
 		catch(IllegalArgumentException e)
 		{
@@ -73,9 +74,10 @@ public class Plane implements Geometry
 		{
 			return null;
 		}
-		double t = _normal.dotProduct(ray._POO.subtract(_p))/nv;
-		if(t < 0)
+		double t = alignZero(_normal.dotProduct(_p.subtract(ray._POO))/nv);
+		if(t <= 0)
 			return null;
+		
 		Point3D p = ray.getPoint(t);
 		LinkedList<Point3D> ans = new LinkedList<Point3D>();
 		ans.add(p);

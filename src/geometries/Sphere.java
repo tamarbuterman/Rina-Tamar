@@ -49,8 +49,7 @@ public class Sphere extends RadialGeometry
 		Vector L;
 		try
 		{
-		L = _center.subtract(ray._POO);
-		
+			L = _center.subtract(ray._POO);
 		}
 		catch(IllegalArgumentException e)
 		{
@@ -58,22 +57,26 @@ public class Sphere extends RadialGeometry
 		}
 		double tm = alignZero(ray._direction.dotProduct(L));
 		
-		double d = L.length() - tm*tm;
+		//double d = L.length() - tm*tm;
+		double d = L.lengthSquared() - tm*tm;
 		double th = alignZero(_radius*_radius - d*d);
 		if(th<=0)
 			return null;
 		double th2 = alignZero(Math.sqrt(th));
 		if(th2 == 0)
 			return null;
-		LinkedList<Point3D> ans = new LinkedList<Point3D>();
 		
 		double t1 = alignZero(tm - th2);
+		double t2 = alignZero(tm + th2);
+		if(t1<= 0 && t2<= 0)
+			return null;
+		LinkedList<Point3D> ans = new LinkedList<Point3D>();
 		if(t1 > 0)
 		{
 			Point3D p1 = ray.getPoint(t1);
 			ans.add(p1);
 		}
-		double t2 = alignZero(tm + th2);
+		
 		if(t2 > 0)
 		{
 			Point3D p2 = ray.getPoint(t2);
