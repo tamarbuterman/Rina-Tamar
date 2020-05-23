@@ -59,7 +59,8 @@ public class Sphere extends RadialGeometry
 		
 		//double d = L.length() - tm*tm;
 		double d = L.lengthSquared() - tm*tm;
-		double th = alignZero(_radius*_radius - d*d);
+		//double th = alignZero(_radius*_radius - d*d);
+		double th = alignZero(_radius*_radius - d);
 		if(th<=0)
 			return null;
 		double th2 = alignZero(Math.sqrt(th));
