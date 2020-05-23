@@ -73,7 +73,7 @@ class SphereTests {
         assertEquals("Ray in sphere",List.of(new Point3D(1.1123724356957942, 1.1123724356957942, 0)), result);
      
         // TC12: Ray starts at sphere and goes outside (0 points)
-     //   assertEquals("Ray's line out of sphere", null, sphere.findIntersections(new Ray(new Point3D(2, 0, 0), new Vector(1, 1, 0))));
+        assertEquals("Ray's line out of sphere", null, sphere.findIntersections(new Ray(new Point3D(2, 0, 0), new Vector(0.6, 0.8, 0))));
         
         // **** Group: Ray's line goes through the center
         // TC13: Ray starts before the sphere (2 points)
