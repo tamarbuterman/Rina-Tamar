@@ -26,6 +26,7 @@ public class ConstructRayThroughPixelTest {
 		int Ny = 3;
 		int W = 3;
 		int H = 3;
+		int count =0;
 		Camera camera1 = new Camera(new Point3D(0, 0, 0), new Vector(new Point3D(0, 0, 1)), new Vector(new Point3D(0, -1, 0)));
 		Camera camera2 = new Camera(new Point3D(0, 0, -0.5), new Vector(new Point3D(0, 0, 1)), new Vector(new Point3D(0, -1, 0)));
 
@@ -33,123 +34,152 @@ public class ConstructRayThroughPixelTest {
 		//TC01: (2 points)
 		Sphere sphere1 = new Sphere(new Point3D(0, 0, 3), 1);
 		List<Point3D> result1 = new LinkedList<Point3D>();
-		for(int i=0; i<Nx; i++)
+		for(int j=0; j<Nx; j++)
 		{
-			for(int j=0; j<Ny; j++)
+			for(int i=0; i<Ny; i++)
 			{
-				result1.addAll(sphere1.findIntersections(camera1.constructRayThroughPixel(3, 3, i, j, 1, W, H)));		
+				result1 = sphere1.findIntersections(camera1.constructRayThroughPixel(3, 3, j, i, 1, W, H));	
+				if(result1 != null)
+					count += result1.size();
 			}
 		}
-		assertEquals("Wrong number of points", 2, result1.size());
+		assertEquals("Wrong number of points", 2, count);
  
 		//TC02:(18 points)
+		count =0;
 		Sphere sphere2 = new Sphere(new Point3D(0, 0, 2.5), 2.5);
 		List<Point3D> result2 = new LinkedList<Point3D>();
 		for(int i=0; i<Nx; i++)
 		{
 			for(int j=0; j<Ny; j++)
 			{
-				result2.addAll(sphere2.findIntersections(camera2.constructRayThroughPixel(3, 3, i, j, 1, W, H)));		
+				result2 = sphere2.findIntersections(camera2.constructRayThroughPixel(3, 3, i, j, 1, W, H));
+				if(result2 != null)
+					count += result2.size();
 			}
 		}
-		assertEquals("Wrong number of points", 18, result2.size());
+		assertEquals("Wrong number of points", 18, count);
 		
 		//TC03:(10 points)
+		count = 0;
 		Sphere sphere3 = new Sphere(new Point3D(0, 0, 2), 2);
 		List<Point3D> result3 = new LinkedList<Point3D>();
 		for(int i=0; i<Nx; i++)
 		{
 			for(int j=0; j<Ny; j++)
 			{
-				result3.addAll(sphere3.findIntersections(camera2.constructRayThroughPixel(3, 3, i, j, 1, W, H)));		
+				result3 = sphere3.findIntersections(camera2.constructRayThroughPixel(3, 3, i, j, 1, W, H));	
+				if(result3 != null)
+					count += result3.size();
 			}
 		}
-		assertEquals("Wrong number of points", 10, result3.size());
+		assertEquals("Wrong number of points", 10, count);
 		
 		//TC04:(9 points)
+		count = 0;
 		Sphere sphere4 = new Sphere(new Point3D(0, 0, 2), 4);
 		List<Point3D> result4 = new LinkedList<Point3D>();
 		for(int i=0; i<Nx; i++)
 		{
 			for(int j=0; j<Ny; j++)
 			{
-				result4.addAll(sphere4.findIntersections(camera1.constructRayThroughPixel(3, 3, i, j, 1, W, H)));		
+				result4 = sphere4.findIntersections(camera1.constructRayThroughPixel(3, 3, i, j, 1, W, H));
+				if(result4 != null)
+					count += result4.size();
 			}
 		}
-		assertEquals("Wrong number of points", 9, result4.size());
+		assertEquals("Wrong number of points", 9, count);
 		
 		//TC05: (0 points)
+		count = 0;
 		Sphere sphere5 = new Sphere(new Point3D(0, 0, -1), 0.5);
 		List<Point3D> result5 = new LinkedList<Point3D>();
 		for(int i=0; i<Nx; i++)
 		{
 			for(int j=0; j<Ny; j++)
 			{
-				result5.addAll(sphere5.findIntersections(camera1.constructRayThroughPixel(3, 3, i, j, 1, W, H)));		
+				result5 = sphere5.findIntersections(camera1.constructRayThroughPixel(3, 3, i, j, 1, W, H));
+				if(result5 != null)
+					count += result5.size();
 			}
 		}
-		assertEquals("Wrong number of points", 0, result5.size());
+		assertEquals("Wrong number of points", 0, count);
 		
 		//TC06: (9 points)
+		count = 0;
 		Plane plane1 = new Plane(new Point3D(0, 0, 4), new Vector(0, 0, 1)); 
 		List<Point3D> result6 = new LinkedList<Point3D>();
 		for(int i=0; i<Nx; i++)
 		{
 			for(int j=0; j<Ny; j++)
 			{
-				result6.addAll(plane1.findIntersections(camera1.constructRayThroughPixel(3, 3, i, j, 1, W, H)));		
+				result6 = plane1.findIntersections(camera1.constructRayThroughPixel(3, 3, i, j, 1, W, H));
+				if(result6 != null)
+					count += result6.size();
 			}
 		}
-		assertEquals("Wrong number of points", 9, result6.size());
+		assertEquals("Wrong number of points", 9, count);
 		
 		
 		//TC07: (9 pounts)
+		count = 0;
 		Plane plane2 =new Plane (new Point3D(0,0,3), new Vector(4,-1,-15));
 		List<Point3D> result7 = new LinkedList<Point3D>();
 		for(int i=0; i<Nx; i++)
 		{
 			for(int j=0; j<Ny; j++)
 			{
-				result7.addAll(plane2.findIntersections(camera1.constructRayThroughPixel(3, 3, i, j, 1, W, H)));		
+				result7 = plane2.findIntersections(camera1.constructRayThroughPixel(3, 3, i, j, 1, W, H));
+				if(result7 != null)
+					count += result7.size();
 			}
 		}
-		assertEquals("Wrong number of points", 9, result7.size());
+		assertEquals("Wrong number of points", 9, count);
 		
 		//TC08: (6 points)
+		count = 0;
 		Plane plane3 =new Plane(new Point3D(0,2,3), new Vector(0,5,5));
 		List<Point3D> result8 = new LinkedList<Point3D>();
-		for(int i=0; i<Nx; i++)
+		for(int j=0; j<Nx; j++)
 		{
-			for(int j=0; j<Ny; j++)
+			for(int i=0; i<Ny; i++)
 			{
-				result8.addAll(plane3.findIntersections(camera1.constructRayThroughPixel(3, 3, i, j, 1, W, H)));		
+				result8 = plane3.findIntersections(camera1.constructRayThroughPixel(3, 3, j, i, 1, W, H));
+				if(result8 != null)
+					count += result8.size();
 			}
 		}
-		assertEquals("Wrong number of points", 8, result8.size());
+		assertEquals("Wrong number of points", 6, count);
 		
 		//TC09: (1 points)
+		count = 0;
 		Triangle triangle1 = new Triangle(new Point3D(0, -1, 2), new Point3D(1, 1, 2), new Point3D(-1, 1, 2));
 		List<Point3D> result9 = new LinkedList<Point3D>();
 		for(int i=0; i<Nx; i++)
 		{
 			for(int j=0; j<Ny; j++)
 			{
-				result9.addAll(triangle1.findIntersections(camera1.constructRayThroughPixel(3, 3, i, j, 1, W, H)));		
+				result9 = triangle1.findIntersections(camera1.constructRayThroughPixel(3, 3, i, j, 1, W, H));
+				if(result9 != null)
+					count += result9.size();
 			}
 		}
-		assertEquals("Wrong number of points", 1, result9.size());
+		assertEquals("Wrong number of points", 1, count);
 		
 		//TC10: (2 points)
+		count = 0;
 				Triangle triangle2 = new Triangle(new Point3D(0, -20, 2), new Point3D(1, 1, 2), new Point3D(-1, 1, 2));
 				List<Point3D> result10 = new LinkedList<Point3D>();
 				for(int i=0; i<Nx; i++)
 				{
 					for(int j=0; j<Ny; j++)
 					{
-						result10.addAll(triangle2.findIntersections(camera1.constructRayThroughPixel(3, 3, i, j, 1, W, H)));		
+						result10 = triangle2.findIntersections(camera1.constructRayThroughPixel(3, 3, i, j, 1, W, H));
+						if(result10 != null)
+							count += result10.size();
 					}
 				}
-				assertEquals("Wrong number of points", 2, result10.size());
+				assertEquals("Wrong number of points", 2, count);
 		
     }
 

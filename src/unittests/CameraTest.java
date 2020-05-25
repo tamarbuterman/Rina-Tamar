@@ -6,13 +6,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.Test;
-
-import elements.Camera;
-<<<<<<< HEAD
 import primitives.Ray;
-=======
+
 import elements.*;
->>>>>>> branch 'master' of https://github.com/tamarbuterman/Rina-Tamar.git
+
 import geometries.Plane;
 import geometries.Sphere;
 import geometries.Triangle;
@@ -43,7 +40,7 @@ public class CameraTest {
                 camera.constructRayThroughPixel(4, 4, 0, 0, 10, 8, 8));
 
         // TC03: 4X4 Side (0,1)
-        assertEquals("Bad ray", new Ray(Point3D.ZERO, new Vector(-1, -3, 10)),
+       assertEquals("Bad ray", new Ray(Point3D.ZERO, new Vector(-1, -3, 10)),
                 camera.constructRayThroughPixel(4, 4, 1, 0, 10, 8, 8));
 
         // TC04: 4X4 Inside (1,1)

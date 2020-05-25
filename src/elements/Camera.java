@@ -3,6 +3,7 @@ package elements;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
+import static primitives.Util.isZero;
 
 /**
  * 
@@ -27,14 +28,14 @@ public class Camera {
 	 */
 	public Camera(Point3D p0, Vector vTo, Vector vUp)
 	{
-		_p0 = p0;
+		_p0 = new Point3D(p0);
 		if(vTo.dotProduct(vUp) != 0)//if they are not orthogonal
 			throw new IllegalArgumentException("The vectors are not orthogonal");
 		
 		
-		_vUp = vUp.normalized();
-		_vTo = vTo.normalized();
-		_vRight = vUp.crossProduct(vTo).normalized();
+		_vUp = new Vector(vUp.normalized());
+		_vTo = new Vector(vTo.normalized());
+		_vRight = new Vector(vTo.crossProduct(vUp).normalized());
 	}
 	
 	/*
@@ -49,20 +50,32 @@ public class Camera {
 	public Ray constructRayThroughPixel(int nX, int nY, int j, int i, double screenDistance,
             double screenWidth, double screenHeight)
 	{
+		if (isZero(screenDistance)) {
+            throw new IllegalArgumentException("distance cannot be 0");
+        }
+		
 		//the center point of the center pixel
-		Point3D Pc = _p0.add(_vTo.scale(screenDistance));
+		Point3D Pc = new Point3D(_p0.add(_vTo.scale(screenDistance)));
 		//width of pixel
 	    double Rx = screenWidth / nX;
 	    //height of pixel
 	    double Ry = screenHeight / nY;
-	    double tempY = (j - nY / 2) * Ry - Ry/2;
-	    double tempX = (i - nX / 2) * Rx - Rx/2;
-	    Vector Vx = _vRight.scale(tempX);
-	    Vector Vy = _vRight.scale(tempY);
-	    Vector v = Vx.subtract(Vy);
+	    double tempY = ((i - nY / 2d) * Ry + Ry/2d);
+	    double tempX = ((j - nX / 2d) * Rx + Rx/2d);
+	    Point3D p = new Point3D(Pc);
+	    if(!isZero(tempX))
+	    {
+	    	 Vector Vx = new Vector(_vRight.scale(tempX));
+	    	p = p.add(Vx);
+	    }
+	    if(!isZero(tempY))
+	    {
+	    	Vector Vy = new Vector(_vUp.scale(-tempY));
+	    	p = p.add(Vy);
+	    }
+	    Vector v = new Vector(p.subtract(_p0));
 	    //the center point of the pixel
-	    Point3D p = Pc.add(v);
-	    Ray ray = new Ray(p,_vTo);
+	    Ray ray = new Ray(_p0,v);
 	    
 		return ray;
 	}

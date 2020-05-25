@@ -1,7 +1,6 @@
 package renderer;
 
 import java.util.List;
-
 import elements.Camera;
 import geometries.Intersectable;
 import primitives.Color;
@@ -32,9 +31,9 @@ public class Render
 		java.awt.Color background = _scene.getBackground().getColor();
 		int nX = _imageWriter.getNx();
 		int nY = _imageWriter.getNy();
-		for (int i=0; i<nX; i++)
+		for (int i=0; i<nY; i++)
 		{
-			for(int j=0; j<nY; j++)
+			for(int j=0; j<nX; j++)
 			{
 				Ray ray = camera.constructRayThroughPixel(nX, nY, j, i, _scene.getDistance(), _imageWriter.getWidth()
 						, _imageWriter.getHeight());
