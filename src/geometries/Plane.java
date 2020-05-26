@@ -43,7 +43,7 @@ public class Plane extends Geometry
 	
 	public Color getEmiision()
 	{
-		return 
+		return null;
 	}
 	
 	/**
@@ -85,11 +85,11 @@ public class Plane extends Geometry
 		if(t <= 0 )
 			return null;
 		
-		return List.of(new GeoPoint(this, ray.getPoint(t)));
-		/*Point3D p = ray.getPoint(t);
+		//Point3D p = ray.getPoint(t);
+		GeoPoint gp = (this, new Point3D(ray.getPoint(t)));
 		LinkedList<GeoPoint> ans = new LinkedList<GeoPoint>();
-		ans.add(p);
-		return ans;*/
+		ans.add(gp);
+		return ans;
 		
 	}
 

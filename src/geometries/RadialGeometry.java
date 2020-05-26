@@ -8,7 +8,7 @@ import primitives.Vector;
  * @author Tamar and Rina
  *
  */
-public abstract class RadialGeometry implements Geometry
+public abstract class RadialGeometry extends Geometry
 {
 	/**
 	 * 
@@ -42,7 +42,7 @@ public abstract class RadialGeometry implements Geometry
 		return _radius;
 	}
 	
-	@Override
+	//@Override
 	public Vector getNormal(Point3D p)
 	{
 		return null;

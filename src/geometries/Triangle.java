@@ -47,9 +47,9 @@ public class Triangle extends Plane
 	}
 	
 	@Override
-	public List<Point3D> findIntersections(Ray ray)
+	public List<GeoPoint> findIntersections(Ray ray)
 	{ 
-		List<Point3D> list1 = new LinkedList(super.findIntersections(ray));
+		List<GeoPoint> list1 = new LinkedList(super.findIntersections(ray));
 		if(list1 == null)
 			return null;
 		Vector v1 = new Vector(_p1.subtract(ray._POO));
@@ -71,7 +71,14 @@ public class Triangle extends Plane
 			return null;
 		
 		if(t1 >0 && t2 > 0 && t3 > 0 || t1<0 && t2 < 0 && t3 < 0)
-			return list1;
+		{
+			List<GeoPoint> result = new LinkedList<>();
+	        for (GeoPoint geo : list1)
+	        {
+	            result.add(new GeoPoint(this, geo.getPoint()));
+	        }
+	        return result;
+		}
 		
 		return null;
 	}
