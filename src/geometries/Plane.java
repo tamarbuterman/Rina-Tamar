@@ -101,7 +101,7 @@ public class Plane extends Geometry
 			return null;
 		
 		//Point3D p = ray.getPoint(t);
-		GeoPoint gp = (this, new Point3D(ray.getPoint(t)));
+		GeoPoint gp = new GeoPoint(this, new Point3D(ray.getPoint(t)));
 		LinkedList<GeoPoint> ans = new LinkedList<GeoPoint>();
 		ans.add(gp);
 		return ans;

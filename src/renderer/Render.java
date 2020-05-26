@@ -38,12 +38,14 @@ public class Render
 			{
 				Ray ray = camera.constructRayThroughPixel(nX, nY, j, i, _scene.getDistance(), _imageWriter.getWidth()
 						, _imageWriter.getHeight());
-				List<Point3D> intersectionPoints = geometries.findIntersections(ray);
-				if (intersectionPoints.isEmpty())
+				List<GeoPoint> intersectionPoints = geometries.findIntersections(ray);
+				//if (intersectionPoints.isEmpty())
+				//	_imageWriter.writePixel(j, i, background);
+				if(intersectionPoints == null)
 					_imageWriter.writePixel(j, i, background);
 				else
 				{
-					Point3D closestPoint = getClosestPoint(intersectionPoints);
+					GeoPoint closestPoint = getClosestPoint(intersectionPoints);
 					_imageWriter.writePixel(j, i, calcColor(closestPoint).getColor());
 				}
 			}
@@ -53,8 +55,7 @@ public class Render
 	}
 	public Color calcColor(GeoPoint p)
 	{
-		
-		return _scene.getAmbientLight().GetIntensity();
+		return _scene.getAmbientLight().GetIntensity().add(p.getEmission());
 	}
 	
 	public GeoPoint getClosestPoint(List<GeoPoint> points)//:Point3D
@@ -87,4 +88,9 @@ public class Render
 			}
 		}
 	}
+	
+	public void writeToImage() {
+        _imageWriter.writeToImage();
+    }
+
 }

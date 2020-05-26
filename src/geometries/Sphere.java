@@ -62,7 +62,7 @@ public class Sphere extends RadialGeometry
 		}
 		catch(IllegalArgumentException e)
 		{
-			return List.of(this, new Point3D(_center.add(ray._direction.scale(_radius))));
+			return List.of(new GeoPoint(this, new Point3D(_center.add(ray._direction.scale(_radius)))));
 		}
 		double tm = alignZero(ray._direction.dotProduct(L));
 		

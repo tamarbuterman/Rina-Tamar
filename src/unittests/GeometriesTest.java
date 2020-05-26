@@ -8,7 +8,7 @@ import geometries.*;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
-
+import geometries.Intersectable.GeoPoint;
 
 public class GeometriesTest
 {
@@ -28,7 +28,7 @@ public class GeometriesTest
 		assertEquals("Ray not included in the plane", null, g.findIntersections(new Ray(new Point3D(-1, 0, 0), new Vector(1, 1, 0))));
 			
 		//TC13: One shape cut		
-		List<Point3D> l = g.findIntersections(new Ray(new Point3D(-1, 0, 0), new Vector(3, 1, 0)));
+		List<GeoPoint> l = g.findIntersections(new Ray(new Point3D(-1, 0, 0), new Vector(3, 1, 0)));
 		assertEquals("Ray not included in the plane", 2, l.size());
 
 			

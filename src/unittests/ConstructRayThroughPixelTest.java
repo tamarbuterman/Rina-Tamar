@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.Test;
 
 import elements.Camera;
+import geometries.Intersectable.GeoPoint;
 import geometries.Plane;
 import geometries.Sphere;
 import geometries.Triangle;
@@ -33,7 +34,7 @@ public class ConstructRayThroughPixelTest {
 		//****Group test Sphere
 		//TC01: (2 points)
 		Sphere sphere1 = new Sphere(new Point3D(0, 0, 3), 1);
-		List<Point3D> result1 = new LinkedList<Point3D>();
+		List<GeoPoint> result1 = new LinkedList<GeoPoint>();
 		for(int j=0; j<Nx; j++)
 		{
 			for(int i=0; i<Ny; i++)
@@ -48,7 +49,7 @@ public class ConstructRayThroughPixelTest {
 		//TC02:(18 points)
 		count =0;
 		Sphere sphere2 = new Sphere(new Point3D(0, 0, 2.5), 2.5);
-		List<Point3D> result2 = new LinkedList<Point3D>();
+		List<GeoPoint> result2 = new LinkedList<GeoPoint>();
 		for(int i=0; i<Nx; i++)
 		{
 			for(int j=0; j<Ny; j++)
@@ -63,7 +64,7 @@ public class ConstructRayThroughPixelTest {
 		//TC03:(10 points)
 		count = 0;
 		Sphere sphere3 = new Sphere(new Point3D(0, 0, 2), 2);
-		List<Point3D> result3 = new LinkedList<Point3D>();
+		List<GeoPoint> result3 = new LinkedList<GeoPoint>();
 		for(int i=0; i<Nx; i++)
 		{
 			for(int j=0; j<Ny; j++)
@@ -78,7 +79,7 @@ public class ConstructRayThroughPixelTest {
 		//TC04:(9 points)
 		count = 0;
 		Sphere sphere4 = new Sphere(new Point3D(0, 0, 2), 4);
-		List<Point3D> result4 = new LinkedList<Point3D>();
+		List<GeoPoint> result4 = new LinkedList<GeoPoint>();
 		for(int i=0; i<Nx; i++)
 		{
 			for(int j=0; j<Ny; j++)
@@ -93,7 +94,7 @@ public class ConstructRayThroughPixelTest {
 		//TC05: (0 points)
 		count = 0;
 		Sphere sphere5 = new Sphere(new Point3D(0, 0, -1), 0.5);
-		List<Point3D> result5 = new LinkedList<Point3D>();
+		List<GeoPoint> result5 = new LinkedList<GeoPoint>();
 		for(int i=0; i<Nx; i++)
 		{
 			for(int j=0; j<Ny; j++)
@@ -108,7 +109,7 @@ public class ConstructRayThroughPixelTest {
 		//TC06: (9 points)
 		count = 0;
 		Plane plane1 = new Plane(new Point3D(0, 0, 4), new Vector(0, 0, 1)); 
-		List<Point3D> result6 = new LinkedList<Point3D>();
+		List<GeoPoint> result6 = new LinkedList<GeoPoint>();
 		for(int i=0; i<Nx; i++)
 		{
 			for(int j=0; j<Ny; j++)
@@ -124,7 +125,7 @@ public class ConstructRayThroughPixelTest {
 		//TC07: (9 pounts)
 		count = 0;
 		Plane plane2 =new Plane (new Point3D(0,0,3), new Vector(4,-1,-15));
-		List<Point3D> result7 = new LinkedList<Point3D>();
+		List<GeoPoint> result7 = new LinkedList<GeoPoint>();
 		for(int i=0; i<Nx; i++)
 		{
 			for(int j=0; j<Ny; j++)
@@ -139,7 +140,7 @@ public class ConstructRayThroughPixelTest {
 		//TC08: (6 points)
 		count = 0;
 		Plane plane3 =new Plane(new Point3D(0,2,3), new Vector(0,5,5));
-		List<Point3D> result8 = new LinkedList<Point3D>();
+		List<GeoPoint> result8 = new LinkedList<GeoPoint>();
 		for(int j=0; j<Nx; j++)
 		{
 			for(int i=0; i<Ny; i++)
@@ -154,7 +155,7 @@ public class ConstructRayThroughPixelTest {
 		//TC09: (1 points)
 		count = 0;
 		Triangle triangle1 = new Triangle(new Point3D(0, -1, 2), new Point3D(1, 1, 2), new Point3D(-1, 1, 2));
-		List<Point3D> result9 = new LinkedList<Point3D>();
+		List<GeoPoint> result9 = new LinkedList<GeoPoint>();
 		for(int i=0; i<Nx; i++)
 		{
 			for(int j=0; j<Ny; j++)
@@ -169,7 +170,7 @@ public class ConstructRayThroughPixelTest {
 		//TC10: (2 points)
 		count = 0;
 				Triangle triangle2 = new Triangle(new Point3D(0, -20, 2), new Point3D(1, 1, 2), new Point3D(-1, 1, 2));
-				List<Point3D> result10 = new LinkedList<Point3D>();
+				List<GeoPoint> result10 = new LinkedList<GeoPoint>();
 				for(int i=0; i<Nx; i++)
 				{
 					for(int j=0; j<Ny; j++)

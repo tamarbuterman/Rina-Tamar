@@ -46,15 +46,15 @@ public class Geometries implements Intersectable {
 	/*
 	 * The function returns list of all the intersections points
 	 */
-	public List<Point3D> findIntersections(Ray ray)
+	public List<GeoPoint> findIntersections(Ray ray)
 	{
-		// TODO Auto-generated method stub
-		Iterator<Intersectable> itr = _geometriesList.iterator(); // geometeriesList's list
-		List<Point3D> IntersectionsList = new LinkedList<Point3D>(); // create a empty list
-		while (itr.hasNext())
+		// TODO Auto-generated method stub		
+		List<GeoPoint> IntersectionsList = new LinkedList<GeoPoint>(); // create a empty list
+		for (Intersectable geometry:_geometriesList)
 		{
-			IntersectionsList.addAll(((Geometries) itr).findIntersections(ray));
-			
+			List<GeoPoint> TempIntersections = geometry.findIntersections(ray);
+			if(TempIntersections != null)
+				IntersectionsList.addAll(TempIntersections);
 		}
 		if (IntersectionsList.isEmpty())
 			return null;
