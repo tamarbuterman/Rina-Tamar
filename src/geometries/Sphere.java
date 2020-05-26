@@ -45,7 +45,7 @@ public class Sphere extends RadialGeometry
 	
 	
 	@Override
-	public List<Point3D> findIntersections(Ray ray) {
+	public List<GeoPoint> findIntersections(Ray ray) {
 		Vector L;
 		try
 		{
@@ -53,7 +53,7 @@ public class Sphere extends RadialGeometry
 		}
 		catch(IllegalArgumentException e)
 		{
-			return List.of(new Point3D(_center.add(ray._direction.scale(_radius))));
+			return List.of(this, new Point3D(_center.add(ray._direction.scale(_radius))));
 		}
 		double tm = alignZero(ray._direction.dotProduct(L));
 		
@@ -71,17 +71,19 @@ public class Sphere extends RadialGeometry
 		double t2 = alignZero(tm + th2);
 		if(t1<= 0 && t2<= 0)
 			return null;
-		LinkedList<Point3D> ans = new LinkedList<Point3D>();
+		LinkedList<GeoPoint> ans = new LinkedList<GeoPoint>();
 		if(t1 > 0)
 		{
-			Point3D p1 = ray.getPoint(t1);
-			ans.add(p1);
+			//Point3D p1 = ray.getPoint(t1);
+			GeoPoint gp1 = new GeoPoint(this, ray.getPoint(t1));
+			ans.add(gp1);
 		}
 		
 		if(t2 > 0)
 		{
-			Point3D p2 = ray.getPoint(t2);
-			ans.add(p2);
+			//Point3D p2 = ray.getPoint(t2);
+			GeoPoint gp2 = new GeoPoint(this, ray.getPoint(t2));
+			ans.add(gp2);
 		}
 		return ans;
 	}

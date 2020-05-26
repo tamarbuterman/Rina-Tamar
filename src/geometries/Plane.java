@@ -60,7 +60,7 @@ public class Plane implements Geometry
 
 
 	@Override
-	public List<Point3D> findIntersections(Ray ray) {
+	public List<GeoPoint> findIntersections(Ray ray) {
 		try 
 		{
 			Vector p0 = new Vector(_p.subtract(ray._POO));
@@ -78,9 +78,10 @@ public class Plane implements Geometry
 		if(t <= 0)
 			return null;
 		
-		Point3D p = ray.getPoint(t);
-		LinkedList<Point3D> ans = new LinkedList<Point3D>();
-		ans.add(p);
+		//Point3D p = ray.getPoint(t);
+		GeoPoint gp = (this, ray.getPoint(t));
+		LinkedList<GeoPoint> ans = new LinkedList<GeoPoint>();
+		ans.add(gp);
 		return ans;
 		
 	}
