@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.junit.Test;
 
+import geometries.GeoPoint;
+import geometries.Intersectable;
 import geometries.Plane;
 import geometries.Polygon;
 import primitives.Point3D;
@@ -71,7 +73,7 @@ public class PlaneTests {
 		 
 		 // ============ Equivalence Partitions Tests ==============
 		// TC01:Ray intersects the plane (1 point)
-	        List<Point3D> result = plane.findIntersections(new Ray(new Point3D(-2, 0.5, -1), new Vector(1, 1, 1)));
+	        List<Intersectable.GeoPoint> result = plane.findIntersections(new Ray(new Point3D(-2, 0.5, -1), new Vector(1, 1, 1)));
 	        assertEquals("Wrong number of points", 1,result.size());
 	        assertEquals("Ray intersects the plane",List.of(new Point3D(-1, 1.5, 0)), result);
 	        
