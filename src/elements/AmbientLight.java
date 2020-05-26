@@ -7,13 +7,8 @@ import primitives.*;
  * @author DELL
  *
  */
-public class AmbientLight
-{
-	/**
-	 * 
-	 */
-	Color _intensity;
-	
+public class AmbientLight extends Light
+{	
 	/**
 	 * 
 	 * @param iA
@@ -21,15 +16,7 @@ public class AmbientLight
 	 */
 	public AmbientLight(Color iA, double kA)
 	{
-		_intensity = iA.scale(kA);
+		super(iA.scale(kA));
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
-	public Color GetIntensity() 
-	{
-		return _intensity;
-	}
 }
