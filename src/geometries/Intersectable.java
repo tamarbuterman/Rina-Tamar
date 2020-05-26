@@ -27,6 +27,7 @@ public interface Intersectable
 	  
 	    }
 	   // public boolean equals() {}
+	    public Point3D getPoint() {return point;}
 	}
 
 

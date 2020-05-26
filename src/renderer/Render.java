@@ -7,6 +7,7 @@ import primitives.Color;
 import primitives.Point3D;
 import primitives.Ray;
 import scene.Scene;
+import geometries.Intersectable.GeoPoint;
 
 public class Render 
 {
@@ -50,21 +51,22 @@ public class Render
 
 
 	}
-	public Color calcColor(Point3D p)
+	public Color calcColor(GeoPoint p)
 	{
 		return _scene.getAmbientLight().GetIntensity();
 	}
-	public Point3D getClosestPoint(List<Point3D> points)//:Point3D
+	
+	public GeoPoint getClosestPoint(List<GeoPoint> points)//:Point3D
 	{
 		double distance = Double.MAX_VALUE;
 		Point3D p0 = _scene.getCamera().getP0();
-		Point3D minDistancePoint = null;
-		for(Point3D point:points)
+		GeoPoint minDistancePoint = null;
+		for(GeoPoint point:points)
 		{
-			if(p0.distance(point) < distance)
+			if(p0.distance(point.getPoint()) < distance)
 			{
-				minDistancePoint = new Point3D(point);
-				distance = p0.distance(point);
+				minDistancePoint = point;
+				distance = p0.distance(point.getPoint());
 			}
 		}
 		return minDistancePoint;
