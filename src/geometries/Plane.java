@@ -41,6 +41,11 @@ public class Plane extends Geometry
         
 	}
 	
+	public Color getEmiision()
+	{
+		return null;
+	}
+	
 	/**
 	 *  Seconed constractor, gets vector and point
 	 * @param p point
@@ -75,11 +80,13 @@ public class Plane extends Geometry
 			return null;
 		}
 		double t = alignZero(_normal.dotProduct(_p.subtract(ray._POO))/nv);
-		if(t <= 0)
+        //double tdist = alignZero(maxDistance - t);
+
+		if(t <= 0 )
 			return null;
 		
 		//Point3D p = ray.getPoint(t);
-		GeoPoint gp = (this, ray.getPoint(t));
+		GeoPoint gp = (this, new Point3D(ray.getPoint(t)));
 		LinkedList<GeoPoint> ans = new LinkedList<GeoPoint>();
 		ans.add(gp);
 		return ans;

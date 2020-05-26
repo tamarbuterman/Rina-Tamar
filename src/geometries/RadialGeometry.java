@@ -42,7 +42,7 @@ public abstract class RadialGeometry extends Geometry
 		return _radius;
 	}
 	
-	@Override
+	//@Override
 	public Vector getNormal(Point3D p)
 	{
 		return null;

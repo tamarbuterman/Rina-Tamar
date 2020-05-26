@@ -9,8 +9,25 @@ import primitives.*;
  * @author Rina and Tamar
  *
  */
-public interface Geometry extends Intersectable  
+public abstract class Geometry implements Intersectable  
 {
-	public Vector getNormal(Point3D p);
+	protected Color _emission;
+	
+	/*
+	 * constructor
+	 */
+	public Geometry(Color emission)
+	{
+		_emission = new Color(emission);
+	}
+	public Geometry()
+	{
+		this(Color.BLACK);
+	}
+	/*
+	 * return the emission 
+	 */
+	public Color getEmission() {return _emission;}
+	abstract public Vector getNormal(Point3D p);
 
 }
