@@ -16,7 +16,7 @@ import primitives.Vector;
  * @author Tamat and Rina
  *
  */
-public class Plane implements Geometry
+public class Plane extends Geometry
 {
 	/**
 	 * Point and vector 
