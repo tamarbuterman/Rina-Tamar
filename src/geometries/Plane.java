@@ -5,6 +5,7 @@ import static primitives.Util.alignZero;
 import java.util.LinkedList;
 import java.util.List;
 
+import primitives.Color;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
@@ -40,10 +41,24 @@ public class Plane extends Geometry
 		
         
 	}
-	
+	/*
+	 * plane constructor, gets 3 points and color
+	 * @param p1
+	 * @param p2
+	 * @param p3
+	 * @param color
+	 */
+	public Plane(Point3D p1, Point3D p2, Point3D p3, Color color)
+	{
+		this(p1,p2,p3);
+		super._emission = new Color(color);
+	}
+	/*
+	 * 
+	 */
 	public Color getEmiision()
 	{
-		return null;
+		return super._emission;
 	}
 	
 	/**

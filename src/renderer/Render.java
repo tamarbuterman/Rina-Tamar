@@ -53,6 +53,7 @@ public class Render
 	}
 	public Color calcColor(GeoPoint p)
 	{
+		
 		return _scene.getAmbientLight().GetIntensity();
 	}
 	

@@ -46,6 +46,16 @@ public class Triangle extends Plane
 		
 	}
 	
+	/*
+	 * 
+	 */
+	public Triangle(Point3D p1, Point3D p2, Point3D p3, Color color)
+	{
+		super(p1,p2,p3, color);
+		_p1 = new Point3D(p1);
+		_p2 = new Point3D(p2);
+		_p3 = new Point3D(p3);
+	}
 	@Override
 	public List<GeoPoint> findIntersections(Ray ray)
 	{ 

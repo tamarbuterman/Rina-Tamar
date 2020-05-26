@@ -28,6 +28,15 @@ public class Cylinder extends Tube
 		_hight = h;
 	}
 	
+	/*
+	 * 
+	 */
+	public Cylinder(double h, double r, Ray axisRay, Color color)
+	{
+		super(axisRay, r, color);
+		_hight = h;
+
+	}
 	/**
 	 * 
 	 */

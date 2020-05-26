@@ -26,8 +26,15 @@ public class Tube extends RadialGeometry
 		super(r);
 		_axisRay = axisRay;
 	} 
-	
-	
+	/*
+	 * 
+	 */
+	public Tube(Ray axisRay, double r, Color color)
+	{
+		super(r);
+		_axisRay = axisRay;
+		super._emission = color;
+	}
 	@Override
 	public Vector getNormal(Point3D p) {
 		Vector v1 = new Vector(_axisRay._direction);

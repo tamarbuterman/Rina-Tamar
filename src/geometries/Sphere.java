@@ -31,6 +31,15 @@ public class Sphere extends RadialGeometry
 		_center = c;
 	}
 	
+	/*
+	 * Sphere constructor
+	 */
+	public Sphere(Point3D c, double r, Color color)
+	{
+		super(r);
+		_center = c;
+		super._emission = color;
+	}
 	/**
 	 * get sphere normal
 	 * @param p point on the sphere
