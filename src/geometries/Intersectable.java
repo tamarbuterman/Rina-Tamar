@@ -8,7 +8,7 @@ import primitives.*;
 public interface Intersectable
 {
 	
-	public List<Point3D> findIntersections(Ray ray);
+	public List<GeoPoint> findIntersections(Ray ray);
 	/*
 	 * GeoPoint class 
 	 */
