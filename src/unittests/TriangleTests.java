@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import geometries.Intersectable;
 import geometries.Triangle;
 import primitives.Point3D;
 import primitives.Ray;
@@ -45,7 +46,7 @@ class TriangleTests
 		
 		// ============ Equivalence Partitions Tests ==============
 		// TC01:Ray inside triangle (1 ptions)
-		List<Point3D> result = triangle.findIntersections(new Ray(new Point3D(-1, 8, -5), new Vector(1, -7, 5)));
+		List<Intersectable.GeoPoint> result = triangle.findIntersections(new Ray(new Point3D(-1, 8, -5), new Vector(1, -7, 5)));
         assertEquals("Wrong number of points", 1, result.size());
         assertEquals("Ray intersects the triangle",List.of(new Point3D(0, 1, 0)), result);
         
