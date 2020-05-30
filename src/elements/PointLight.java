@@ -18,9 +18,11 @@ public class PointLight extends Light implements LightSource
 	}
 
 	@Override
-	public Color getIntensity(Point3D p) {
+	public Color getIntensity(Point3D p) 
+	{
 		// TODO Auto-generated method stub
-		return null;
+
+		return super.getIntensity();
 	}
 
 	@Override
@@ -30,6 +32,5 @@ public class PointLight extends Light implements LightSource
 	        }
 	        return p.subtract(_position).normalize();
 	    }
-	}
-
 }
+

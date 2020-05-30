@@ -1,8 +1,13 @@
 package scene;
 
 
+
+import java.util.LinkedList;
+import java.util.List;
+
 import elements.AmbientLight;
 import elements.Camera;
+import elements.LightSource;
 import geometries.Geometries;
 import geometries.Intersectable;
 import primitives.Color;
@@ -15,11 +20,13 @@ public class Scene
 	Geometries _geometries;
 	Camera _camera;
 	double _distance;
+	List<LightSource> _lights;
 	
 	public Scene(String name)
 	{
 		_name = name;
 		_geometries = new Geometries();
+		_lights = new LinkedList<LightSource>();
 	}
 	public String getName()
 	{
@@ -64,5 +71,9 @@ public class Scene
 	public void addGeometries(Intersectable... geometries) 
 	{
 		_geometries.add(geometries);
+	}
+	public List<LightSource> getLights()
+	{
+		return _lights;
 	}
 }
