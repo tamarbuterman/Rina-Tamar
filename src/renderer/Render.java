@@ -1,13 +1,20 @@
 package renderer;
 
 import java.util.List;
+
 import elements.Camera;
+import elements.LightSource;
 import geometries.Intersectable;
 import primitives.Color;
+import primitives.Material;
 import primitives.Point3D;
 import primitives.Ray;
+import primitives.Vector;
 import scene.Scene;
 import geometries.Intersectable.GeoPoint;
+import static primitives.Util.alignZero;
+import static primitives.Util.isZero;;
+
 
 public class Render 
 {
@@ -53,9 +60,50 @@ public class Render
 
 
 	}
+	 private Color calcSpecular(double ks, Vector l, Vector n, double nl, Vector V, int nShininess, Color ip) {
+	        double p = nShininess;
+	        if (isZero(nl)) {
+	            throw new IllegalArgumentException("nl cannot be Zero for scaling the normal vector");
+	        }
+	        Vector R = l.add(n.scale(-2 * nl)); // nl must not be zero!
+	        double VR = alignZero(V.dotProduct(R));
+	        if (VR >= 0) {
+	            return Color.BLACK; // view from direction opposite to r vector
+	        }
+	        // [rs,gs,bs]ks(-V.R)^p
+	        return ip.scale(ks * Math.pow(-1d * VR, p));
+	    }
+	 
+	 private Color calcDiffusive(double kd, double nl, Color ip) {
+	        return ip.scale(Math.abs(nl) * kd);
+	    }
+
+	    private boolean sign(double val) {
+	        return (val > 0d);
+	    }
+	/*
+	 * 
+	 */
 	public Color calcColor(GeoPoint p)
 	{
-		return _scene.getAmbientLight().GetIntensity().add(p.getEmission());
+		Color color= _scene.getAmbientLight().getIntensity().add(p.getEmission());
+		color = color.add(p.geometry.getEmission());
+		Vector v = p.point.subtract(_scene.getCamera().getP0()).normalize();
+		Vector n = p.geometry.getNormal(p.point);
+		Material material =p.geometry.getMaterial();
+		int nShininess = material.getShin();
+		double kd = material.getKD();
+		double ks = material.getKS();
+		for (LightSource lightSource : _scene.getLights()) {
+		Vector l = lightSource.getL(p.point);
+		if (sign(n.dotProduct(l)) == sign(n.dotProduct(v))) {
+		Color lightIntensity = lightSource.getIntensity(p.point);
+		color = color.add(calcDiffusive(kd, l, n, lightIntensity),
+		calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+		}}
+		return color;
+
+		
 	}
 	
 	public GeoPoint getClosestPoint(List<GeoPoint> points)//:Point3D

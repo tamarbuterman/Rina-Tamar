@@ -76,4 +76,12 @@ public class Scene
 	{
 		return _lights;
 	}
+	public void addLights(LightSource... lights)
+	{
+		int size = lights.length;
+		for(int i=0; i<size; i++)
+		{
+			_lights.add(lights[i]);
+		}
+	}
 }

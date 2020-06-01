@@ -1,6 +1,7 @@
 package geometries;
 
 import primitives.Color;
+import primitives.Material;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
@@ -41,6 +42,11 @@ public class Cylinder extends Tube
 	/**
 	 * 
 	 */
+	public Cylinder(double h, double r, Ray axisRay, Color color, Material material)
+	{
+		this(h,r,axisRay,color);
+		super._material = material;
+	}
 	@Override
 	public Vector getNormal(Point3D p) {
 		Vector v1 = _axisRay._direction;

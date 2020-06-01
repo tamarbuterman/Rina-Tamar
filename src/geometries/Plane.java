@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import primitives.Color;
+import primitives.Material;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
@@ -56,6 +57,11 @@ public class Plane extends Geometry
 	/*
 	 * 
 	 */
+	public Plane(Point3D p1, Point3D p2, Point3D p3, Color color, Material material)
+	{
+		this(p1,p2,p3,color);
+		super._material = material;
+	}
 	public Color getEmiision()
 	{
 		return super._emission;

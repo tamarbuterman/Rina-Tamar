@@ -79,7 +79,14 @@ public class Polygon extends Geometry {
                 throw new IllegalArgumentException("All vertices must be ordered and the polygon must be convex");
         }
     }
-
+/*
+ * constructor
+ */
+    public Polygon( Material material,Point3D... vertices)
+    {
+    	this(vertices);
+    	super._material = material;
+    }
     @Override
     public Vector getNormal(Point3D point) {
         return _plane.getNormal(Point3D.ZERO);

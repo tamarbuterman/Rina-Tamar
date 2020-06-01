@@ -41,6 +41,19 @@ public class Sphere extends RadialGeometry
 		super._emission = color;
 	}
 	/**
+	 * 
+	 * @param c
+	 * @param r
+	 * @param color
+	 * @param material
+	 */
+	public Sphere(Point3D c, double r, Color color, Material material)
+	{
+		this(c,r, color);
+		super._material = material;
+	}
+
+	/**
 	 * get sphere normal
 	 * @param p point on the sphere
 	 * @return normal
