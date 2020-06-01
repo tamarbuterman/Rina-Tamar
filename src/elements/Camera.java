@@ -11,20 +11,24 @@ import static primitives.Util.isZero;
  *
  */
 public class Camera {
-    /*
-     * camara location
-    */
+	/**
+	 * camara location
+	 */
 	Point3D _p0;
-	/*
-	 * camera orientation vectors 
+	
+	/**
+	 * camera orientation vectors
 	 */
 	Vector _vUp;
 	Vector _vTo;
 	Vector _vRight;
 	
-	/*
-	 * @param p0 point of camara locetion
-	 * @param vTo, vUp orientation vectors
+	
+	/**
+	 * camera constructor
+	 * 
+	 *@param p0 point of camara locetion
+	 *@param vTo, vUp orientation vectors
 	 */
 	public Camera(Point3D p0, Vector vTo, Vector vUp)
 	{
@@ -38,14 +42,18 @@ public class Camera {
 		_vRight = new Vector(vTo.crossProduct(vUp).normalized());
 	}
 	
-	/*
-	 * @param nX numbre of pixels 
+	
+	/**
+	 * Function to through rays
+	 * 
+	 * @param nX number of pixels 
 	 * @param nY 
 	 * @param j the index of the column
 	 * @param i the index of the row
 	 * @param screenDistance distance of the screen
 	 * @param screenWidth screen width
 	 * @param screenHeight screen height
+	 * @return ray
 	 */
 	public Ray constructRayThroughPixel(int nX, int nY, int j, int i, double screenDistance,
             double screenWidth, double screenHeight)
@@ -79,6 +87,12 @@ public class Camera {
 	    
 		return ray;
 	}
+	
+	/**
+	 * Get function for the point where the camera is located
+	 * 
+	 * @return point
+	 */
 	public Point3D getP0()
 	{
 		return _p0;

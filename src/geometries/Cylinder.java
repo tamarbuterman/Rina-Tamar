@@ -15,11 +15,12 @@ import primitives.Vector;
 public class Cylinder extends Tube
 {
 	/**
-	 * 
+	 * Cylinder value
 	 */
 	double _hight;
 	
 	/**
+	 * Cylinder constructor
 	 * 
 	 * @param h hight
 	 * @param r radius
@@ -30,8 +31,13 @@ public class Cylinder extends Tube
 		_hight = h;
 	}
 	
-	/*
+	/**
+	 * Cylinder constructor with color
 	 * 
+	 * @param h
+	 * @param r
+	 * @param axisRay
+	 * @param color
 	 */
 	public Cylinder(double h, double r, Ray axisRay, Color color)
 	{
@@ -39,14 +45,28 @@ public class Cylinder extends Tube
 		_hight = h;
 
 	}
+	
 	/**
+	 * Cylinder constructor with color and material
 	 * 
+	 * @param h
+	 * @param r
+	 * @param axisRay
+	 * @param color
+	 * @param material
 	 */
 	public Cylinder(double h, double r, Ray axisRay, Color color, Material material)
 	{
 		this(h,r,axisRay,color);
 		super._material = material;
 	}
+	
+	/**
+	 * function for getting the normal
+	 * 
+	 * @param point
+	 * @return vector
+	 */
 	@Override
 	public Vector getNormal(Point3D p) {
 		Vector v1 = _axisRay._direction;

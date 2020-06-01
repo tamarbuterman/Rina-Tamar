@@ -42,8 +42,10 @@ public class Plane extends Geometry
 		
         
 	}
-	/*
+	
+	/**
 	 * plane constructor, gets 3 points and color
+	 * 
 	 * @param p1
 	 * @param p2
 	 * @param p3
@@ -54,8 +56,15 @@ public class Plane extends Geometry
 		this(p1,p2,p3);
 		super._emission = new Color(color);
 	}
-	/*
+	
+	/**
+	 * Plane constructor with material
 	 * 
+	 * @param p1
+	 * @param p2
+	 * @param p3
+	 * @param color
+	 * @param material
 	 */
 	public Plane(Point3D p1, Point3D p2, Point3D p3, Color color, Material material)
 	{

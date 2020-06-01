@@ -4,11 +4,29 @@ import primitives.Color;
 import primitives.Point3D;
 import primitives.Vector;
 
+/**
+ *  class PointLight to apply point lighting
+ * 
+ * @author Rina and Tamar
+ *
+ */
 public class PointLight extends Light implements LightSource
 {
+	/**
+	 * PointLight values
+	 */
 	protected Point3D _position;
 	protected double _kC, _kL, _kQ;
 
+	/**
+	 * PointLight constructor
+	 * 
+	 * @param intensity
+	 * @param position
+	 * @param kC
+	 * @param kL
+	 * @param kQ
+	 */
 	public PointLight(Color intensity, Point3D position, double kC, double kL, double kQ) {
 		super(intensity);
 		_position = new Point3D(position);
@@ -17,20 +35,30 @@ public class PointLight extends Light implements LightSource
 		_kQ = kQ;
 	}
 
+	/**
+	 * The get function to get color
+	 * 
+	 * @param Point - p
+	 * @return color
+	 */
 	@Override
 	public Color getIntensity(Point3D p) 
 	{
-		// TODO Auto-generated method stub
-
 		return super.getIntensity();
 	}
 
+	/**
+	 * The get function to get the direction of the lighting
+	 * 
+	 * @param Point - p
+	 * @return vector - direction
+	 */
 	@Override
 	public Vector getL(Point3D p) {
 		 if (p.equals(_position)) {
 	            return null;
 	        }
 	        return p.subtract(_position).normalize();
-	    }
+	}
 }
 

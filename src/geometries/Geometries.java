@@ -10,19 +10,23 @@ import primitives.Ray;
 
 public class Geometries implements Intersectable {
 
-	/*
+	/**
 	 * list of geometries
 	 */
 	public LinkedList <Intersectable> _geometriesList;
-	/*
+	
+	/**
 	 * Default constructor
 	 */
 	public Geometries()
 	{
 		_geometriesList = new LinkedList<Intersectable>();
 	}
-	/*
+	
+	/**
 	 * constructor
+	 * 
+	 * @param geometries
 	 */
 	public Geometries(Intersectable... geometries)
 	{
@@ -30,8 +34,11 @@ public class Geometries implements Intersectable {
 		add(geometries); //sends to the add function
 	}
 	
-	/*
-	 * add function
+	
+	/**
+	 * add function to add geometries
+	 * 
+	 * @param geometries
 	 */
 	public void add(Intersectable... geometries)
 	{
@@ -41,14 +48,15 @@ public class Geometries implements Intersectable {
         }
 	}
 
-	
-	@Override
-	/*
+	/**
 	 * The function returns list of all the intersections points
+	 * 
+	 * @param ray
+	 * @return list of GeoPoint
 	 */
+	@Override
 	public List<GeoPoint> findIntersections(Ray ray)
-	{
-		// TODO Auto-generated method stub		
+	{	
 		List<GeoPoint> IntersectionsList = new LinkedList<GeoPoint>(); // create a empty list
 		for (Intersectable geometry:_geometriesList)
 		{

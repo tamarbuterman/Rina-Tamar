@@ -5,20 +5,52 @@ import primitives.Point3D;
 import primitives.Util;
 import primitives.Vector;
 
+/**
+ * class SpotLight to apply spot lighting
+ * 
+ * @author Rina and Tamar
+ *
+ */
 public class SpotLight extends PointLight
 {
+	/**
+	 * SpotLight value
+	 */
 	private Vector _direction;
 
+	/**
+	 * SpotLight constructor
+	 * 
+	 * @param intensity
+	 * @param position
+	 * @param kC
+	 * @param kL
+	 * @param kQ
+	 * @param direction
+	 */
 	public SpotLight(Color intensity, Point3D position, double kC, double kL, double kQ, Vector direction) {
 		super(intensity, position, kC, kL, kQ);
 		_direction = new Vector(direction);
 	}
 	
+	/**
+	 * The get function to get the direction of the lighting
+	 * 
+	 * @param Point - p
+	 * @return vector - direction
+	 */
 	@Override
 	public Vector getL(Point3D p) {
 		return _direction;
 	}
 
+	/**
+	 * The get function to get color
+	 * 
+	 * @param Point - p
+	 * @return color
+	 */
+	@Override
 	  public Color getIntensity(Point3D p) {
 	        double projection = _direction.dotProduct(getL(p));
 
