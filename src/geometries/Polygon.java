@@ -79,8 +79,12 @@ public class Polygon extends Geometry {
                 throw new IllegalArgumentException("All vertices must be ordered and the polygon must be convex");
         }
     }
-/*
- * constructor
+/**
+ * Polygon constructor based on vertices list. The list must be ordered by edge
+ * path. The polygon must be convex, and material
+ * 
+ * @param material
+ * @param vertices
  */
     public Polygon( Material material,Point3D... vertices)
     {

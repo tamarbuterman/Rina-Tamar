@@ -26,8 +26,13 @@ public class Tube extends RadialGeometry
 		super(r);
 		_axisRay = axisRay;
 	} 
-	/*
+
+	/**
+	 * Tube constructor gets 3 parameters, based on ray point and color
 	 * 
+	 * @param axisRay
+	 * @param r
+	 * @param color
 	 */
 	public Tube(Ray axisRay, double r, Color color)
 	{
@@ -35,12 +40,21 @@ public class Tube extends RadialGeometry
 		_axisRay = axisRay;
 		super._emission = color;
 	}
+	/**
+	 * Tube constructor gets 4 parameters, based on ray point and color which sent to the 3 params constructor and material 
+	 * 
+	 * @param axisRay
+	 * @param r
+	 * @param color
+	 * @param material
+	 */
 	public Tube(Ray axisRay, double r, Color color, Material material)
 	{
 		this(axisRay, r, color);
 		super._material = material;
 	}
 
+	
 	@Override
 	public Vector getNormal(Point3D p) {
 		Vector v1 = new Vector(_axisRay._direction);

@@ -21,7 +21,8 @@ public class Sphere extends RadialGeometry
 	Point3D _center;
 	
 	/**
-	 * Sphere constractor
+	 * Sphere constructor based on radius and point
+	 * 
 	 * @param c point
 	 * @param r radius
 	 */
@@ -31,8 +32,12 @@ public class Sphere extends RadialGeometry
 		_center = c;
 	}
 	
-	/*
-	 * Sphere constructor
+	/**
+	 * Sphere constructor based on point, radius  and color
+	 * 
+	 * @param c
+	 * @param r
+	 * @param color
 	 */
 	public Sphere(Point3D c, double r, Color color)
 	{
@@ -41,6 +46,7 @@ public class Sphere extends RadialGeometry
 		super._emission = color;
 	}
 	/**
+	 * Sphere constructor based on point, radius, color and material
 	 * 
 	 * @param c
 	 * @param r

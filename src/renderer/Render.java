@@ -18,20 +18,40 @@ import static primitives.Util.isZero;;
 
 public class Render 
 {
+	/**
+	 * the size of the pixel and the image
+	 */
 	ImageWriter _imageWriter;
+	/**
+	 * Scene class which includes the colors of the scene, source lights, camera and more data about the scene
+	 */
 	Scene _scene;
 	
+	/**
+	 * Render constructor gets imageWriter and scene
+	 * 
+	 * @param imageWriter
+	 * @param scene
+	 */
 	public Render(ImageWriter imageWriter, Scene scene)
 	{
 		_imageWriter = imageWriter;
 		_scene = scene;
 	}
-	
+	/**
+	 * render getter returns the imageWriter
+	 * 
+	 * @return imageWriter
+	 */
 	public ImageWriter getImageWriter()
 	{
 		return _imageWriter;
 	}
 	
+	/**
+	 * renderImage function creates the image and paint the pixels
+	 * 
+	 */
 	public void renderImage()
 	{
 		Camera camera = _scene.getCamera();
@@ -60,6 +80,18 @@ public class Render
 
 
 	}
+	/**
+	 * calculates the specular color
+	 *  
+	 * @param ks
+	 * @param l
+	 * @param n
+	 * @param nl
+	 * @param V
+	 * @param nShininess
+	 * @param ip
+	 * @return
+	 */
 	 private Color calcSpecular(double ks, Vector l, Vector n, double nl, Vector V, int nShininess, Color ip) {
 	        double p = nShininess;
 	        if (isZero(nl)) {
@@ -81,8 +113,11 @@ public class Render
 	    private boolean sign(double val) {
 	        return (val > 0d);
 	    }
-	/*
+	/**
+	 * calculate the color of pixel according to the geometry and returns the color of the pixel
 	 * 
+	 * @param p
+	 * @return Color
 	 */
 	public Color calcColor(GeoPoint p)
 	{
@@ -105,7 +140,12 @@ public class Render
 
 		
 	}
-	
+	/**
+	 * gets list of points and find the closet point to the camera
+	 * 
+	 * @param points
+	 * @return GeoPoint
+	 */
 	public GeoPoint getClosestPoint(List<GeoPoint> points)//:Point3D
 	{
 		double distance = Double.MAX_VALUE;
@@ -121,6 +161,13 @@ public class Render
 		}
 		return minDistancePoint;
 	}
+	
+	/**
+	 * prints the grid, going over each pixel and print the color
+	 * 
+	 * @param interval
+	 * @param color
+	 */
 	public void printGrid(int interval, java.awt.Color color)
 	{
 		int nX = _imageWriter.getNx();
@@ -137,6 +184,9 @@ public class Render
 		}
 	}
 	
+	/**
+	 * sends to the writeToImage function
+	 */
 	public void writeToImage() {
         _imageWriter.writeToImage();
     }

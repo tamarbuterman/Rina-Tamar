@@ -32,7 +32,7 @@ public class Triangle extends Plane
 	Point3D _p3;
 	
 	/**
-	 * Triangle constructor based on 3 point, the points are sent to the father constractor 
+	 * Triangle constructor based on 3 point, the points are sent to the father constructor 
 	 * @param p1 first point
 	 * @param p2 second point
 	 * @param p3 third point
@@ -46,8 +46,13 @@ public class Triangle extends Plane
 		
 	}
 	
-	/*
+	/**
+	 * Triangle constructor based on 3 points and color
 	 * 
+	 * @param p1
+	 * @param p2
+	 * @param p3
+	 * @param color
 	 */
 	public Triangle(Point3D p1, Point3D p2, Point3D p3, Color color)
 	{
@@ -57,6 +62,7 @@ public class Triangle extends Plane
 		_p3 = new Point3D(p3);
 	}
 	/**
+	 * Triangle constructor based on 3 points, color and material
 	 * 
 	 * @param p1
 	 * @param p2
