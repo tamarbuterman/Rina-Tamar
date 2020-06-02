@@ -18,6 +18,8 @@ import static primitives.Util.isZero;;
 
 public class Render 
 {
+	private static final double DELTA = 0.1;
+
 	/**
 	 * the size of the pixel and the image
 	 */
@@ -26,6 +28,7 @@ public class Render
 	 * Scene class which includes the colors of the scene, source lights, camera and more data about the scene
 	 */
 	Scene _scene;
+	
 	
 	/**
 	 * Render constructor gets imageWriter and scene
@@ -92,54 +95,65 @@ public class Render
 	 * @param ip
 	 * @return
 	 */
-	 private Color calcSpecular(double ks, Vector l, Vector n, double nl, Vector V, int nShininess, Color ip) {
-	        double p = nShininess;
-	        if (isZero(nl)) {
-	            throw new IllegalArgumentException("nl cannot be Zero for scaling the normal vector");
-	        }
-	        Vector R = l.add(n.scale(-2 * nl)); // nl must not be zero!
-	        double VR = alignZero(V.dotProduct(R));
-	        if (VR >= 0) {
-	            return Color.BLACK; // view from direction opposite to r vector
-	        }
-	        // [rs,gs,bs]ks(-V.R)^p
-	        return ip.scale(ks * Math.pow(-1d * VR, p));
-	    }
-	 
-	 private Color calcDiffusive(double kd, double nl, Color ip) {
-	        return ip.scale(Math.abs(nl) * kd);
-	    }
+	private Color calcSpecular(double ks, Vector d, Vector n, Vector v, int nExponent, Color il) {
+	    double nd = alignZero(n.dotProduct(d));
+	    Vector r = d.add(n.scale(-2 * nd));
+	       double minusVR = alignZero(r.dotProduct(v) * (-1));
+	       if (minusVR <= 0) return Color.BLACK; // view from direction opposite to r vector
+	       return il.scale(ks * Math.pow(minusVR, nExponent));
+	   }
 
-	    private boolean sign(double val) {
-	        return (val > 0d);
-	    }
+	
+	private Color calcDiffusive(double kd, double nl, Color il) {
+	       if (nl < 0) nl = -nl;
+	       return il.scale(nl * kd);
+	   }
+
+
+	   private boolean sign(double val) {
+	       return (val > 0d);
+	   }
+	
 	/**
 	 * calculate the color of pixel according to the geometry and returns the color of the pixel
 	 * 
 	 * @param p
 	 * @return Color
 	 */
-	public Color calcColor(GeoPoint p)
-	{
-		Color color= _scene.getAmbientLight().getIntensity().add(p.getEmission());
-		color = color.add(p.geometry.getEmission());
-		Vector v = p.point.subtract(_scene.getCamera().getP0()).normalize();
-		Vector n = p.geometry.getNormal(p.point);
-		Material material =p.geometry.getMaterial();
-		int nShininess = material.getShin();
-		double kd = material.getKD();
-		double ks = material.getKS();
-		for (LightSource lightSource : _scene.getLights()) {
-		Vector l = lightSource.getL(p.point);
-		if (sign(n.dotProduct(l)) == sign(n.dotProduct(v))) {
-		Color lightIntensity = lightSource.getIntensity(p.point);
-		color = color.add(calcDiffusive(kd, l, n, lightIntensity),
-		calcSpecular(ks, l, n, v, nShininess, lightIntensity));
-		}}
-		return color;
+	
+	private Color calcColor(GeoPoint gp) {
+	       Color result = new Color(_scene.getAmbientLight().getIntensity());
+	       result = result.add(gp.getGeometry().getEmission());
 
-		
-	}
+	       Vector v = gp.getPoint().subtract(_scene.getCamera().getP0()).normalize();
+	       Vector n = gp.getGeometry().getNormal(gp.getPoint());
+
+	       Material material = gp.getGeometry().getMaterial();
+	       int nShininess = material.getShin();
+	       double kd = material.getKD();
+	       double ks = material.getKS();
+	       if (_scene.getLights() != null) {
+	           for (LightSource lightSource : _scene.getLights()) {
+
+	               Vector l = lightSource.getL(gp.getPoint());
+	               double nl = alignZero(n.dotProduct(l));
+	               double nv = alignZero(n.dotProduct(v));
+
+	               if (sign(nl) == sign(nv)) {
+	                   Color ip = lightSource.getIntensity(gp.getPoint());
+	                   result = result.add(
+	                           calcDiffusive(kd, nl, ip),
+	                           calcSpecular(ks, l, n, v, nShininess, ip)
+	                   );
+	               }
+	           }
+	       }
+
+	       return result;
+	   }
+
+
+	
 	/**
 	 * gets list of points and find the closet point to the camera
 	 * 
@@ -190,5 +204,10 @@ public class Render
 	public void writeToImage() {
         _imageWriter.writeToImage();
     }
+	
+	
+	
+
 
 }
+

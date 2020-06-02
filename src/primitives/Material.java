@@ -15,6 +15,9 @@ public class Material {
 	 */
 	int _nShininess;
 	
+	double kR;
+	double kT;
+	
 	/**
 	 * Material constructor gets 3 parameters 
 	 * 
@@ -57,5 +60,14 @@ public class Material {
 	public int getShin()
 	{
 		return _nShininess;
+	}
+	
+	public double getKR()
+	{
+		return kR;
+	}
+	public double getKT()
+	{
+		return kT;
 	}
 }
