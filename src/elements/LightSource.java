@@ -26,5 +26,13 @@ public interface LightSource
 	 * @return vector-direction
 	 */
 	public Vector getL(Point3D p);
+/**
+ * 
+ * @param point
+ * @return
+ */
+	double getDistance(Point3D point);
+
+
 
 }

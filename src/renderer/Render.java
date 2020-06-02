@@ -140,11 +140,15 @@ public class Render
 	               double nv = alignZero(n.dotProduct(v));
 
 	               if (sign(nl) == sign(nv)) {
+	            	   if(unshaded(l,n,gp,lightSource))
+	            	   {
 	                   Color ip = lightSource.getIntensity(gp.getPoint());
 	                   result = result.add(
 	                           calcDiffusive(kd, nl, ip),
 	                           calcSpecular(ks, l, n, v, nShininess, ip)
+	            	   
 	                   );
+	            	   }
 	               }
 	           }
 	       }
@@ -205,8 +209,32 @@ public class Render
         _imageWriter.writeToImage();
     }
 	
-	
-	
+	/**
+	 * 
+	 * @param l
+	 * @param n
+	 * @param gp
+	 * @return
+	 */
+	private boolean unshaded(Vector l, Vector n, GeoPoint gp, LightSource lightSource)
+	{
+		Vector lightDirection = l.scale(-1);
+		Vector delta = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : - DELTA);
+		Point3D point = gp.getPoint().add(delta);
+		Ray lightRay = new Ray(point, lightDirection);
+		List<GeoPoint> intersections = _scene.getGeometries().findIntersections(lightRay);
+		
+		if(intersections==null)
+			return true;
+		double distance = lightSource.getDistance(gp.getPoint());
+		for (GeoPoint g : intersections) 
+		{
+           if(lightSource.getDistance(g.getPoint())<distance)
+        	   return false;
+            
+        }
+        return true;
+	}
 
 
 }

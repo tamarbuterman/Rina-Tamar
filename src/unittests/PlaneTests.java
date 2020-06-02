@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import geometries.GeoPoint;
+
 import geometries.Intersectable;
 import geometries.Plane;
 import geometries.Polygon;

@@ -45,10 +45,12 @@ public interface Intersectable
 	    	point = new Point3D(p);
 	  
 	    }
+	    
 	   // public boolean equals() {}
 	    public Point3D getPoint() {return point;}
 	    public Color getEmission() {return geometry._emission; }
 	    public Geometry getGeometry() {return geometry;}
+	    
 	}
 
 
