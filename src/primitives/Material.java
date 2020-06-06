@@ -15,8 +15,8 @@ public class Material {
 	 */
 	int _nShininess;
 	
-	double kR;
-	double kT;
+	double _kR;
+	double _kT;
 	
 	/**
 	 * Material constructor gets 3 parameters 
@@ -27,11 +27,18 @@ public class Material {
 	 */
 	public Material(double kd, double ks, int shininess)
 	{
+		this(kd,ks,shininess,0,0);
+
+	}
+	
+	public Material(double kd, double ks, int shininess, double kt, double kr)
+	{
 		_kD = kd;
 		_kS = ks;
 		_nShininess = shininess;
+		_kT = kt;
+		_kR = kr;
 	}
-	
 	/**
 	 * Material getter returns the kD
 	 * 
@@ -64,10 +71,10 @@ public class Material {
 	
 	public double getKR()
 	{
-		return kR;
+		return _kR;
 	}
 	public double getKT()
 	{
-		return kT;
+		return _kT;
 	}
 }

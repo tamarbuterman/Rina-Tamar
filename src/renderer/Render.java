@@ -18,7 +18,9 @@ import static primitives.Util.isZero;;
 
 public class Render 
 {
-	private static final double DELTA = 0.1;
+	private static final int MAX_CALC_COLOR_LEVEL = 10;
+	private static final double MIN_CALC_COLOR_K = 0.001;
+
 
 	/**
 	 * the size of the pixel and the image
@@ -149,6 +151,7 @@ public class Render
 	            	   
 	                   );
 	            	   }
+	            	   
 	               }
 	           }
 	       }
@@ -218,24 +221,35 @@ public class Render
 	 */
 	private boolean unshaded(Vector l, Vector n, GeoPoint gp, LightSource lightSource)
 	{
-		Vector lightDirection = l.scale(-1);
-		Vector delta = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : - DELTA);
-		Point3D point = gp.getPoint().add(delta);
-		Ray lightRay = new Ray(point, lightDirection);
-		List<GeoPoint> intersections = _scene.getGeometries().findIntersections(lightRay);
+		//Vector lightDirection = l.scale(-1);
+		//lightDirection.normalized();
+		//Vector delta = n.scale(n.dotProduct(lightDirection) >= 0 ? DELTA : - DELTA);
+		//Point3D point = gp.getPoint().add(delta);
+		//Ray lightRay = new Ray(point, lightDirection);
+		Vector lDir = l.scale(-1);
+		Ray shadowRay = new Ray(gp.point, lDir, n);
+
+		List<GeoPoint> intersections = _scene.getGeometries().findIntersections(shadowRay);
 		
-		if(intersections==null)
+		if (intersections==null)
 			return true;
 		double distance = lightSource.getDistance(gp.getPoint());
-		for (GeoPoint g : intersections) 
+		for (GeoPoint g : intersections)
 		{
-           if(lightSource.getDistance(g.getPoint())<distance)
-        	   return false;
-            
-        }
-        return true;
-	}
+			if(alignZero(g.getPoint().distance(gp.getPoint())-distance)<=0)
+			{
+				return false;
+			}
+		}
+		
+		return true;
+		
+		
+		
+		
+	
 
 
+}
 }
 

@@ -9,11 +9,33 @@ package primitives;
 public class Ray 
 {
 	/**
+	 * Movement distance for rays head
+	 */
+	private static final double DELTA = 0.1;
+
+	/**
 	 * Ray values
 	 */
 	public Point3D _POO;
 	public Vector _direction;
-	
+	/**
+	 * Ray constructor by ray beginning point and its direction, while the beginning
+	 * point is moved by DELTA along the line defined by vector n and according to
+	 * direction dir
+	 * 
+	 * @param p   ray beginning point
+	 * @param v   ray direction vector
+	 * @param dir direction of moving the point p
+	 * @param n   line vector for point p movement
+	 */
+	public Ray(Point3D p, Vector v, Vector n) {
+		_direction = v.normalized();
+		double nV = n.dotProduct(v);
+		Vector delta = n.scale(nV >= 0 ? DELTA : -DELTA);
+		_POO = p.add(delta);
+	}
+
+
 	/**
 	 * Ray constructor receiving a ray value
 	 * 

@@ -67,4 +67,5 @@ public abstract class Geometry implements Intersectable
 	 * @return material
 	 */
     public Material getMaterial() {return _material;}
+    //public void setEmission()
 }
