@@ -60,8 +60,9 @@ public class Render
 	public void renderImage()
 	{
 		Camera camera = _scene.getCamera();
-		Intersectable geometries = _scene.getGeometries();
-		java.awt.Color background = _scene.getBackground().getColor();
+		//Intersectable geometries = _scene.getGeometries();
+		//java.awt.Color background = _scene.getBackground().getColor();
+		
 		int nX = _imageWriter.getNx();
 		int nY = _imageWriter.getNy();
 		for (int i=0; i<nY; i++)
@@ -70,16 +71,18 @@ public class Render
 			{
 				Ray ray = camera.constructRayThroughPixel(nX, nY, j, i, _scene.getDistance(), _imageWriter.getWidth()
 						, _imageWriter.getHeight());
-				List<GeoPoint> intersectionPoints = geometries.findIntersections(ray);
+                GeoPoint closestPoint = findCLosestIntersection(ray);
+				_imageWriter.writePixel(j, i,  closestPoint == null ? _scene.getBackground().getColor(): calcColor(closestPoint, ray).getColor());
+
+				//List<GeoPoint> intersectionPoints = geometries.findIntersections(ray);
 				//if (intersectionPoints.isEmpty())
 				//	_imageWriter.writePixel(j, i, background);
-				if(intersectionPoints == null)
-					_imageWriter.writePixel(j, i, background);
-				else
-				{
-					GeoPoint closestPoint = getClosestPoint(intersectionPoints);
-					_imageWriter.writePixel(j, i, calcColor(closestPoint).getColor());
-				}
+				//if(intersectionPoints == null)
+				//else
+				//{
+				//	GeoPoint closestPoint = getClosestPoint(intersectionPoints);
+					//_imageWriter.writePixel(j, i, calcColor(closestPoint, ray).getColor());
+				//}
 			}
 		}
 
@@ -115,7 +118,17 @@ public class Render
 	   private boolean sign(double val) {
 	       return (val > 0d);
 	   }
-	
+	   /**
+	    * 
+	    * @param geopoint
+	    * @param inRay
+	    * @return
+	    */
+	   private Color calcColor(GeoPoint geopoint, Ray inRay) 
+	   {
+		   return calcColor(geopoint, inRay, MAX_CALC_COLOR_LEVEL, 1.0).add(
+		   _scene.getAmbientLight().getIntensity());
+		   }
 	/**
 	 * calculate the color of pixel according to the geometry and returns the color of the pixel
 	 * 
@@ -123,7 +136,7 @@ public class Render
 	 * @return Color
 	 */
 	
-	private Color calcColor(GeoPoint gp) {
+	private Color calcColor(GeoPoint gp,Ray inRay, int level, double k) {
 	       Color result = new Color(_scene.getAmbientLight().getIntensity());
 	       result = result.add(gp.getGeometry().getEmission());
 
@@ -211,7 +224,62 @@ public class Render
 	public void writeToImage() {
         _imageWriter.writeToImage();
     }
-	
+	/**
+	 * 
+	 * @param pointGeo
+	 * @param inRay
+	 * @param n
+	 * @return
+	 */
+	private Ray constructRefractedRay(Point3D pointGeo, Ray inRay, Vector n) {
+        return new Ray(pointGeo, inRay._direction, n);
+    }
+/**
+ * 
+ * @param pointGeo
+ * @param inRay
+ * @param n
+ * @return
+ */
+    private Ray constructReflectedRay(Point3D pointGeo, Ray inRay, Vector n) {
+        Vector v = inRay._direction;
+        double vn = v.dotProduct(n);
+
+        if (vn == 0) {
+            return null;
+        }
+
+        Vector r = v.subtract(n.scale(2 * vn));
+        return new Ray(pointGeo, r, n);
+    }
+    /**
+     * 
+     * @param ray
+     * @return
+     */
+    private GeoPoint findCLosestIntersection(Ray ray)
+    {
+    	 if (ray == null) {
+             return null;
+         }
+
+         GeoPoint closestPoint = null;
+         double closestDistance = Double.MAX_VALUE;
+         Point3D ray_p0 = ray.getPoint();
+
+         List<GeoPoint> intersections = _scene.getGeometries().findIntersections(ray);
+         if (intersections == null)
+             return null;
+
+         for (GeoPoint geoPoint : intersections) {
+             double distance = ray_p0.distance(geoPoint.getPoint());
+             if (distance < closestDistance) {
+                 closestPoint = geoPoint;
+                 closestDistance = distance;
+             }
+         }
+         return closestPoint;
+    }
 	/**
 	 * 
 	 * @param l
@@ -219,6 +287,7 @@ public class Render
 	 * @param gp
 	 * @return
 	 */
+    
 	private boolean unshaded(Vector l, Vector n, GeoPoint gp, LightSource lightSource)
 	{
 		//Vector lightDirection = l.scale(-1);
@@ -236,7 +305,8 @@ public class Render
 		double distance = lightSource.getDistance(gp.getPoint());
 		for (GeoPoint g : intersections)
 		{
-			if(alignZero(g.getPoint().distance(gp.getPoint())-distance)<=0)
+			if(alignZero(g.getPoint().distance(gp.getPoint())-distance)<=0
+					&&gp.geometry.getMaterial().getKT() == 0)
 			{
 				return false;
 			}
