@@ -148,24 +148,23 @@ public class Render
 	       double kd = material.getKD();
 	       double ks = material.getKS();
 	       if (_scene.getLights() != null) {
-	           for (LightSource lightSource : _scene.getLights()) {
+	           for (LightSource lightSource : _scene.getLights())
+	           {
 
 	               Vector l = lightSource.getL(gp.getPoint());
 	               double nl = alignZero(n.dotProduct(l));
 	               double nv = alignZero(n.dotProduct(v));
 
-	               if (sign(nl) == sign(nv)) {
-	            	   if(unshaded(l,n,gp,lightSource))
-	            	   {
-	                   Color ip = lightSource.getIntensity(gp.getPoint());
-	                   result = result.add(
+//	               if (sign(nl) == sign(nv)) {
+//	            	   if(unshaded(l,n,gp,lightSource)) {
+	               double ktr = transparency(lightSource, l, n, gp);
+	               if (ktr * k > MIN_CALC_COLOR_K) 
+	               {
+                       Color ip = lightSource.getIntensity(gp.getPoint()).scale(ktr);
+                       result = result.add(
 	                           calcDiffusive(kd, nl, ip),
-	                           calcSpecular(ks, l, n, v, nShininess, ip)
-	            	   
-	                   );
-	            	   }
-	            	   
-	               }
+	                           calcSpecular(ks, l, n, v, nShininess, ip));
+                   }  
 	           }
 	       }
 
@@ -313,13 +312,38 @@ public class Render
 		}
 		
 		return true;
-		
-		
-		
-		
+	}
 	
+	/**
+	 * 
+	 * @param ls
+	 * @param l
+	 * @param n
+	 * @param geopoint
+	 * @return
+	 */
+	private double transparency(LightSource ls, Vector l, Vector n, GeoPoint geopoint)
+	{
+		Vector lDir = l.scale(-1);
+		Ray shadowRay = new Ray(geopoint.point, lDir, n);
 
+		List<GeoPoint> intersections = _scene.getGeometries().findIntersections(shadowRay);
+		
+		if (intersections==null)
+			return 1d;
+		double distance = ls.getDistance(geopoint.getPoint());
+		double ktr = 1d;
+		for (GeoPoint g : intersections)
+		{
+			if(alignZero(g.getPoint().distance(geopoint.getPoint())-distance)<=0)
+			{
+				ktr *= geopoint.getGeometry().getMaterial().getKT();
+                if (ktr < MIN_CALC_COLOR_K) 
+                    return 0.0;
+			}
 
-}
+		}
+		 return ktr;
+	}
 }
 
