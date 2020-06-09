@@ -147,9 +147,9 @@ public class Render
 	 * @return Color
 	 */
 	
-	private Color calcColor(GeoPoint gp,Ray inRay, int level, double k) {
-	       Color result = new Color(_scene.getAmbientLight().getIntensity());
-	       result = result.add(gp.getGeometry().getEmission());
+	private Color calcColor(GeoPoint gp,Ray inRay, int level, double k)
+	{
+	       Color result = new Color(gp.getGeometry().getEmission());
 
 	       Vector v = gp.getPoint().subtract(_scene.getCamera().getP0()).normalize();
 	       Vector n = gp.getGeometry().getNormal(gp.getPoint());
@@ -158,7 +158,8 @@ public class Render
 	       int nShininess = material.getShin();
 	       double kd = material.getKD();
 	       double ks = material.getKS();
-	       if (_scene.getLights() != null) {
+	       if (_scene.getLights() != null)
+	       {
 	           for (LightSource lightSource : _scene.getLights())
 	           {
 
@@ -178,9 +179,29 @@ public class Render
                    }  
 	           }
 	       }
-
+	       
+	       if (level == 1) 
+	    	   return Color.BLACK;
+	       double kr = gp.geometry.getMaterial().getKR(), kkr = k * kr;
+	       if (kkr > MIN_CALC_COLOR_K) 
+	       {
+	    	   Ray reflectedRay = constructReflectedRay(gp.point, inRay,n);
+	    	   GeoPoint reflectedPoint = findCLosestIntersection(reflectedRay);
+	    	   if (reflectedPoint != null)
+	    		   result = result.add(calcColor(reflectedPoint, reflectedRay, level-1, kkr).scale(kr));
+	       }
+	       double kt = gp.geometry.getMaterial().getKT(), kkt = k * kt;
+	       if (kkt > MIN_CALC_COLOR_K) 
+	       {
+	    	   Ray refractedRay = constructRefractedRay(gp.point, inRay,n) ;
+	    	   GeoPoint refractedPoint = findCLosestIntersection(refractedRay);
+	    	   if (refractedPoint != null)
+	    		   result = result.add(calcColor(refractedPoint, refractedRay, level-1, kkt).scale(kt));
+	       }
 	       return result;
+	       
 	   }
+	       
 
 
 	
