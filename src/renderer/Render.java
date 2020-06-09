@@ -43,6 +43,7 @@ public class Render
 		_imageWriter = imageWriter;
 		_scene = scene;
 	}
+	
 	/**
 	 * render getter returns the imageWriter
 	 * 
@@ -85,9 +86,8 @@ public class Render
 				//}
 			}
 		}
-
-
 	}
+	
 	/**
 	 * calculates the specular color
 	 *  
@@ -108,16 +108,27 @@ public class Render
 	       return il.scale(ks * Math.pow(minusVR, nExponent));
 	   }
 
-	
+	/**
+	 * 
+	 * @param kd
+	 * @param nl
+	 * @param il
+	 * @return
+	 */
 	private Color calcDiffusive(double kd, double nl, Color il) {
 	       if (nl < 0) nl = -nl;
 	       return il.scale(nl * kd);
 	   }
 
-
+		/**
+		 * 
+		 * @param val
+		 * @return
+		 */
 	   private boolean sign(double val) {
 	       return (val > 0d);
 	   }
+	   
 	   /**
 	    * 
 	    * @param geopoint
@@ -223,6 +234,7 @@ public class Render
 	public void writeToImage() {
         _imageWriter.writeToImage();
     }
+	
 	/**
 	 * 
 	 * @param pointGeo
@@ -233,6 +245,7 @@ public class Render
 	private Ray constructRefractedRay(Point3D pointGeo, Ray inRay, Vector n) {
         return new Ray(pointGeo, inRay._direction, n);
     }
+	
 /**
  * 
  * @param pointGeo
@@ -251,6 +264,7 @@ public class Render
         Vector r = v.subtract(n.scale(2 * vn));
         return new Ray(pointGeo, r, n);
     }
+    
     /**
      * 
      * @param ray
@@ -279,12 +293,14 @@ public class Render
          }
          return closestPoint;
     }
+    
 	/**
+	 * Check if the point unshaded.
 	 * 
 	 * @param l
 	 * @param n
 	 * @param gp
-	 * @return
+	 * @return true if the point unshaded.
 	 */
     
 	private boolean unshaded(Vector l, Vector n, GeoPoint gp, LightSource lightSource)
