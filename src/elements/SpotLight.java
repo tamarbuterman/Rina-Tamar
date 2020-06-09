@@ -17,7 +17,24 @@ public class SpotLight extends PointLight
 	 * SpotLight value
 	 */
 	private Vector _direction;
-
+    private double _concentration;
+    
+    /**
+     * 
+     * @param colorIntensity
+     * @param position
+     * @param direction
+     * @param kC
+     * @param kL
+     * @param kQ
+     * @param concentration
+     */
+    public SpotLight(Color colorIntensity, Point3D position, Vector direction, double kC, double kL, double kQ, double concentration) {
+        super(colorIntensity, position, kC, kL, kQ);
+        this._direction = new Vector(direction).normalized();
+        this._concentration = concentration;
+    }
+    
 	/**
 	 * SpotLight constructor
 	 * 
@@ -28,7 +45,8 @@ public class SpotLight extends PointLight
 	 * @param kQ
 	 * @param direction
 	 */
-	public SpotLight(Color intensity, Point3D position, double kC, double kL, double kQ, Vector direction) {
+	public SpotLight(Color intensity, Point3D position, double kC, double kL, double kQ, Vector direction) 
+	{
 		super(intensity, position, kC, kL, kQ);
 		_direction = new Vector(direction);
 	}
@@ -39,10 +57,10 @@ public class SpotLight extends PointLight
 	 * @param Point - p
 	 * @return vector - direction
 	 */
-	@Override
-	public Vector getL(Point3D p) {
-		return _direction;
-	}
+	//@Override
+	//public Vector getL(Point3D p) {
+	//	return _direction;
+	//}
 
 	/**
 	 * The get function to get color
@@ -60,9 +78,9 @@ public class SpotLight extends PointLight
 	        double factor = Math.max(0, projection);
 	        Color pointlightIntensity = super.getIntensity(p);
 
-	       // if (_concentration != 1) {
-	      //      factor = Math.pow(factor, _concentration);
-	        //}
+	        if (_concentration != 1) {
+	          factor = Math.pow(factor, _concentration);
+	        }
 
 	        return (pointlightIntensity.scale(factor));
 	    }
