@@ -149,51 +149,35 @@ public class Render
 	
 	private Color calcColor(GeoPoint gp,Ray inRay, int level, double k)
 	{
+		if (level == 1||k < MIN_CALC_COLOR_K) 
+	    	   return Color.BLACK;
 	       Color result = new Color(gp.getGeometry().getEmission());
-
 	       Vector v = gp.getPoint().subtract(_scene.getCamera().getP0()).normalize();
 	       Vector n = gp.getGeometry().getNormal(gp.getPoint());
+	       if(alignZero(n.dotProduct(v)) == 0)
+	    	   return result;
 
 	       Material material = gp.getGeometry().getMaterial();
 	       int nShininess = material.getShin();
 	       double kd = material.getKD();
 	       double ks = material.getKS();
-	       if (_scene.getLights() != null)
-	       {
-	           for (LightSource lightSource : _scene.getLights())
-	           {
-
-	               Vector l = lightSource.getL(gp.getPoint());
-	               double nl = alignZero(n.dotProduct(l));
-	               double nv = alignZero(n.dotProduct(v));
-
-//	               if (sign(nl) == sign(nv)) {
-//	            	   if(unshaded(l,n,gp,lightSource)) {
-	               double ktr = transparency(lightSource, l, n, gp);
-	               if (ktr * k > MIN_CALC_COLOR_K) 
-	               {
-                       Color ip = lightSource.getIntensity(gp.getPoint()).scale(ktr);
-                       result = result.add(
-	                           calcDiffusive(kd, nl, ip),
-	                           calcSpecular(ks, l, n, v, nShininess, ip));
-                   }  
-	           }
-	       }
 	       
-	       if (level == 1) 
-	    	   return Color.BLACK;
-	       double kr = gp.geometry.getMaterial().getKR(), kkr = k * kr;
+	       result = result.add(getLightSource(gp, k, result,v,n,nShininess,kd,ks));
+	       
+	       double kr = gp.geometry.getMaterial().getKR();
+	       double kkr = k * kr;
 	       if (kkr > MIN_CALC_COLOR_K) 
 	       {
-	    	   Ray reflectedRay = constructReflectedRay(gp.point, inRay,n);
+	    	   Ray reflectedRay = constructReflectedRay(gp.getPoint(), inRay,n);
 	    	   GeoPoint reflectedPoint = findCLosestIntersection(reflectedRay);
 	    	   if (reflectedPoint != null)
 	    		   result = result.add(calcColor(reflectedPoint, reflectedRay, level-1, kkr).scale(kr));
 	       }
-	       double kt = gp.geometry.getMaterial().getKT(), kkt = k * kt;
+	       double kt = gp.geometry.getMaterial().getKT();
+	       double kkt = k * kt;
 	       if (kkt > MIN_CALC_COLOR_K) 
 	       {
-	    	   Ray refractedRay = constructRefractedRay(gp.point, inRay,n) ;
+	    	   Ray refractedRay = constructRefractedRay(gp.getPoint(), inRay,n) ;
 	    	   GeoPoint refractedPoint = findCLosestIntersection(refractedRay);
 	    	   if (refractedPoint != null)
 	    		   result = result.add(calcColor(refractedPoint, refractedRay, level-1, kkt).scale(kt));
@@ -204,7 +188,34 @@ public class Render
 	       
 
 
-	
+	private Color getLightSource(GeoPoint geoPoint, double k, Color result, Vector v, Vector n, int nShininess, double kd, double ks)
+	{
+		if (_scene.getLights() != null)
+	       {
+	           for (LightSource lightSource : _scene.getLights())
+	           {
+
+	               Vector l = lightSource.getL(geoPoint.getPoint());
+	               double nl = alignZero(n.dotProduct(l));
+	               double nv = alignZero(n.dotProduct(v));
+
+	               if(nl * nv > 0)
+	               {
+
+	            	   double ktr = transparency(lightSource, l, n, geoPoint);
+	            	   if (ktr * k > MIN_CALC_COLOR_K) 
+	            	   {
+	            		   	Color ip = lightSource.getIntensity(geoPoint.getPoint()).scale(ktr);
+	            		   	result = result.add(
+	                        calcDiffusive(kd, nl, ip),
+	                        calcSpecular(ks, l, n, v, nShininess, ip));
+	            	   }
+                    }  
+	               
+	           }
+	       }
+	       return result;
+	}
 	/**
 	 * gets list of points and find the closet point to the camera
 	 * 
