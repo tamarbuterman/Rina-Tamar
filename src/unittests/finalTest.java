@@ -29,13 +29,19 @@ class finalTest {
 		scene.setBackground(new Color(0,0,0));
 		scene.setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), 0.15));
 		
-		scene.addGeometries( //
-				new Triangle(new Point3D(-150, 150, 150), new Point3D(-70, -70, 50), new Point3D(75, -75, 150),
-						new Color(0,0,153), new Material(0.5, 0.5, 60)), 
-				new Sphere( new Point3D(60, -50, 50),10,new Color(java.awt.Color.yellow), new Material(0.2, 0.2, 30, 0.6, 0)),
+		/*scene.addGeometries( //
+				new Triangle(new Point3D(-30, 30, 60), new Point3D(-14, -14, 10), new Point3D(15, -15, 30),
+						new Color(java.awt.Color.GREEN), new Material(0.5, 0.5, 60)), 
+				new Triangle(new Point3D(30, 30, 60), new Point3D(0, 40, 10), new Point3D(5, -5, 120),
+						new Color(java.awt.Color.RED), new Material(0.5, 0.5, 60)), 
+				new Sphere( new Point3D(-30, -5, 30),10,new Color(java.awt.Color.gray), new Material(0.5, 0.5, 100)),
 
-				new Sphere( new Point3D(60, -50, 50),30,new Color(java.awt.Color.YELLOW), new Material(0.2, 0.2, 30, 0.6, 0)));
-	
+				new Sphere( new Point3D(-30, -5,30),30,new Color(java.awt.Color.YELLOW), new Material(0.4, 0.3, 100, 0.3, 0)));
+	*/
+		scene.addGeometries(
+				new Triangle(new Point3D(1500, 1500, 1500),new Point3D(-1500, -1500, 1500), new Point3D(670, -670, -3000),new Color(20, 20, 20), new Material(0, 0, 0, 0, 1)),
+				new Sphere(new Point3D(0, 0, 50), 50,new Color(java.awt.Color.BLUE), new Material(0.4, 0.3, 100, 0.3, 0)),
+				new Sphere(new Point3D(0, 0, 50),25,new Color(java.awt.Color.RED), new Material(0.5, 0.5, 100)));
 		scene.addLights(new SpotLight(new Color(700, 400, 400), //
 				new Point3D(60, -50, 0), 1, 4E-5, 2E-7, new Vector(0, 0, 1)),new DirectionalLight(new Color(500, 300, 0), new Vector(1, -1, 1)));
 
