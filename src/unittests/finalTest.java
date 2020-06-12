@@ -28,16 +28,6 @@ class finalTest {
 		scene.setDistance(1000);
 		scene.setBackground(new Color(0,0,0));
 		scene.setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), 0.15));
-		
-		/*scene.addGeometries( //
-				new Triangle(new Point3D(-30, 30, 60), new Point3D(-14, -14, 10), new Point3D(15, -15, 30),
-						new Color(java.awt.Color.GREEN), new Material(0.5, 0.5, 60)), 
-				new Triangle(new Point3D(30, 30, 60), new Point3D(0, 40, 10), new Point3D(5, -5, 120),
-						new Color(java.awt.Color.RED), new Material(0.5, 0.5, 60)), 
-				new Sphere( new Point3D(-30, -5, 30),10,new Color(java.awt.Color.gray), new Material(0.5, 0.5, 100)),
-
-				new Sphere( new Point3D(-30, -5,30),30,new Color(java.awt.Color.YELLOW), new Material(0.4, 0.3, 100, 0.3, 0)));
-	*/
 		scene.addGeometries(
 				new Triangle(new Point3D(1500, 1500, 1500),new Point3D(-1500, -1500, 1500), new Point3D(670, -670, -3000),new Color(20, 20, 20), new Material(0, 0, 0, 0, 1)),
 				new Sphere(new Point3D(0, 0, 50), 50,new Color(java.awt.Color.BLUE), new Material(0.4, 0.3, 100, 0.3, 0)),

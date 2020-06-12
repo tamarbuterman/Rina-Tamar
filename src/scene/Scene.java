@@ -10,10 +10,15 @@ import elements.Camera;
 import elements.LightSource;
 import geometries.Geometries;
 import geometries.Intersectable;
+import geometries.Plane;
 import primitives.Color;
+import primitives.Point3D;
 
 public class Scene
 {
+	/**
+	 * 
+	 */
 	String _name;
 	Color _background;
 	AmbientLight _ambientLight;
@@ -22,11 +27,14 @@ public class Scene
 	double _distance;
 	List<LightSource> _lights;
 	
+	Plane _focalPlane;
+	
 	public Scene(String name)
 	{
 		_name = name;
 		_geometries = new Geometries();
 		_lights = new LinkedList<LightSource>();
+		
 	}
 	public String getName()
 	{
@@ -67,6 +75,9 @@ public class Scene
 	public void setDistance(double dis)
 	{
 		_distance = dis;
+		
+		
+		//setFocalPlane(dis);
 	}
 	public void addGeometries(Intersectable... geometries) 
 	{
@@ -83,5 +94,19 @@ public class Scene
 		{
 			_lights.add(lights[i]);
 		}
+	}
+	
+	
+	public void setFocalPlane(double d)
+	{
+		Point3D p1 = _camera.getP0().add(_camera.getVto().scale(d));
+		Point3D p2 = p1.add(_camera.getVup());
+		Point3D p3 = p1.add(_camera.getVright());
+		_focalPlane = new Plane(p1, p2, p3);
+	}
+	
+	public Plane getFocalPlane()
+	{
+		return _focalPlane;
 	}
 }

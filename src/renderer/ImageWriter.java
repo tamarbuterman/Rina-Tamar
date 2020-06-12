@@ -16,6 +16,9 @@ import javax.imageio.stream.*;
  * @author Dan
  */
 public class ImageWriter {
+	/**
+	 * 
+	 */
 	private double _imageWidth, _imageHeight;
 	private int _nX, _nY;
 
@@ -24,6 +27,7 @@ public class ImageWriter {
 	private BufferedImage _image;
 
 	private String _imageName;
+	
 
 	// ***************** Constructors ********************** //
 	/**

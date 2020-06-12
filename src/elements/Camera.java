@@ -24,6 +24,10 @@ public class Camera {
 	Vector _vRight;
 	
 	
+	 double _widthSh;
+	 double _heightSh;
+
+	
 	/**
 	 * camera constructor
 	 * 
@@ -40,6 +44,23 @@ public class Camera {
 		_vUp = new Vector(vUp.normalized());
 		_vTo = new Vector(vTo.normalized());
 		_vRight = new Vector(vTo.crossProduct(vUp).normalized());
+		
+		_widthSh=0;
+		_heightSh=0;
+	}
+	
+	/**
+	 * camera constructor
+	 * 
+	 * @param p0 point of camara locetion
+	 * @param vTo, vUp orientation vectors
+	 * @param widthSh heightSh camera aperture size
+	 */
+	public Camera(Point3D p0, Vector vTo, Vector vUp, double widthSh, double heightSh)
+	{
+		this(p0, vTo, vUp);
+		_widthSh = widthSh;
+		_heightSh = heightSh;
 	}
 	
 	
@@ -96,6 +117,32 @@ public class Camera {
 	public Point3D getP0()
 	{
 		return _p0;
+	}
+	
+	
+	public double getWidthSh()
+	{
+		return _widthSh;
+	}
+	
+	public double getHeightSh()
+	{
+		return _heightSh;
+	}
+	
+	public Vector getVto()
+	{
+		return _vTo;
+	}
+	
+	public Vector getVup()
+	{
+		return _vUp;
+	}
+	
+	public Vector getVright()
+	{
+		return _vRight;
 	}
 
 }

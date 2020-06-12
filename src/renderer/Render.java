@@ -1,5 +1,7 @@
 package renderer;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import elements.Camera;
@@ -12,6 +14,8 @@ import primitives.Ray;
 import primitives.Vector;
 import scene.Scene;
 import geometries.Intersectable.GeoPoint;
+import geometries.Plane;
+
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;;
 
@@ -60,31 +64,39 @@ public class Render
 	 */
 	public void renderImage()
 	{
-		Camera camera = _scene.getCamera();
-		//Intersectable geometries = _scene.getGeometries();
-		//java.awt.Color background = _scene.getBackground().getColor();
-		
+		Camera camera = _scene.getCamera();		
 		int nX = _imageWriter.getNx();
 		int nY = _imageWriter.getNy();
-		for (int i=0; i<nY; i++)
+		if(camera.getHeightSh() == 0 && camera.getWidthSh() == 0)
 		{
-			for(int j=0; j<nX; j++)
+			for (int i=0; i<nY; i++)
 			{
-				Ray ray = camera.constructRayThroughPixel(nX, nY, j, i, _scene.getDistance(), _imageWriter.getWidth()
+				for(int j=0; j<nX; j++)
+				{
+					Ray ray = camera.constructRayThroughPixel(nX, nY, j, i, _scene.getDistance(), _imageWriter.getWidth()
 						, _imageWriter.getHeight());
-                GeoPoint closestPoint = findCLosestIntersection(ray);
-				_imageWriter.writePixel(j, i,  closestPoint == null ? _scene.getBackground().getColor(): calcColor(closestPoint, ray).getColor());
-
-				//List<GeoPoint> intersectionPoints = geometries.findIntersections(ray);
-				//if (intersectionPoints.isEmpty())
-				//	_imageWriter.writePixel(j, i, background);
-				//if(intersectionPoints == null)
-				//else
-				//{
-				//	GeoPoint closestPoint = getClosestPoint(intersectionPoints);
-					//_imageWriter.writePixel(j, i, calcColor(closestPoint, ray).getColor());
-				//}
+				
+					GeoPoint closestPoint = findCLosestIntersection(ray);
+					Color color = closestPoint == null ? _scene.getBackground(): calcColor(closestPoint, ray);
+					 _imageWriter.writePixel(j, i, color.getColor());
+				}
 			}
+		}
+		else
+		{
+			for (int i=0; i<nY; i++)
+			{
+				for(int j=0; j<nX; j++)
+				{
+					Ray ray = camera.constructRayThroughPixel(nX, nY, j, i, _scene.getDistance(), _imageWriter.getWidth()
+						, _imageWriter.getHeight());
+					Point3D focalPoint = findFocalPoint(ray, _scene.getFocalPlane());
+					List<Ray> rays = createFocalRays(focalPoint, camera, _scene.getDistance());
+					rays.add(ray);
+					Color color = colorPixel(rays); 
+					_imageWriter.writePixel(j, i, color.getColor());
+			}
+		}
 		}
 	}
 	
@@ -392,6 +404,49 @@ public class Render
 
 		}
 		 return ktr;
+	}
+	
+	
+	
+	private Point3D findFocalPoint(Ray ray, Plane focalPlane)
+	{
+		List<GeoPoint> listGp = focalPlane.findIntersections(ray);
+		/*if(listGp == null)
+			return null;*/
+		GeoPoint gp = listGp.get(0);
+		return gp.getPoint();
+	}
+	
+	private List<Ray> createFocalRays(Point3D focalPoint, Camera camera, double dis)
+	{
+		Point3D pScreen = camera.getP0().add(camera.getVto().scale(dis));
+		Vector v1 = camera.getVup().scale(camera.getHeightSh()/2);
+		Vector v2 = camera.getVright().scale(camera.getWidthSh()/2);
+		List<Point3D> points = new LinkedList<Point3D>();
+		points.add(pScreen.add(v1.add(v2)));
+		points.add(pScreen.add(v1).add(v2.scale(-1)));
+		points.add(pScreen.add(v1.scale(-1)).add(v2));
+		points.add(pScreen.add(v1.scale(-1)).add(v2.scale(-1)));
+		
+		List<Ray> ray = new LinkedList<Ray>();
+		for(int i=0; i<4; i++)
+		{
+			ray.add(new Ray(points.get(i), new Vector(focalPoint.subtract(points.get(i)))));
+		}
+		
+		return ray;
+	}
+	
+	private Color colorPixel(List<Ray> ray)
+	{
+		GeoPoint closestPoint = findCLosestIntersection(ray.get(0));
+		Color color = (closestPoint == null ? _scene.getBackground(): calcColor(closestPoint, ray.get(0)));
+		for(int i=1; i<5; i++)
+		{
+			closestPoint = findCLosestIntersection(ray.get(i));
+			color.add(closestPoint == null ? _scene.getBackground(): calcColor(closestPoint, ray.get(i)));
+		}
+		return color;
 	}
 }
 
