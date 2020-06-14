@@ -42,5 +42,26 @@ class DepthOfFieldTest {
 		render.renderImage();
 		render.writeToImage();
 	}
+	
+	@Test
+	void test2()
+	{
+		Scene scene = new Scene("Test scene");
+		scene.setCamera(new Camera(new Point3D(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0), 1, 1));
+		scene.setDistance(1000);
+		scene.setFocalPlane(1050);
+		scene.setBackground(new Color(0,0,0));
+		scene.setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), 0.15));
+		scene.addGeometries(
+				new Sphere(  new Point3D(0, -25, 100),25, new Color(java.awt.Color.BLUE),new Material(0.5, 0.5, 100)),
+				new Sphere(new Point3D(50, 50, -5),30,new Color(java.awt.Color.RED), new Material(0.4, 0.3, 100, 0.3, 0)));
+		scene.addLights(new DirectionalLight(new Color(500, 300, 0), new Vector(1, -1, 1)));
+
+		ImageWriter imageWriter = new ImageWriter("depth of field test2", 200, 200, 600, 600);
+		Render render = new Render(imageWriter, scene);
+
+		render.renderImage();
+		render.writeToImage();
+	}
 
 }
