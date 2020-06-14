@@ -41,8 +41,7 @@ public class Sphere extends RadialGeometry
 	 */
 	public Sphere(Point3D c, double r, Color color)
 	{
-		super(r);
-		_center = c;
+		this(c, r);
 		super._emission = color;
 	}
 	/**

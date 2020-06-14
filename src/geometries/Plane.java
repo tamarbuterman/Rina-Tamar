@@ -86,7 +86,7 @@ public class Plane extends Geometry
 		_p = new Point3D(p);
 		_normal = new Vector(n);
 	}
-
+	
 	@Override
 	public Vector getNormal(Point3D p) {
 		// TODO Auto-generated method stub

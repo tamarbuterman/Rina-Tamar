@@ -385,7 +385,7 @@ public class Render
 	private double transparency(LightSource ls, Vector l, Vector n, GeoPoint geopoint)
 	{
 		Vector lDir = l.scale(-1);
-		Ray shadowRay = new Ray(geopoint.point, lDir, n);
+		Ray shadowRay = new Ray(geopoint.getPoint(), lDir, n);
 
 		List<GeoPoint> intersections = _scene.getGeometries().findIntersections(shadowRay);
 		

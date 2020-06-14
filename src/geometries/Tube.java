@@ -14,7 +14,7 @@ public class Tube extends RadialGeometry
 	/**
 	 * Ray 
 	 */
-	Ray _axisRay;
+	public Ray _axisRay;
 	
 	/**
 	 * 
@@ -24,7 +24,7 @@ public class Tube extends RadialGeometry
 	public Tube(Ray axisRay, double r)
 	{
 		super(r);
-		_axisRay = axisRay;
+		_axisRay = new Ray(axisRay);
 	} 
 
 	/**
@@ -36,8 +36,7 @@ public class Tube extends RadialGeometry
 	 */
 	public Tube(Ray axisRay, double r, Color color)
 	{
-		super(r);
-		_axisRay = axisRay;
+		this(axisRay, r);
 		super._emission = color;
 	}
 	/**
