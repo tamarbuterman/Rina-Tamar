@@ -7,7 +7,7 @@ import static primitives.Util.isZero;
 
 /**
  * 
- * @author DELL
+ * @author Rina and Tamar
  *
  */
 public class Camera {
@@ -23,7 +23,9 @@ public class Camera {
 	Vector _vTo;
 	Vector _vRight;
 	
-	
+	/**
+	 * depth of field
+	 */
 	 double _widthSh;
 	 double _heightSh;
 
@@ -83,25 +85,7 @@ public class Camera {
             throw new IllegalArgumentException("distance cannot be 0");
         }
 		
-		//the center point of the center pixel
-		Point3D Pc = new Point3D(_p0.add(_vTo.scale(screenDistance)));
-		//width of pixel
-	    double Rx = screenWidth / nX;
-	    //height of pixel
-	    double Ry = screenHeight / nY;
-	    double tempY = ((i - nY / 2d) * Ry + Ry/2d);
-	    double tempX = ((j - nX / 2d) * Rx + Rx/2d);
-	    Point3D p = new Point3D(Pc);
-	    if(!isZero(tempX))
-	    {
-	    	 Vector Vx = new Vector(_vRight.scale(tempX));
-	    	p = p.add(Vx);
-	    }
-	    if(!isZero(tempY))
-	    {
-	    	Vector Vy = new Vector(_vUp.scale(-tempY));
-	    	p = p.add(Vy);
-	    }
+		Point3D p = new Point3D(getCenterOfPixel(nX, nY, j, i, screenDistance, screenWidth, screenHeight));
 	    Vector v = new Vector(p.subtract(_p0));
 	    //the center point of the pixel
 	    Ray ray = new Ray(_p0,v);
@@ -143,6 +127,42 @@ public class Camera {
 	public Vector getVright()
 	{
 		return _vRight;
+	}
+	
+	/**
+	 * Finds the center point of a particular pixel
+	 * 
+	 * @param nX
+	 * @param nY
+	 * @param j
+	 * @param i
+	 * @param screenDistance
+	 * @param screenWidth
+	 * @param screenHeight
+	 * @return the center point
+	 */
+	public Point3D getCenterOfPixel(int nX, int nY, int j, int i, double screenDistance, double screenWidth, double screenHeight)
+	{
+		//the center point of the center pixel
+				Point3D Pc = new Point3D(_p0.add(_vTo.scale(screenDistance)));
+				//width of pixel
+			    double Rx = screenWidth / nX;
+			    //height of pixel
+			    double Ry = screenHeight / nY;
+			    double tempY = ((i - nY / 2d) * Ry + Ry/2d);
+			    double tempX = ((j - nX / 2d) * Rx + Rx/2d);
+			    Point3D p = new Point3D(Pc);
+			    if(!isZero(tempX))
+			    {
+			    	 Vector Vx = new Vector(_vRight.scale(tempX));
+			    	 p = p.add(Vx);
+			    }
+			    if(!isZero(tempY))
+			    {
+			    	Vector Vy = new Vector(_vUp.scale(-tempY));
+			    	p = p.add(Vy);
+			    }
+			    return p;
 	}
 
 }

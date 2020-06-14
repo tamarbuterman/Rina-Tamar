@@ -17,18 +17,31 @@ import primitives.Point3D;
 public class Scene
 {
 	/**
-	 * 
+	 * Scene fields
 	 */
-	String _name;
-	Color _background;
-	AmbientLight _ambientLight;
-	Geometries _geometries;
-	Camera _camera;
-	double _distance;
-	List<LightSource> _lights;
+	private String _name;
+	private Color _background;
+	private AmbientLight _ambientLight;
+	/**
+	 * geometries list
+	 */
+	private Geometries _geometries;
+	private Camera _camera;
+	private double _distance;
+	/**
+	 * lights list
+	 */
+	private List<LightSource> _lights;
 	
-	Plane _focalPlane;
+	/**
+	 * depth of field
+	 */
+	private double _focalPlaneDistance;
 	
+	/**
+	 * scene constructor
+	 * @param name
+	 */
 	public Scene(String name)
 	{
 		_name = name;
@@ -36,6 +49,10 @@ public class Scene
 		_lights = new LinkedList<LightSource>();
 		
 	}
+	/**
+	 * getter and set function
+	 * 
+	 */
 	public String getName()
 	{
 		return _name;
@@ -74,10 +91,7 @@ public class Scene
 	}
 	public void setDistance(double dis)
 	{
-		_distance = dis;
-		
-		
-		//setFocalPlane(dis);
+		_distance = dis;		
 	}
 	public void addGeometries(Intersectable... geometries) 
 	{
@@ -99,14 +113,11 @@ public class Scene
 	
 	public void setFocalPlane(double d)
 	{
-		Point3D p1 = _camera.getP0().add(_camera.getVto().scale(d));
-		Point3D p2 = p1.add(_camera.getVup());
-		Point3D p3 = p1.add(_camera.getVright());
-		_focalPlane = new Plane(p1, p2, p3);
+		_focalPlaneDistance = d;
 	}
 	
-	public Plane getFocalPlane()
+	public double getFocalPlaneDistance()
 	{
-		return _focalPlane;
+		return _focalPlaneDistance;
 	}
 }

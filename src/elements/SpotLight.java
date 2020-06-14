@@ -20,7 +20,7 @@ public class SpotLight extends PointLight
     private double _concentration;
     
     /**
-     * 
+     * spotlight constructor
      * @param colorIntensity
      * @param position
      * @param direction

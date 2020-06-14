@@ -90,8 +90,9 @@ public class Render
 				{
 					Ray ray = camera.constructRayThroughPixel(nX, nY, j, i, _scene.getDistance(), _imageWriter.getWidth()
 						, _imageWriter.getHeight());
-					Point3D focalPoint = findFocalPoint(ray, _scene.getFocalPlane());
-					List<Ray> rays = createFocalRays(focalPoint, camera, _scene.getDistance());
+					Point3D p = new Point3D(camera.getCenterOfPixel(nX, nY, j, i, _scene.getDistance(), _imageWriter.getWidth(), _imageWriter.getHeight()));
+					Point3D focalPoint = findFocalPoint(p, _scene.getFocalPlaneDistance(), camera.getVto());
+					List<Ray> rays = createFocalRays(focalPoint, camera, _scene.getDistance(), p);
 					rays.add(ray);
 					Color color = colorPixel(rays); 
 					_imageWriter.writePixel(j, i, color.getColor());
@@ -112,7 +113,8 @@ public class Render
 	 * @param ip
 	 * @return
 	 */
-	private Color calcSpecular(double ks, Vector d, Vector n, Vector v, int nExponent, Color il) {
+	private Color calcSpecular(double ks, Vector d, Vector n, Vector v, int nExponent, Color il)
+	{
 	    double nd = alignZero(n.dotProduct(d));
 	    Vector r = d.add(n.scale(-2 * nd));
 	       double minusVR = alignZero(r.dotProduct(v) * (-1));
@@ -176,7 +178,7 @@ public class Render
 	       
 	       result = result.add(getLightSource(gp, k, result,v,n,nShininess,kd,ks));
 	       
-	       double kr = gp.geometry.getMaterial().getKR();
+	       double kr = gp.getGeometry().getMaterial().getKR();
 	       double kkr = k * kr;
 	       if (kkr > MIN_CALC_COLOR_K) 
 	       {
@@ -217,7 +219,7 @@ public class Render
 	            	   double ktr = transparency(lightSource, l, n, geoPoint);
 	            	   if (ktr * k > MIN_CALC_COLOR_K) 
 	            	   {
-	            		   	Color ip = lightSource.getIntensity(geoPoint.getPoint()).scale(ktr);
+	            		   	Color ip = lightSource.getIntensity(geoPoint.getPoint());//.scale(ktr);
 	            		   	result = result.add(
 	                        calcDiffusive(kd, nl, ip),
 	                        calcSpecular(ks, l, n, v, nShininess, ip));
@@ -407,19 +409,30 @@ public class Render
 	}
 	
 	
-	
-	private Point3D findFocalPoint(Ray ray, Plane focalPlane)
+	/**
+	 * 
+	 * @param p
+	 * @param dis
+	 * @param vTo
+	 * @return intersection point in the focal plane
+	 */
+	private Point3D findFocalPoint(Point3D p, double dis, Vector vTo)
 	{
-		List<GeoPoint> listGp = focalPlane.findIntersections(ray);
-		/*if(listGp == null)
-			return null;*/
-		GeoPoint gp = listGp.get(0);
-		return gp.getPoint();
+		
+		return new Point3D(p.add(vTo.scale(dis)));
 	}
 	
-	private List<Ray> createFocalRays(Point3D focalPoint, Camera camera, double dis)
+	/**
+	 * Creates focus rays
+	 * 
+	 * @param focalPoint
+	 * @param camera
+	 * @param dis
+	 * @param pScreen
+	 * @return list of rays
+	 */
+	private List<Ray> createFocalRays(Point3D focalPoint, Camera camera, double dis, Point3D pScreen)
 	{
-		Point3D pScreen = camera.getP0().add(camera.getVto().scale(dis));
 		Vector v1 = camera.getVup().scale(camera.getHeightSh()/2);
 		Vector v2 = camera.getVright().scale(camera.getWidthSh()/2);
 		List<Point3D> points = new LinkedList<Point3D>();
@@ -437,6 +450,12 @@ public class Render
 		return ray;
 	}
 	
+	/**
+	 * Calculate the color of each pixel by the extra rays
+	 * 
+	 * @param ray
+	 * @return Color pixel
+	 */
 	private Color colorPixel(List<Ray> ray)
 	{
 		GeoPoint closestPoint = findCLosestIntersection(ray.get(0));
