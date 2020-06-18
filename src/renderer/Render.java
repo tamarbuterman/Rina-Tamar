@@ -24,6 +24,10 @@ public class Render
 {
 	private static final int MAX_CALC_COLOR_LEVEL = 10;
 	private static final double MIN_CALC_COLOR_K = 0.001;
+	
+	private int _threads = 1;
+	private final int SPARE_THREADS = 2;
+	private boolean _print = false;
 
 
 	/**
@@ -34,6 +38,90 @@ public class Render
 	 * Scene class which includes the colors of the scene, source lights, camera and more data about the scene
 	 */
 	Scene _scene;
+	
+	private class Pixel
+	{
+		private long _maxRows = 0;
+		private long _maxCols = 0;
+		private long _pixels = 0;
+		public volatile int row = 0;
+		public volatile int col = -1;
+		private long _counter = 0;
+		private int _percents = 0;
+		private long _nextCounter = 0;
+
+		/**
+		 * The constructor for initializing the main follow up Pixel object
+		 * @param maxRows the amount of pixel rows
+		 * @param maxCols the amount of pixel columns
+		 */
+		public Pixel(int maxRows, int maxCols)
+		{
+			_maxRows = maxRows;
+			_maxCols = maxCols;
+			_pixels = maxRows * maxCols;
+			_nextCounter = _pixels / 100;
+			if (Render.this._print) System.out.printf("\r %02d%%", _percents);
+		}
+		
+		/**
+		 *  Default constructor for secondary Pixel objects
+		 */
+		public Pixel() {}
+
+		/**
+		 * Internal function for thread-safe manipulating of main follow up Pixel object - this function is
+		 * critical section for all the threads, and main Pixel object data is the shared data of this critical
+		 * section.<br/>
+		 * The function provides next pixel number each call.
+		 * @param target target secondary Pixel object to copy the row/column of the next pixel 
+		 * @return the progress percentage for follow up: if it is 0 - nothing to print, if it is -1 - the task is
+		 * finished, any other value - the progress percentage (only when it changes)
+		 */
+		private synchronized int nextP(Pixel target)
+		{
+			++col;
+			++_counter;
+			if (col < _maxCols) {
+				target.row = this.row;
+				target.col = this.col;
+				if (_counter == _nextCounter) {
+					++_percents;
+					_nextCounter = _pixels * (_percents + 1) / 100;
+					return _percents;
+				}
+				return 0;
+			}
+			++row;
+			if (row < _maxRows) {
+				col = 0;
+				if (_counter == _nextCounter) {
+					++_percents;
+					_nextCounter = _pixels * (_percents + 1) / 100;
+					return _percents;
+				}
+				return 0;
+			}
+			return -1;
+		}
+	
+		/**
+		 * Public function for getting next pixel number into secondary Pixel object.
+		 * The function prints also progress percentage in the console window.
+		 * @param target target secondary Pixel object to copy the row/column of the next pixel 
+		 * @return true if the work still in progress, -1 if it's done
+		 */
+		public boolean nextPixel(Pixel target) {
+			int percents = nextP(target);
+			if (percents > 0)
+				if (Render.this._print) System.out.printf("\r %02d%%", percents);
+			if (percents >= 0)
+				return true;
+			if (Render.this._print) System.out.printf("\r %02d%%", 100);
+			return false;
+		}
+	}
+	
 	
 	
 	/**
@@ -67,24 +155,30 @@ public class Render
 		Camera camera = _scene.getCamera();		
 		int nX = _imageWriter.getNx();
 		int nY = _imageWriter.getNy();
-		if(camera.getHeightSh() == 0 && camera.getWidthSh() == 0)
+		
+		final Pixel thePixel = new Pixel(nY, nX);
+		
+		// Generate threads
+		Thread[] threads = new Thread[_threads];
+		
+		for (int i = _threads - 1; i >= 0; --i)
 		{
-			for (int i=0; i<nY; i++)
+			threads[i] = new Thread(() -> 
 			{
-				for(int j=0; j<nX; j++)
+				Pixel pixel = new Pixel();
+				while (thePixel.nextPixel(pixel))
 				{
-					Ray ray = camera.constructRayThroughPixel(nX, nY, j, i, _scene.getDistance(), _imageWriter.getWidth()
-						, _imageWriter.getHeight());
-				
-					GeoPoint closestPoint = findCLosestIntersection(ray);
-					Color color = closestPoint == null ? _scene.getBackground(): calcColor(closestPoint, ray);
-					 _imageWriter.writePixel(j, i, color.getColor());
+					Ray ray = camera.constructRayThroughPixel(nX, nY, pixel.col, pixel.row, _scene.getDistance(), _imageWriter.getWidth()
+							, _imageWriter.getHeight());
+					Point3D p = new Point3D(camera.getCenterOfPixel(nX, nY, pixel.col, pixel.row, _scene.getDistance(), _imageWriter.getWidth(), _imageWriter.getHeight()));
+					Point3D focalPoint = findFocalPoint(p, _scene.getFocalPlaneDistance(), camera.getVto());
+					List<Ray> rays = createFocalRays(focalPoint, camera, _scene.getDistance(), p);
+					rays.add(ray);
+					Color color = colorPixel(rays); 
+					_imageWriter.writePixel(pixel.col, pixel.row, color.getColor());
 				}
-			}
-		}
-		else
-		{
-			for (int i=0; i<nY; i++)
+			});
+			/*for (int i=0; i<nY; i++)
 			{
 				for(int j=0; j<nX; j++)
 				{
@@ -96,10 +190,51 @@ public class Render
 					rays.add(ray);
 					Color color = colorPixel(rays); 
 					_imageWriter.writePixel(j, i, color.getColor());
-			}
+				}
+			}*/
 		}
-		}
+		
+		// Start threads
+		for (Thread thread : threads) thread.start();
+
+		// Wait for all threads to finish
+		for (Thread thread : threads) try { thread.join(); } catch (Exception e) {}
+		if (_print) System.out.printf("\r100%%\n");
 	}
+	
+	/**
+	 * Set multithreading <br>
+	 * - if the parameter is 0 - number of coress less 2 is taken
+	 * 
+	 * @param threads number of threads
+	 * @return the Render object itself
+	 */
+	public Render setMultithreading(int threads) {
+		if (threads < 0)
+			throw new IllegalArgumentException("Multithreading patameter must be 0 or higher");
+		if (threads != 0)
+			_threads = threads;
+		else {
+			int cores = Runtime.getRuntime().availableProcessors() - SPARE_THREADS;
+			if (cores <= 2)
+				_threads = 1;
+			else
+				_threads = cores;
+		}
+		return this;
+	}
+	
+	/**
+	 * Set debug printing on
+	 * 
+	 * @return the Render object itself
+	 */
+	public Render setDebugPrint() 
+	{
+		_print = true;
+		return this;
+	}
+
 	
 	/**
 	 * calculates the specular color
@@ -418,8 +553,7 @@ public class Render
 	 */
 	private Point3D findFocalPoint(Point3D p, double dis, Vector vTo)
 	{
-		
-		return new Point3D(p.add(vTo.scale(dis)));
+			return new Point3D(p.add(vTo.scale(dis)));
 	}
 	
 	/**
@@ -433,20 +567,26 @@ public class Render
 	 */
 	private List<Ray> createFocalRays(Point3D focalPoint, Camera camera, double dis, Point3D pScreen)
 	{
-		Vector v1 = camera.getVup().scale(camera.getHeightSh()/2);
-		Vector v2 = camera.getVright().scale(camera.getWidthSh()/2);
-		List<Point3D> points = new LinkedList<Point3D>();
-		points.add(pScreen.add(v1.add(v2)));
-		points.add(pScreen.add(v1).add(v2.scale(-1)));
-		points.add(pScreen.add(v1.scale(-1)).add(v2));
-		points.add(pScreen.add(v1.scale(-1)).add(v2.scale(-1)));
-		
 		List<Ray> ray = new LinkedList<Ray>();
-		for(int i=0; i<4; i++)
+		try
 		{
-			ray.add(new Ray(points.get(i), new Vector(focalPoint.subtract(points.get(i)))));
-		}
+			Vector v1 = new Vector(camera.getVup().scale(camera.getHeightSh()/2));
+			Vector v2 = new Vector(camera.getVright().scale(camera.getWidthSh()/2));
 		
+			List<Point3D> points = new LinkedList<Point3D>();
+			points.add(pScreen.add(v1.add(v2)));
+			points.add(pScreen.add(v1).add(v2.scale(-1)));
+			points.add(pScreen.add(v1.scale(-1)).add(v2));
+			points.add(pScreen.add(v1.scale(-1)).add(v2.scale(-1)));	
+			for(int i=0; i<4; i++)
+			{
+				ray.add(new Ray(points.get(i), new Vector(focalPoint.subtract(points.get(i)))));
+			}
+		}
+		catch(IllegalArgumentException e)
+		{
+			return new LinkedList<Ray>();
+		}
 		return ray;
 	}
 	
@@ -456,14 +596,15 @@ public class Render
 	 * @param ray
 	 * @return Color pixel
 	 */
-	private Color colorPixel(List<Ray> ray)
+	private Color colorPixel(List<Ray> rays)
 	{
-		GeoPoint closestPoint = findCLosestIntersection(ray.get(0));
-		Color color = (closestPoint == null ? _scene.getBackground(): calcColor(closestPoint, ray.get(0)));
-		for(int i=1; i<5; i++)
+		Ray r = rays.remove(0);
+		GeoPoint closestPoint = findCLosestIntersection(r);
+		Color color = (closestPoint == null ? _scene.getBackground(): calcColor(closestPoint, r));
+		for(Ray ray: rays)
 		{
-			closestPoint = findCLosestIntersection(ray.get(i));
-			color.add(closestPoint == null ? _scene.getBackground(): calcColor(closestPoint, ray.get(i)));
+			closestPoint = findCLosestIntersection(ray);
+			color.add(closestPoint == null ? _scene.getBackground(): calcColor(closestPoint, ray));
 		}
 		return color;
 	}

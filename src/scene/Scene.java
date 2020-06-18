@@ -48,6 +48,7 @@ public class Scene
 		_geometries = new Geometries();
 		_lights = new LinkedList<LightSource>();
 		
+		_focalPlaneDistance = 1;
 	}
 	/**
 	 * getter and set function
