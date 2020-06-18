@@ -575,12 +575,24 @@ public class Render
 		
 			List<Point3D> points = new LinkedList<Point3D>();
 			points.add(pScreen.add(v1.add(v2)));
-			points.add(pScreen.add(v1).add(v2.scale(-1)));
+			points.add(pScreen.add(v1.scale(-1)).add(v2.scale(-1)));
 			points.add(pScreen.add(v1.scale(-1)).add(v2));
-			points.add(pScreen.add(v1.scale(-1)).add(v2.scale(-1)));	
-			for(int i=0; i<4; i++)
+			points.add(pScreen.add(v1).add(v2.scale(-1)));
+			int j=-1;
+			for(int k =0; k<4; k++)
 			{
-				ray.add(new Ray(points.get(i), new Vector(focalPoint.subtract(points.get(i)))));
+				Vector v = new Vector(k<2? camera.getVup(): camera.getVright());
+				double d = k<2? camera.getHeightSh()/5 : camera.getWidthSh()/5 ; 
+				for(int i=1; i<=3; i++)
+				{
+					points.add(new Point3D(points.get(k).add(v.scale(j*i*d))));
+				}
+				j = j*-1;
+			}
+				
+			for(Point3D point: points)
+			{
+				ray.add(new Ray(point, new Vector(focalPoint.subtract(point))));
 			}
 		}
 		catch(IllegalArgumentException e)
