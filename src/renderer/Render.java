@@ -171,8 +171,9 @@ public class Render
 					Ray ray = camera.constructRayThroughPixel(nX, nY, pixel.col, pixel.row, _scene.getDistance(), _imageWriter.getWidth()
 							, _imageWriter.getHeight());
 					Point3D p = new Point3D(camera.getCenterOfPixel(nX, nY, pixel.col, pixel.row, _scene.getDistance(), _imageWriter.getWidth(), _imageWriter.getHeight()));
-					Point3D focalPoint = findFocalPoint(p, _scene.getFocalPlaneDistance(), camera.getVto());
-					List<Ray> rays = createFocalRays(focalPoint, camera, _scene.getDistance(), p);
+					//Point3D focalPoint = findFocalPoint(p, _scene.getFocalPlaneDistance(), camera.getVto());
+					Point3D focalPoint = findFocalPoint(p, _scene.getFocalPlaneDistance()-_scene.getDistance(), ray.getDirectiion()/*camera.getVto()*/);
+					List<Ray> rays = createFocalRays(focalPoint, camera, /*_scene.getDistance(),*/ p);
 					rays.add(ray);
 					Color color = colorPixel(rays); 
 					_imageWriter.writePixel(pixel.col, pixel.row, color.getColor());
@@ -551,9 +552,9 @@ public class Render
 	 * @param vTo
 	 * @return intersection point in the focal plane
 	 */
-	private Point3D findFocalPoint(Point3D p, double dis, Vector vTo)
+	private Point3D findFocalPoint(Point3D p, double dis, Vector direction)
 	{
-			return new Point3D(p.add(vTo.scale(dis)));
+			return new Point3D(p.add(direction.scale(dis)));
 	}
 	
 	/**
@@ -565,25 +566,38 @@ public class Render
 	 * @param pScreen
 	 * @return list of rays
 	 */
-	private List<Ray> createFocalRays(Point3D focalPoint, Camera camera, double dis, Point3D pScreen)
+	private List<Ray> createFocalRays(Point3D focalPoint, Camera camera, /*double dis,*/ Point3D pScreen)
 	{
 		List<Ray> ray = new LinkedList<Ray>();
 		try
 		{
 			Vector v1 = new Vector(camera.getVup().scale(camera.getHeightSh()/2));
 			Vector v2 = new Vector(camera.getVright().scale(camera.getWidthSh()/2));
+			//Vector vu = new Vector(camera.getVup());
+			//Vector vr = new Vector(camera.getVright());
 		
 			List<Point3D> points = new LinkedList<Point3D>();
-			points.add(pScreen.add(v1.add(v2)));
+			points.add(pScreen.add(v1).add(v2));
 			points.add(pScreen.add(v1.scale(-1)).add(v2.scale(-1)));
 			points.add(pScreen.add(v1.scale(-1)).add(v2));
 			points.add(pScreen.add(v1).add(v2.scale(-1)));
+			/*for(int i =2; i<5; i++)
+			{
+				Vector v1 = new Vector(vu.scale(camera.getHeightSh()/i));
+				Vector v2 = new Vector(vr.scale(camera.getWidthSh()/i));
+				points.add(pScreen.add(v1.add(v2)));
+				points.add(pScreen.add(v1.scale(-1)).add(v2.scale(-1)));
+				points.add(pScreen.add(v1.scale(-1)).add(v2));
+				points.add(pScreen.add(v1).add(v2.scale(-1)));
+			}*/
+			
+			
 			int j=-1;
 			for(int k =0; k<4; k++)
 			{
 				Vector v = new Vector(k<2? camera.getVup(): camera.getVright());
-				double d = k<2? camera.getHeightSh()/5 : camera.getWidthSh()/5 ; 
-				for(int i=1; i<=3; i++)
+				double d = k<2? camera.getHeightSh()/101 : camera.getWidthSh()/101 ; 
+				for(int i=1; i<=100; i++)
 				{
 					points.add(new Point3D(points.get(k).add(v.scale(j*i*d))));
 				}
@@ -616,7 +630,9 @@ public class Render
 		for(Ray ray: rays)
 		{
 			closestPoint = findCLosestIntersection(ray);
-			color.add(closestPoint == null ? _scene.getBackground(): calcColor(closestPoint, ray));
+			Color c = closestPoint == null ? _scene.getBackground(): calcColor(closestPoint, ray);
+			if(c != color)
+				color.add(c);
 		}
 		return color;
 	}
