@@ -170,10 +170,13 @@ public class Render
 				{
 					Ray ray = camera.constructRayThroughPixel(nX, nY, pixel.col, pixel.row, _scene.getDistance(), _imageWriter.getWidth()
 							, _imageWriter.getHeight());
-					Point3D p = new Point3D(camera.getCenterOfPixel(nX, nY, pixel.col, pixel.row, _scene.getDistance(), _imageWriter.getWidth(), _imageWriter.getHeight()));
+					Point3D pScreen = new Point3D(camera.getCenterOfPixel(nX, nY, pixel.col, pixel.row, _scene.getDistance(), _imageWriter.getWidth(), _imageWriter.getHeight()));
+					List<Point3D> ps = camera.getPointsPixel(pScreen, nX, nY,  _imageWriter.getWidth(), _imageWriter.getHeight());
+					//List<Ray> ray4 = camera.constructRaysThroughPixel(nX, nY, pixel.col, pixel.row, _scene.getDistance(), _imageWriter.getWidth()
+						//	, _imageWriter.getHeight(), ps);
 					//Point3D focalPoint = findFocalPoint(p, _scene.getFocalPlaneDistance(), camera.getVto());
-					Point3D focalPoint = findFocalPoint(p, _scene.getFocalPlaneDistance()-_scene.getDistance(), ray.getDirectiion()/*camera.getVto()*/);
-					List<Ray> rays = createFocalRays(focalPoint, camera, /*_scene.getDistance(),*/ p);
+					Point3D focalPoint = findFocalPoint(pScreen, _scene.getFocalPlaneDistance()-_scene.getDistance(), ray.getDirectiion().normalized(), camera.getVto().normalized());
+					List<Ray> rays = createFocalRays(focalPoint, camera, /*_scene.getDistance(),*/ pScreen);
 					rays.add(ray);
 					Color color = colorPixel(rays); 
 					_imageWriter.writePixel(pixel.col, pixel.row, color.getColor());
@@ -552,9 +555,10 @@ public class Render
 	 * @param vTo
 	 * @return intersection point in the focal plane
 	 */
-	private Point3D findFocalPoint(Point3D p, double dis, Vector direction)
+	private Point3D findFocalPoint(Point3D pScreen, double dis, Vector direction, Vector vTo)
 	{
-			return new Point3D(p.add(direction.scale(dis)));
+		double t = dis/(direction.dotProduct(vTo));
+		return new Point3D(pScreen.add(direction.scale(t)));
 	}
 	
 	/**
@@ -577,10 +581,29 @@ public class Render
 			//Vector vr = new Vector(camera.getVright());
 		
 			List<Point3D> points = new LinkedList<Point3D>();
-			points.add(pScreen.add(v1).add(v2));
+			/*points.add(pScreen.add(v1).add(v2));
 			points.add(pScreen.add(v1.scale(-1)).add(v2.scale(-1)));
 			points.add(pScreen.add(v1.scale(-1)).add(v2));
-			points.add(pScreen.add(v1).add(v2.scale(-1)));
+			points.add(pScreen.add(v1).add(v2.scale(-1)));*/
+			
+			double xStart = pScreen.getX() - camera.getWidthSh() / 2;
+	    	double xEnd = pScreen.getX() + camera.getWidthSh() / 2;
+	    	double yStart = pScreen.getY() - camera.getHeightSh() / 2;
+	    	double yEnd = pScreen.getY() + camera.getHeightSh() / 2;
+	    	
+	    	points.add(new Point3D(xEnd, yEnd, pScreen.getZ()));
+	    	points.add(new Point3D(xEnd, yStart, pScreen.getZ()));
+	    	points.add(new Point3D(xStart, yEnd, pScreen.getZ()));
+	    	points.add(new Point3D(xStart, yStart, pScreen.getZ()));
+	    	//points.add(viewPoint);
+	    	
+	    	for(int i = 0; i < 300; i ++)
+	    	{
+	    		double x = (double) ((Math.random()*(xStart - xEnd + 1))+ xEnd);
+	    		double y = (double) ((Math.random()*(yStart - yEnd + 1))+ yEnd);
+	    		double z = pScreen.getZ();
+		    	points.add(new Point3D(x, y, z));
+	    	}
 			/*for(int i =2; i<5; i++)
 			{
 				Vector v1 = new Vector(vu.scale(camera.getHeightSh()/i));
@@ -592,7 +615,7 @@ public class Render
 			}*/
 			
 			
-			int j=-1;
+			/*int j=-1;
 			for(int k =0; k<4; k++)
 			{
 				Vector v = new Vector(k<2? camera.getVup(): camera.getVright());
@@ -602,11 +625,11 @@ public class Render
 					points.add(new Point3D(points.get(k).add(v.scale(j*i*d))));
 				}
 				j = j*-1;
-			}
+			}*/
 				
 			for(Point3D point: points)
 			{
-				ray.add(new Ray(point, new Vector(focalPoint.subtract(point))));
+				ray.add(new Ray(point, new Vector(focalPoint.subtract(point).normalized())));
 			}
 		}
 		catch(IllegalArgumentException e)
@@ -635,6 +658,50 @@ public class Render
 				color.add(c);
 		}
 		return color;
+    }
+	
+	private Color calcColorPixel4(List<Point3D> points, int k)
+	{
+		Camera camera = _scene.getCamera();
+		int nX = _imageWriter.getNx();
+		int nY = _imageWriter.getNy();
+		double screenWidth = _imageWriter.getWidth();
+		double screenHeight = _imageWriter.getHeight();
+		
+		List<Ray> rays = camera.constructRaysThroughPixel(points);
+		Ray r = rays.remove(0);
+		GeoPoint closestPoint = findCLosestIntersection(r);
+		Color color = (closestPoint == null ? _scene.getBackground(): calcColor(closestPoint, r));
+		for(Ray ray:rays)
+		{
+			closestPoint = findCLosestIntersection(ray);
+			Color c = closestPoint == null ? _scene.getBackground(): calcColor(closestPoint, ray);
+			if(c != color)
+			{
+				List<Point3D> centerP = findCenterNewPixels(points);
+				for(Point3D p: centerP)
+				{
+					List<Point3D> newPoints = camera.getPointsPixel(p, nX*2*k, nY*2*k, screenWidth,  screenHeight);
+					calcColorPixel4(newPoints, k+1);
+				}
+			}
+		}
+		return color;
 	}
+	
+	private List<Point3D> findCenterNewPixels(List<Point3D> points)
+	{
+		Vector vUp = _scene.getCamera().getVup().normalized();
+		Vector vRight = _scene.getCamera().getVright().normalized();
+		double w = points.get(0).distance(points.get(3));
+		double h = points.get(0).distance(points.get(2));
+		List<Point3D> centerPoints = new LinkedList<Point3D>();
+		centerPoints.add(points.get(0).add(vRight.scale(w/-4)).add(vUp.scale(h/-4)));
+		centerPoints.add(points.get(3).add(vRight.scale(w/4)).add(vUp.scale(h/-4)));
+		centerPoints.add(points.get(2).add(vRight.scale(w/-4)).add(vUp.scale(h/4)));
+		centerPoints.add(points.get(1).add(vRight.scale(w/4)).add(vUp.scale(h/4)));
+		return centerPoints;
+	}
+	
 }
 
