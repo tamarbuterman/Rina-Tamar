@@ -8,6 +8,7 @@ import elements.AmbientLight;
 import elements.Camera;
 import elements.DirectionalLight;
 import elements.SpotLight;
+import geometries.Plane;
 import geometries.Sphere;
 import geometries.Triangle;
 import primitives.Color;
@@ -47,21 +48,24 @@ class DepthOfFieldTest {
 	void test2()
 	{
 		Scene scene = new Scene("Test scene");
-		scene.setCamera(new Camera(new Point3D(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0), 14, 14));
+		scene.setCamera(new Camera(new Point3D(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0), 20, 20));
 		scene.setDistance(1000);
 		scene.setFocalPlane(2050);
-		scene.setBackground(new Color(java.awt.Color.LIGHT_GRAY));
+		scene.setBackground(new Color(java.awt.Color.lightGray));
 		scene.setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), 0.15));
 		scene.addGeometries(
-				 new Sphere(new Point3D(-400, -400, 4000), 30, new Color(java.awt.Color.GREEN), new Material(0.3, 0.7, 100, 0.5, 0)),
+				 new Sphere(new Point3D(-400, -400, 4000), 30, new Color(java.awt.Color.BLUE), new Material(0.3, 0.7, 100, 0.5, 0)),
 				 new Sphere(new Point3D(-50, -50, 500), 30, new Color(java.awt.Color.RED), new Material(0.3, 0.7, 100, 0.5, 0)),
 				 new Sphere(new Point3D(30,33, 6000), 30, new Color(java.awt.Color.BLACK), new Material(0.3, 0.5, 50, 0.7 , 0)),
+				 new Sphere(new Point3D(100, 100, 10000), 30, new Color(java.awt.Color.YELLOW), new Material(0.3, 0.7, 100, 0.5, 0)),
+				 new Sphere(new Point3D(200, 200, 3000), 30, new Color(java.awt.Color.ORANGE), new Material(0.3, 0.7, 100, 0.5, 0)),
+				// new Plane(new Point3D(0, 1.5, 0), new Point3D(4, 0.7, 0), new Point3D(0, 0, 50000), new Color(java.awt.Color.BLACK)),
 				 new Sphere(new Point3D(35, 35, -20), 30, new Color(java.awt.Color.BLUE), new Material(0.3, 0.5, 50, 0.7 , 0)));
-		/*scene.addGeometries(
+			/*scene.addGeometries(
 				new Sphere(  new Point3D(0, -25, 100),25, new Color(java.awt.Color.BLUE),new Material(0.5, 0.5, 100)),
 				new Sphere(new Point3D(50, 50, -5),30,new Color(java.awt.Color.RED), new Material(0.4, 0.3, 100, 0.3, 0)));
-		*/
-	 scene.addLights(new DirectionalLight(new Color(500, 300, 0), new Vector(1, -1, 1)));
+			 */
+		scene.addLights(new DirectionalLight(new Color(500, 300, 0), new Vector(1, -1, 1)));
 
 		ImageWriter imageWriter = new ImageWriter("depth of field test2", 200, 200, 600, 600);
 		Render render = new Render(imageWriter, scene);
@@ -75,14 +79,14 @@ class DepthOfFieldTest {
 	 Scene scene = new Scene("Test scene");
 	 scene.setCamera(new Camera(new Point3D(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0), 20, 20));
 	 scene.setDistance(1000);
-	 scene.setFocalPlane(2000);
+	 scene.setFocalPlane(1500);
 	 scene.setBackground(Color.BLACK);
 	 scene.setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), 0));
 
 	 scene.addGeometries(
-			 new Sphere(new Point3D(-80, -80, 660), 50, new Color(java.awt.Color.RED), new Material(0.3, 0.7, 100, 0.5, 0)),
-			 new Sphere(new Point3D(-10, -10, 360), 50, new Color(java.awt.Color.RED), new Material(0.3, 0.7, 100, 0.5, 0)),
-			 new Sphere(new Point3D(50, 50, 60), 50, new Color(java.awt.Color.RED), new Material(0.3, 0.7, 100, 0.5 , 0)));
+			 new Sphere(new Point3D(-80, -80, 6600), 50, new Color(java.awt.Color.RED), new Material(0.3, 0.7, 100, 0.5, 0)),
+			 new Sphere(new Point3D(-10, -10, 3600), 50, new Color(java.awt.Color.RED), new Material(0.3, 0.7, 100, 0.5, 0)),
+			 new Sphere(new Point3D(50, 50, 600), 50, new Color(java.awt.Color.RED), new Material(0.3, 0.7, 100, 0.5 , 0)));
 
 
 	 scene.addLights(new SpotLight(new Color(700, 400, 400), new Point3D(40, -40, -115), 1, 4E-4, 2E-5,  new Vector(0, 0, 1)));
