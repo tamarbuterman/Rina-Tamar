@@ -24,9 +24,9 @@ class finalTest {
 	void test()
 	{
 		Scene scene = new Scene("Test scene");
-		scene.setCamera(new Camera(new Point3D(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0)));
+		scene.setCamera(new Camera(new Point3D(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, 1, 0)));
 		scene.setDistance(1000);
-		scene.setBackground(new Color(0,0,0));
+		scene.setBackground(new Color(255,255,255));
 		scene.setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), 0.15));
 		scene.addGeometries(
 				new Triangle(new Point3D(1500, 1500, 1500),new Point3D(-1500, -1500, 1500), new Point3D(670, -670, -3000),new Color(20, 20, 20), new Material(0, 0, 0, 0, 1)),

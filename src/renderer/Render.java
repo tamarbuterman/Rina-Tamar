@@ -683,7 +683,7 @@ public class Render
 		Ray r = rays.remove(0);
 		GeoPoint closestPoint = findCLosestIntersection(r);
 		Color cr = (closestPoint == null ? _scene.getBackground(): calcColor(closestPoint, r)).reduce(4);
-		Color color = new Color(0,0,0);
+		Color color = cr;
 		for(Ray ray:rays)
 		{
 			closestPoint = findCLosestIntersection(ray);
