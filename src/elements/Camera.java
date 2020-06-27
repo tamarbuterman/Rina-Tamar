@@ -107,6 +107,10 @@ public class Camera {
 	    
 		return rays;
 	}
+	public void setP0(Point3D p)
+	{
+		_p0 = p;
+	}
 	
 	/**
 	 * Get function for the point where the camera is located

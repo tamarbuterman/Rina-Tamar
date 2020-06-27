@@ -87,6 +87,12 @@ public class Plane extends Geometry
 		_normal = new Vector(n);
 	}
 	
+	
+	public Plane(Point3D p, Vector n, Color color)
+	{
+		this(p,n);
+		super._emission = color;
+	}
 	@Override
 	public Vector getNormal(Point3D p) {
 		// TODO Auto-generated method stub

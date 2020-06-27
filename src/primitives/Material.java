@@ -39,6 +39,11 @@ public class Material {
 		_kT = kt;
 		_kR = kr;
 	}
+	
+	public void setShininess(int sh)
+	{
+		_nShininess = sh;
+	}
 	/**
 	 * Material getter returns the kD
 	 * 
