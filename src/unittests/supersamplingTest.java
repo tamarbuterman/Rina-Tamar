@@ -30,7 +30,7 @@ class supersamplingTest
 			scene.setAmbientLight(new AmbientLight(new Color(255, 255, 255), 0));
 			scene.setBackground(Color.BLACK);
 			//kt is 0.05
-			Plane plane1 = new Plane(new Point3D(0, 5, 100), new Vector(0, 1, 0), new Color(0, 0, 0), new Material(0.5, 0.5, 300, 0, 0.1)); 
+			Plane plane1 = new Plane(new Point3D(0, 5, 100), new Vector(0, 1, 0), new Color(0, 0, 0), new Material(0.5, 0.5, 300, 0.2, 0.3)); 
 			//Plane plane2 = new Plane(new Point3D(0, 5, 100), new Vector(-0.4, 1.5, 0), new Color(0,0,0), new Material(0.5, 0.5, 300, 0, 0.4)); 
 			Plane plane2 = new Plane(new Point3D(0, 0, 300), new Vector(0, 0, 1), new Color(0, 40, 60), new Material(0.5, 0.5, 1200)); 
 
