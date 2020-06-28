@@ -167,7 +167,9 @@ public class Render
 			{
 				Pixel pixel = new Pixel();
 				while (thePixel.nextPixel(pixel))
-				{
+				{	
+					//if(pixel.col == 300 && pixel.row == 300)
+					//{
 					Ray ray = camera.constructRayThroughPixel(nX, nY, pixel.col, pixel.row, _scene.getDistance(), _imageWriter.getWidth()
 							, _imageWriter.getHeight());
 					Point3D pScreen = new Point3D(camera.getCenterOfPixel(nX, nY, pixel.col, pixel.row, _scene.getDistance(), _imageWriter.getWidth(), _imageWriter.getHeight()));
@@ -176,12 +178,14 @@ public class Render
 					//Color color = calcColorPixel4(ps, 1); // sends to the superSempling function
 					
 					
-					//Point3D focalPoint = findFocalPoint(p, _scene.getFocalPlaneDistance(), camera.getVto());
 					Point3D focalPoint = findFocalPoint(pScreen, _scene.getFocalPlaneDistance()-_scene.getDistance(), ray.getDirectiion().normalized(), camera.getVto().normalized());
-					List<Ray> rays = createFocalRays(focalPoint, camera, /*_scene.getDistance(),*/ pScreen);
+					//List<Ray> rays = new LinkedList<Ray>();
+					//rays.add(ray);
+					List<Ray> rays  = (createFocalRays(focalPoint, camera, /*_scene.getDistance(),*/ pScreen));
 					rays.add(ray);
 					Color color = colorPixel(rays); 
 					_imageWriter.writePixel(pixel.col, pixel.row, color.getColor());
+				//	}
 				}
 			});
 			/*for (int i=0; i<nY; i++)
@@ -577,8 +581,8 @@ public class Render
 		List<Ray> ray = new LinkedList<Ray>();
 		try
 		{
-			Vector v1 = new Vector(camera.getVup().scale(camera.getHeightSh()/2));
-			Vector v2 = new Vector(camera.getVright().scale(camera.getWidthSh()/2));
+			//Vector v1 = new Vector(camera.getVup().scale(camera.getHeightSh()/2));
+			//Vector v2 = new Vector(camera.getVright().scale(camera.getWidthSh()/2));
 			//Vector vu = new Vector(camera.getVup());
 			//Vector vr = new Vector(camera.getVright());
 		
@@ -654,6 +658,7 @@ public class Render
 	 */
 	private Color colorPixel(List<Ray> rays)
 	{
+		int count =1;
 		Ray r = rays.remove(0);
 		GeoPoint closestPoint = findCLosestIntersection(r);
 		Color color = (closestPoint == null ? _scene.getBackground(): calcColor(closestPoint, r));
@@ -661,10 +666,13 @@ public class Render
 		{
 			closestPoint = findCLosestIntersection(ray);
 			Color c = closestPoint == null ? _scene.getBackground(): calcColor(closestPoint, ray);
-			if(c.getColor().equals(color.getColor()));
-				color.add(c);
+			if(!(c.getColor().equals(color.getColor())))
+			{
+				color = color.add(c);
+				count++;
+			}
 		}
-		return color;
+		return color.reduce(count);
     }
 	
 	private Color calcColorPixel4(List<Point3D> points, int level)
@@ -676,17 +684,17 @@ public class Render
 		double screenWidth = _imageWriter.getWidth();
 		double screenHeight = _imageWriter.getHeight();
 		
-		if(level>=3)
-		{
-			List<Ray> rays = camera.constructRaysThroughPixel(points);
-			GeoPoint closestPoint = findCLosestIntersection(rays.get(1));
-			return new Color((closestPoint == null ? _scene.getBackground(): calcColor(closestPoint, rays.get(0))));
-		}
-		
 		List<Ray> rays = camera.constructRaysThroughPixel(points);
 		Ray r = rays.remove(0);
 		GeoPoint closestPoint = findCLosestIntersection(r);
-		Color cr = (closestPoint == null ? _scene.getBackground(): calcColor(closestPoint, r)).reduce(4);
+		Color cr = (closestPoint == null ? _scene.getBackground(): calcColor(closestPoint, r));
+		
+		if(level>=3)
+		{
+			return cr;
+		}
+		
+		cr.reduce(4);
 		Color color = cr;
 		for(Ray ray:rays)
 		{
@@ -699,11 +707,11 @@ public class Render
 				for(Point3D p: centerP)
 				{
 					List<Point3D> newPoints = camera.getPointsPixel(p, nX*2*level, nY*2*level, screenWidth,  screenHeight);
-					colors.add(calcColorPixel4(newPoints, level+1).reduce(4));
+					colors = colors.add(calcColorPixel4(newPoints, level+1).reduce(4));
 				}
 				return colors;
 			}
-			color.add(c);
+			color = color.add(c);
 		}
 		
 		return color;

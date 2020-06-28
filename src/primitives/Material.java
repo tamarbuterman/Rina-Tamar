@@ -18,6 +18,8 @@ public class Material {
 	double _kR;
 	double _kT;
 	
+	
+	
 	/**
 	 * Material constructor gets 3 parameters 
 	 * 
@@ -39,6 +41,8 @@ public class Material {
 		_kT = kt;
 		_kR = kr;
 	}
+
+
 	
 	public void setShininess(int sh)
 	{

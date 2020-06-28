@@ -88,10 +88,11 @@ public class Plane extends Geometry
 	}
 	
 	
-	public Plane(Point3D p, Vector n, Color color)
+	public Plane(Point3D p, Vector n, Color color, Material material)
 	{
 		this(p,n);
 		super._emission = color;
+		super._material = material;
 	}
 	@Override
 	public Vector getNormal(Point3D p) {
