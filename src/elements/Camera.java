@@ -96,17 +96,6 @@ public class Camera {
 		return ray;
 	}
 	
-	public List<Ray> constructRaysThroughPixel(List<Point3D> points, Point3D focalPoint)
-	{	
-		List<Ray> rays = new LinkedList<Ray>();
-		for(Point3D point:points)
-		{
-			 Vector v = new Vector(focalPoint.subtract(point));
-			  rays.add(new Ray(point,v));
-		}
-	    
-		return rays;
-	}
 	public void setP0(Point3D p)
 	{
 		_p0 = p;
@@ -191,7 +180,7 @@ public class Camera {
 	 * @param nY
 	 * @param screenWidth
 	 * @param screenHeight
-	 * @return
+	 * @return list of the edges of shutter
 	 */
 	public List<Point3D> getPointsPixel(Point3D centerPixel, /*, int nX, int nY, */double width, double height)
 	{

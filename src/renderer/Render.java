@@ -181,17 +181,19 @@ public class Render
 					}
 					else
 					{
-					Point3D pScreen = new Point3D(camera.getCenterOfPixel(nX, nY, pixel.col, pixel.row, _scene.getDistance(), _imageWriter.getWidth(), _imageWriter.getHeight()));
-					Point3D focalPoint = findFocalPoint(pScreen, _scene.getFocalPlaneDistance()-_scene.getDistance(), ray.getDirectiion().normalized(), camera.getVto().normalized());
-					//mini project 2
-					List<Point3D> ps = camera.getPointsPixel(pScreen, camera.getWidthSh(), camera.getHeightSh()/*, nX, nY,  _imageWriter.getWidth(), _imageWriter.getHeight()*/); // returns 4 points the edges of the pixel
-					color = calcColorPixel4(ps, 1, focalPoint); // sends to the superSempling function
+						//find center pixel on screen
+						Point3D pScreen = new Point3D(camera.getCenterOfPixel(nX, nY, pixel.col, pixel.row, _scene.getDistance(), _imageWriter.getWidth(), _imageWriter.getHeight()));
+						//find the focal point
+						Point3D focalPoint = findFocalPoint(pScreen, _scene.getFocalPlaneDistance()-_scene.getDistance(), ray.getDirectiion().normalized(), camera.getVto().normalized());
+						//mini project 2
+  
+						List<Point3D> ps = camera.getPointsPixel(pScreen, camera.getWidthSh(), camera.getHeightSh()/*, nX, nY,  _imageWriter.getWidth(), _imageWriter.getHeight()*/); // returns 4 points the edges of the pixel
+						color = calcColorPixel4(ps, 1, focalPoint); // sends to the superSempling function
 					
-					//mini project 1
-					//Point3D focalPoint = findFocalPoint(pScreen, _scene.getFocalPlaneDistance()-_scene.getDistance(), ray.getDirectiion().normalized(), camera.getVto().normalized());
-					//List<Ray> rays  = (createFocalRays(focalPoint, camera, /*_scene.getDistance(),*/ pScreen));
-					//rays.add(ray);
-					//Color color = colorPixel(rays); 
+						//mini project 1
+						//List<Ray> rays  = (createFocalRays(focalPoint, camera, /*_scene.getDistance(),*/ pScreen));
+						//rays.add(ray);
+						//color = colorPixel(rays); 
 					}
 					_imageWriter.writePixel(pixel.col, pixel.row, color.getColor());
 				}
@@ -572,27 +574,14 @@ public class Render
 	 */
 	private List<Ray> createFocalRays(Point3D focalPoint, Camera camera, /*double dis,*/ Point3D pScreen)
 	{
-		List<Ray> ray = new LinkedList<Ray>();
-		try
-		{
-			//Vector v1 = new Vector(camera.getVup().scale(camera.getHeightSh()/2));
-			//Vector v2 = new Vector(camera.getVright().scale(camera.getWidthSh()/2));
-			//Vector vu = new Vector(camera.getVup());
-			//Vector vr = new Vector(camera.getVright());
-		
-			
-			/*points.add(pScreen.add(v1).add(v2));
-			points.add(pScreen.add(v1.scale(-1)).add(v2.scale(-1)));
-			points.add(pScreen.add(v1.scale(-1)).add(v2));
-			points.add(pScreen.add(v1).add(v2.scale(-1)));*/
-			
+		List<Ray> ray = new LinkedList<Ray>();	
 			List<Point3D> points = new LinkedList<Point3D>();
 	    	double xStart = pScreen.getX() - camera.getWidthSh() / 2;
 	    	double xEnd = pScreen.getX() + camera.getWidthSh() / 2;
 	    	double yStart = pScreen.getY() - camera.getHeightSh() / 2;
 	    	double yEnd = pScreen.getY() + camera.getHeightSh() / 2;
     		double z = pScreen.getZ();
-	    	for(int i = 0; i < 16; i ++)
+	    	for(int i = 0; i < 300; i ++)
 	    	{
 	    		double x = (double) ((Math.random()*(xEnd - xStart + 1)) + xStart);
 	    		double y = (double) ((Math.random()*(yEnd - yStart + 1)) + yStart);
@@ -607,40 +596,8 @@ public class Render
 	    	for(Point3D point: points)
 			{
 				ray.add(new Ray(point, new Vector(focalPoint.subtract(point))));
-			}
-	    	
-	    	//points.add(viewPoint);
-	    	
-	    	
-			/*for(int i =2; i<5; i++)
-			{
-				Vector v1 = new Vector(vu.scale(camera.getHeightSh()/i));
-				Vector v2 = new Vector(vr.scale(camera.getWidthSh()/i));
-				points.add(pScreen.add(v1.add(v2)));
-				points.add(pScreen.add(v1.scale(-1)).add(v2.scale(-1)));
-				points.add(pScreen.add(v1.scale(-1)).add(v2));
-				points.add(pScreen.add(v1).add(v2.scale(-1)));
-			}*/
+			}	
 			
-			
-			/*int j=-1;
-			for(int k =0; k<4; k++)
-			{
-				Vector v = new Vector(k<2? camera.getVup(): camera.getVright());
-				double d = k<2? camera.getHeightSh()/101 : camera.getWidthSh()/101 ; 
-				for(int i=1; i<=100; i++)
-				{
-					points.add(new Point3D(points.get(k).add(v.scale(j*i*d))));
-				}
-				j = j*-1;
-			}*/
-				
-			
-		}
-		catch(IllegalArgumentException e)
-		{
-			return new LinkedList<Ray>();
-		}
 		return ray;
 	}
 	
@@ -669,6 +626,14 @@ public class Render
 		return color.reduce(count);
     }
 	
+	/**
+	 * recursive function which calculate the color of the pixel by checks if all corners are equal if not calculate the color of each quarter 
+	 * 
+	 * @param points
+	 * @param level
+	 * @param focalPoint
+	 * @return color pixel
+	 */
 	private Color calcColorPixel4(List<Point3D> points, int level, Point3D focalPoint)
 	{
 		
@@ -677,7 +642,7 @@ public class Render
 		double width = camera.getWidthSh();
 		double height = camera.getHeightSh();
 		
-		List<Ray> rays = camera.constructRaysThroughPixel(points, focalPoint);
+		List<Ray> rays = constructRaysThroughPixel(points, focalPoint);
 		Ray r = rays.remove(0);
 		GeoPoint closestPoint = findCLosestIntersection(r);
 		Color cr = (closestPoint == null ? _scene.getBackground(): calcColor(closestPoint, r));
@@ -710,6 +675,12 @@ public class Render
 		return color;
 	}
 	
+	/**
+	 * calculate the center points of the quarter of the shutter 
+	 * 
+	 * @param points
+	 * @return point list
+	 */
 	private List<Point3D> findCenterNewPixels(List<Point3D> points)
 	{
 		Vector vUp = _scene.getCamera().getVup().normalized();
@@ -722,6 +693,25 @@ public class Render
 		centerPoints.add(points.get(2).add(vRight.scale(w/-4)).add(vUp.scale(h/4)));
 		centerPoints.add(points.get(1).add(vRight.scale(w/4)).add(vUp.scale(h/4)));
 		return centerPoints;
+	}
+	
+	/**
+	 * build rays for each point
+	 * 
+	 * @param points
+	 * @param focalPoint
+	 * @return rays list
+	 */
+	public List<Ray> constructRaysThroughPixel(List<Point3D> points, Point3D focalPoint)
+	{	
+		List<Ray> rays = new LinkedList<Ray>();
+		for(Point3D point:points)
+		{
+			 Vector v = new Vector(focalPoint.subtract(point));
+			  rays.add(new Ray(point,v));
+		}
+	    
+		return rays;
 	}
 	
 }

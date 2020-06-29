@@ -28,12 +28,12 @@ class supersamplingTest
 			Scene scene = new Scene("test");
 			scene.setCamera(new Camera(new Point3D(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0), 1, 1));
 			scene.setDistance(1000);
-			scene.setFocalPlane(3000);
+			scene.setFocalPlane(1010);
 			scene.setAmbientLight(new AmbientLight(new Color(255, 255, 255), 0));
 			scene.setBackground(Color.BLACK);
 			
 			//Plane plane1 = new Plane(new Point3D(0, 5, 100), new Vector(0, 1, 0), new Color(0, 0, 0), new Material(0.5, 0.5, 300, 0.8, 0)); 
-			Plane plane2 = new Plane(new Point3D(0, 0, 500), new Vector(0, 0, 1), new Color(0, 40, 60), new Material(0.5, 0.5, 1200, 0, 0)); 
+			Plane plane2 = new Plane(new Point3D(0, 0, 300), new Vector(0, 0, 1), new Color(0, 40, 60), new Material(0.5, 0.5, 1200, 0, 0)); 
 
 			for(int i=108, count=0; i>-100; i -=18, count++)
 			{
@@ -54,31 +54,21 @@ class supersamplingTest
 			j=-3;
 			for(int x=90, y=140; x>0; x+=j, y-=i, i+=1.5, j-=0.2)
 			{
-				scene.addGeometries(new Sphere(new Point3D(x, y, 200), 10, new Color(40, 0, 20), new Material(0.5, 0.5, 1200,  0, 0.4))); 
+				scene.addGeometries(new Sphere(new Point3D(x, y, 20), 10, new Color(40, 0, 20), new Material(0.5, 0.5, 1200,  0, 0.4))); 
 			}
-			
-			int x1=60, x2=-60, y=140, z=500, h=100;
-			for(; x1>x2; x1-=10, x2+=10, y-=10, z-=100, h-=10)
-			{
-				scene.addGeometries(new Triangle(new Point3D(x1, y, z), new Point3D(x2, y, z), new Point3D((x1+x2)/2,-h ,z), new Color(java.awt.Color.RED), new Material(0.5, 0.5, 1200)));
-				x1-=10;
-				x2+=10;
-				y-=10;
-				z-=100;
-				h-=10;
-				scene.addGeometries(new Triangle(new Point3D(x1, y, z), new Point3D(x2, y, z), new Point3D((x1+x2)/2,-h ,z), new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 1200)));
-				x1-=10;
-				x2+=10;
-				y-=10;
-				z-=100;
-				h-=10;
-				scene.addGeometries(new Triangle(new Point3D(x1, y, z), new Point3D(x2, y, z), new Point3D((x1+x2)/2,-h ,z), new Color(java.awt.Color.GREEN), new Material(0.5, 0.5, 1200)));
-				
-			}
-		
-		
+			scene.addGeometries(
 
-			
+					new Sphere(new Point3D(5, 10 ,20),15,new Color(java.awt.Color.BLUE),new Material(0.3, 0.7, 100, 0.5, 0)),
+
+					new Sphere(new Point3D(35, 45, 70),15,new Color(java.awt.Color.GREEN),new Material(0.3, 0.7, 100, 0.5 , 0) ),
+					
+					new Sphere(new Point3D(10, 70, 150),15,new Color(java.awt.Color.ORANGE),new Material(0.3, 0.7, 100, 0.5 , 0)),
+							
+					new Sphere(new Point3D(-20, -25,70),15,new Color(java.awt.Color.GREEN),new Material(0.3, 0.7, 100, 0.5 , 0)),
+					
+					new Sphere(new Point3D(-10, -70, 150),15,new Color(java.awt.Color.ORANGE),new Material(0.3, 0.7, 100, 0.5 , 0))
+					
+					);
 
 			scene.addGeometries(plane2);
 			
