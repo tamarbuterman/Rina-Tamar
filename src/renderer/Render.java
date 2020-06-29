@@ -170,8 +170,20 @@ public class Render
 				{	
 					//if(pixel.col == 0 && pixel.row == -50)
 					//{
+				
 					Ray ray = camera.constructRayThroughPixel(nX, nY, pixel.col, pixel.row, _scene.getDistance(), _imageWriter.getWidth()
 							, _imageWriter.getHeight());
+				/*	if(camera.getWidthSh() == 0 && camera.getHeightSh() == 0)
+					{
+					    GeoPoint point = findCLosestIntersection(ray);
+					    
+						Color color = point == null? _scene.getBackground():calcColor(point,ray);
+						_imageWriter.writePixel(pixel.col, pixel.row, color.getColor());
+
+					}*/
+					
+					//else
+					{
 					Point3D pScreen = new Point3D(camera.getCenterOfPixel(nX, nY, pixel.col, pixel.row, _scene.getDistance(), _imageWriter.getWidth(), _imageWriter.getHeight()));
 					List<Point3D> ps = camera.getPointsPixel(pScreen, nX, nY,  _imageWriter.getWidth(), _imageWriter.getHeight()); // returns 4 points the edges of the pixel
 					
@@ -185,6 +197,8 @@ public class Render
 					//rays.add(ray);
 					//Color color = colorPixel(rays); 
 					_imageWriter.writePixel(pixel.col, pixel.row, color.getColor());
+
+					}
 					//}
 				}
 			});
