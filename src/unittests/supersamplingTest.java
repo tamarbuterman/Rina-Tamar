@@ -20,7 +20,6 @@ import scene.Scene;
 
 class supersamplingTest
 {
-
 		@Test
 		public void test() 
 		{
@@ -46,9 +45,17 @@ class supersamplingTest
 					scene.addGeometries(new Triangle(new Point3D(i-18, -140, 50), new Point3D(i, -140, 50), new Point3D(i-9, -110,50), new Color(java.awt.Color.RED), new Material(0.5, 0.5, 1200, 0, 0.4)));
 			}
 			
-			Sphere sphere1 = new Sphere(new Point3D(-25, -48, 200), 10, new Color(0, 0, 20), new Material(0.5, 0.5, 1200,  0, 0.4)); 
-			Sphere sphere2 = new Sphere(new Point3D(25, -48, 200), 10, new Color(0, 40, 20), new Material(0.5, 0.5, 1200,  0, 0.4)); 
-			Sphere sphere3 = new Sphere(new Point3D(0, -80, 200), 10, new Color(40, 0, 20), new Material(0.5, 0.5, 1200,  0, 0.4)); 
+			for(int x=-80, y=-1, i=15, j=8; x<0; x+=j, y-=i, i--, j++)
+			{
+				scene.addGeometries(new Sphere(new Point3D(x, y, 200), 10, new Color(40, 0, 20), new Material(0.5, 0.5, 1200,  0, 0.4))); 
+			}
+			for(int x=80, y=-1, i=15, j=-8; x>0; x+=j, y-=i, i--, j--)
+			{
+				scene.addGeometries(new Sphere(new Point3D(x, y, 200), 10, new Color(40, 0, 20), new Material(0.5, 0.5, 1200,  0, 0.4))); 
+			}
+		//	Sphere sphere1 = new Sphere(new Point3D(-25, -48, 200), 10, new Color(0, 0, 20), new Material(0.5, 0.5, 1200,  0, 0.4)); 
+		//	Sphere sphere2 = new Sphere(new Point3D(25, -48, 200), 10, new Color(0, 40, 20), new Material(0.5, 0.5, 1200,  0, 0.4)); 
+		//	Sphere sphere3 = new Sphere(new Point3D(0, -80, 200), 10, new Color(40, 0, 20), new Material(0.5, 0.5, 1200,  0, 0.4)); 
 			
 			
 			//Triangle t1 = new Triangle(new Point3D(90, -140, 50), new Point3D(108, -140, 50), new Point3D(99, -110,50), new Color(java.awt.Color.GREEN), new Material(0.5, 0.5, 1200, 0, 0.4));
@@ -63,7 +70,7 @@ class supersamplingTest
 
 			
 
-			scene.addGeometries(plane1, plane2, sphere1, sphere2, sphere3);
+			scene.addGeometries(plane1, plane2);
 
 			Point3D pos = new Point3D(0, -30, 30);
 
@@ -77,7 +84,8 @@ class supersamplingTest
 			
 			scene.addLights(point_light);
 
-			Render render = new Render(imageWriter, scene);
+			Render render = new Render(imageWriter, scene).setMultithreading(3).setDebugPrint();
+;
 			render.renderImage();
 			render.writeToImage();
 	}
