@@ -168,40 +168,34 @@ public class Render
 				Pixel pixel = new Pixel();
 				while (thePixel.nextPixel(pixel))
 				{	
-					//if(pixel.col == 0 && pixel.row == -50)
-					//{
 					Ray ray = camera.constructRayThroughPixel(nX, nY, pixel.col, pixel.row, _scene.getDistance(), _imageWriter.getWidth()
 							, _imageWriter.getHeight());
+					Color color;
+					if(camera.getWidthSh() == 0 && camera.getHeightSh() == 0)
+					{
+					    GeoPoint closestpoint = findCLosestIntersection(ray);
+					    
+						color = closestpoint == null? _scene.getBackground():calcColor(closestpoint,ray);
+						//_imageWriter.writePixel(pixel.col, pixel.row, color.getColor());
+
+					}
+					else
+					{
 					Point3D pScreen = new Point3D(camera.getCenterOfPixel(nX, nY, pixel.col, pixel.row, _scene.getDistance(), _imageWriter.getWidth(), _imageWriter.getHeight()));
-					List<Point3D> ps = camera.getPointsPixel(pScreen, nX, nY,  _imageWriter.getWidth(), _imageWriter.getHeight()); // returns 4 points the edges of the pixel
+					Point3D focalPoint = findFocalPoint(pScreen, _scene.getFocalPlaneDistance()-_scene.getDistance(), ray.getDirectiion().normalized(), camera.getVto().normalized());
+					//mini project 2
+					List<Point3D> ps = camera.getPointsPixel(pScreen, camera.getWidthSh(), camera.getHeightSh()/*, nX, nY,  _imageWriter.getWidth(), _imageWriter.getHeight()*/); // returns 4 points the edges of the pixel
+					color = calcColorPixel4(ps, 1, focalPoint); // sends to the superSempling function
 					
-					Color color = calcColorPixel4(ps, 1); // sends to the superSempling function
-					
-					
+					//mini project 1
 					//Point3D focalPoint = findFocalPoint(pScreen, _scene.getFocalPlaneDistance()-_scene.getDistance(), ray.getDirectiion().normalized(), camera.getVto().normalized());
-					//List<Ray> rays = new LinkedList<Ray>();
-					//rays.add(ray);
 					//List<Ray> rays  = (createFocalRays(focalPoint, camera, /*_scene.getDistance(),*/ pScreen));
 					//rays.add(ray);
 					//Color color = colorPixel(rays); 
+					}
 					_imageWriter.writePixel(pixel.col, pixel.row, color.getColor());
-					//}
 				}
 			});
-			/*for (int i=0; i<nY; i++)
-			{
-				for(int j=0; j<nX; j++)
-				{
-					Ray ray = camera.constructRayThroughPixel(nX, nY, j, i, _scene.getDistance(), _imageWriter.getWidth()
-						, _imageWriter.getHeight());
-					Point3D p = new Point3D(camera.getCenterOfPixel(nX, nY, j, i, _scene.getDistance(), _imageWriter.getWidth(), _imageWriter.getHeight()));
-					Point3D focalPoint = findFocalPoint(p, _scene.getFocalPlaneDistance(), camera.getVto());
-					List<Ray> rays = createFocalRays(focalPoint, camera, _scene.getDistance(), p);
-					rays.add(ray);
-					Color color = colorPixel(rays); 
-					_imageWriter.writePixel(j, i, color.getColor());
-				}
-			}*/
 		}
 		
 		// Start threads
@@ -675,16 +669,15 @@ public class Render
 		return color.reduce(count);
     }
 	
-	private Color calcColorPixel4(List<Point3D> points, int level)
+	private Color calcColorPixel4(List<Point3D> points, int level, Point3D focalPoint)
 	{
 		
 		Camera camera = _scene.getCamera();
-		int nX = _imageWriter.getNx();
-		int nY = _imageWriter.getNy();
-		double screenWidth = _imageWriter.getWidth();
-		double screenHeight = _imageWriter.getHeight();
 		
-		List<Ray> rays = camera.constructRaysThroughPixel(points);
+		double width = camera.getWidthSh();
+		double height = camera.getHeightSh();
+		
+		List<Ray> rays = camera.constructRaysThroughPixel(points, focalPoint);
 		Ray r = rays.remove(0);
 		GeoPoint closestPoint = findCLosestIntersection(r);
 		Color cr = (closestPoint == null ? _scene.getBackground(): calcColor(closestPoint, r));
@@ -706,8 +699,8 @@ public class Render
 				Color colors = new Color(0,0,0);
 				for(Point3D p: centerP)
 				{
-					List<Point3D> newPoints = camera.getPointsPixel(p, nX*2*level, nY*2*level, screenWidth,  screenHeight);
-					colors = colors.add(calcColorPixel4(newPoints, level+1).reduce(4));
+					List<Point3D> newPoints = camera.getPointsPixel(p, width/(Math.pow(2, level)), height/(Math.pow(2, level)));
+					colors = colors.add(calcColorPixel4(newPoints, level+1, focalPoint).reduce(4));
 				}
 				return colors;
 			}
