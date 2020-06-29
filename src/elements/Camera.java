@@ -96,17 +96,6 @@ public class Camera {
 		return ray;
 	}
 	
-	public List<Ray> constructRaysThroughPixel(List<Point3D> points)
-	{	
-		List<Ray> rays = new LinkedList<Ray>();
-		for(Point3D point:points)
-		{
-			 Vector v = new Vector(point.subtract(_p0));
-			  rays.add(new Ray(_p0,v));
-		}
-	    
-		return rays;
-	}
 	public void setP0(Point3D p)
 	{
 		_p0 = p;
@@ -191,19 +180,22 @@ public class Camera {
 	 * @param nY
 	 * @param screenWidth
 	 * @param screenHeight
-	 * @return
+	 * @return list of the edges of shutter
 	 */
-	public List<Point3D> getPointsPixel(Point3D centerPixel, int nX, int nY, double width, double height)
+	public List<Point3D> getPointsPixel(Point3D centerPixel, /*, int nX, int nY, */double width, double height)
 	{
 		//width of pixel
-	    double Rx = width / nX;
+	    //double Rx = width / nX;
 	    //height of pixel
-	    double Ry = height / nY;
+	    //double Ry = height / nY;
 
-		Vector v1 = getVup().scale(Ry/2);
-		Vector v2 = getVright().scale(Rx/2);
-			    
-	    List<Point3D> points = new LinkedList<Point3D>();
+		//Vector v1 = getVup().scale(Ry/2);
+		//Vector v2 = getVright().scale(Rx/2);
+		
+		Vector v1 = getVup().scale(width/2);
+		Vector v2 = getVright().scale(height/2);
+		    
+		List<Point3D> points = new LinkedList<Point3D>();
 		points.add(centerPixel.add(v1).add(v2));
 		points.add(centerPixel.add(v1.scale(-1)).add(v2.scale(-1)));
 		points.add(centerPixel.add(v1.scale(-1)).add(v2));

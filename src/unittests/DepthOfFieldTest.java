@@ -26,7 +26,11 @@ class DepthOfFieldTest
 	public void mini1part1() 
 	{
 		Scene scene = new Scene("Test scene");
+<<<<<<< HEAD
 		scene.setCamera(new Camera(new Point3D(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0)/* 0.1, 0.1*/));
+=======
+		scene.setCamera(new Camera(new Point3D(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0), 1, 1));
+>>>>>>> refs/remotes/origin/master
 
 		scene.setDistance(1000);
 		//scene.setFocalPlane(1010);
@@ -62,7 +66,7 @@ class DepthOfFieldTest
 
 		200, 200, 600, 600);
 
-		Render render = new Render(imageWriter, scene);
+		Render render = new Render(imageWriter, scene).setMultithreading(3).setDebugPrint();
 
 		render.renderImage();
 		render.writeToImage();
